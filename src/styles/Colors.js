@@ -1,11 +1,11 @@
-export const PRIMARY = '#F8F8FB';
+export const PRIMARY = '#FFFFFF';
 export const SECONDARY = '#EFF3FA';
 export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
 export const FONTS = '#223141';
 export const GREY = '#DBDBDB';
 
-export const BLUE = '#016DF7';
+export const MAIN = '#4ABEC6';
 export const GREEN = '#42DD94';
 export const YELLOW = '#FAD151';
 export const ORANGE = '#FB602F';
