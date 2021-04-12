@@ -15,7 +15,7 @@ export const TITLE = {
 
 export const BODY = {
   fontFamily: 'Gilroy-Light',
-  fontSize: RFPercentage(2.2) - size,
+  fontSize: RFPercentage(2.5) - size,
   color: Colors.FONTS,
 };
 
@@ -32,31 +32,31 @@ export const H1 = {
 };
 
 export const H2 = {
-  fontFamily: 'Gilroy-Extrabold',
+  fontFamily: 'Gilroy-ExtraBold',
   fontSize: RFPercentage(4.4) - size,
   color: Colors.FONTS,
 };
 
 export const H3 = {
-  fontFamily: 'Gilroy-Extrabold',
+  fontFamily: 'Gilroy-ExtraBold',
   fontSize: RFPercentage(3.7) - size,
   color: Colors.FONTS,
 };
 
 export const H4 = {
-  fontFamily: 'Gilroy-Extrabold',
+  fontFamily: 'Gilroy-ExtraBold',
   fontSize: RFPercentage(2.9) - size,
   color: Colors.FONTS,
 };
 
 export const H5 = {
-  fontFamily: 'Gilroy-Extrabold',
-  fontSize: RFPercentage(2.9) - size,
+  fontFamily: 'Gilroy-Bold',
+  fontSize: RFPercentage(2.5) - size,
   color: Colors.FONTS,
 };
 
 export const H6 = {
-  fontFamily: 'Gilroy-Extrabold',
-  fontSize: RFPercentage(2.9) - size,
+  fontFamily: 'Gilroy-Bold',
+  fontSize: RFPercentage(2) - size,
   color: Colors.FONTS,
 };
