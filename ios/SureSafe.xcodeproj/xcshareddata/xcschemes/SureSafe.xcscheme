@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "TraceVigan.app"
-               BlueprintName = "TraceVigan"
-               ReferencedContainer = "container:TraceVigan.xcodeproj">
+               BuildableName = "SureSafe.app"
+               BlueprintName = "SureSafe"
+               ReferencedContainer = "container:SureSafe.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "TraceViganTests.xctest"
-               BlueprintName = "TraceViganTests"
-               ReferencedContainer = "container:TraceVigan.xcodeproj">
+               BuildableName = "SureSafeTests.xctest"
+               BlueprintName = "SureSafeTests"
+               ReferencedContainer = "container:SureSafe.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TraceVigan.app"
-            BlueprintName = "TraceVigan"
-            ReferencedContainer = "container:TraceVigan.xcodeproj">
+            BuildableName = "SureSafe.app"
+            BlueprintName = "SureSafe"
+            ReferencedContainer = "container:SureSafe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TraceVigan.app"
-            BlueprintName = "TraceVigan"
-            ReferencedContainer = "container:TraceVigan.xcodeproj">
+            BuildableName = "SureSafe.app"
+            BlueprintName = "SureSafe"
+            ReferencedContainer = "container:SureSafe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
