@@ -1,13 +1,15 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
-import RootStack from './navigations/RootStack';
+import RootStack from './routes/RootStack';
 
 export default App = () => {
   return (
     <NavigationContainer>
-      <RootStack />
+      <View style={{flex: 1}}>
+        <RootStack />
+      </View>
     </NavigationContainer>
   );
 };

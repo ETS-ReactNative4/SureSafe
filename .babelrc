@@ -11,7 +11,7 @@
           "_apis": "./src/apis",
           "_screens": "./src/screens",
           "_styles": "./src/styles",
-          "_navigations": "./src/navigations",
+          "_routes": "./src/routes",
           "_components": "./src/components"
         }
       }

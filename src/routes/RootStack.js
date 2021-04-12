@@ -4,8 +4,7 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 
-// import {OnBoardingStack} from '../screens';
-import OnBoardingStack from '../screens/onboarding/OnBoardingStack';
+import {OnBoardingStack} from '../screens';
 
 const Root = createStackNavigator();
 

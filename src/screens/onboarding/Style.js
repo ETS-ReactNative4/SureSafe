@@ -1,12 +1,34 @@
-import {StyleSheet} from 'react-native';
-import {Fonts, Colors} from '../../styles';
+import {Fonts, Colors, Padding} from '../../styles';
 
-export default styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-    paddingVertical: 30,
+const Main = {
+  container: [
+    Padding.CONTAINER,
+    {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: Colors.MAIN,
+    },
+  ],
+  Image: {
+    width: '100%',
+    marginBottom: 25,
+    height: 200,
+    marginTop: 'auto',
   },
-});
+  Title: [
+    Fonts.H3,
+    {textAlign: 'center', color: Colors.PRIMARY, marginBottom: 10},
+  ],
+  Info: [
+    Fonts.BODY,
+    {
+      textAlign: 'center',
+      color: Colors.PRIMARY,
+      lineHeight: 20,
+      paddingHorizontal: 10,
+    },
+  ],
+};
+
+export {Main};
