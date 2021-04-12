@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/stack';
 
 import OnBoardingMain from './OnBoardingMain';
+import OnBoarding from './OnBoarding';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,11 @@ export default OnBoardingStack = () => {
       <Stack.Screen
         name="OnBoardingMain"
         component={OnBoardingMain}
+        options={options}
+      />
+      <Stack.Screen
+        name="OnBoarding"
+        component={OnBoarding}
         options={options}
       />
     </Stack.Navigator>
