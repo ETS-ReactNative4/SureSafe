@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
-  SafeAreaView,
   Text,
   Image,
   TouchableOpacity,
   Animated,
   Dimensions,
 } from 'react-native';
+
 import {Main} from './Style';
-import {Images, Fonts, Padding, Colors, Defaults} from '../../styles';
+import {Images, Colors, Defaults} from '../../styles';
+import {Button} from '../../components';
 
 const data = [
   {
@@ -64,17 +65,17 @@ export default OnBoarding = ({navigation}) => {
               />
               <Text style={Main.Title}>{item.title}</Text>
               <Text style={Main.Info}>{item.info}</Text>
-
-              <TouchableOpacity
-                style={[
-                  Defaults.Button[0],
-                  {backgroundColor: index == 3 ? Colors.LGREEN : Colors.MAIN},
-                ]}
-                onPress={() => navigation.navigate('OnBoardingStack')}>
-                <Text style={Defaults.Button[1]}>
-                  {index == 3 ? 'Create Account' : 'Skip'}
-                </Text>
-              </TouchableOpacity>
+              <Button
+                onPress={() =>
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: 'Creation'}],
+                  })
+                }
+                text={index == 3 ? 'Create Account' : 'Skip'}
+                backgroundColor={index == 3 ? Colors.LGREEN : Colors.MAIN}
+                color={Colors.PRIMARY}
+              />
             </View>
           );
         })}
@@ -86,15 +87,7 @@ export default OnBoarding = ({navigation}) => {
     const dotPosition = Animated.divide(scrollX, width);
 
     return (
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          bottom: '25%',
-          flexDirection: 'row',
-        }}>
+      <View style={Main.Dot}>
         {data.map((item, index) => {
           const opacity = dotPosition.interpolate({
             inputRange: [index - 1, index, index + 1],
@@ -112,13 +105,13 @@ export default OnBoarding = ({navigation}) => {
             <Animated.View
               key={`dot-${index}`}
               opacity={opacity}
-              style={{
-                height: dotSize,
-                width: dotSize,
-                borderRadius: 20,
-                marginHorizontal: 5,
-                backgroundColor: Colors.PRIMARY,
-              }}></Animated.View>
+              style={[
+                Main.dot,
+                {
+                  height: dotSize,
+                  width: dotSize,
+                },
+              ]}></Animated.View>
           );
         })}
       </View>

@@ -4,7 +4,7 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 
-import {OnBoardingStack} from '../screens';
+import {OnBoardingStack, CreationStack} from '../screens';
 
 const Root = createStackNavigator();
 
@@ -21,6 +21,11 @@ export default RootStack = () => {
       <Root.Screen
         name="OnBoardingStack"
         component={OnBoardingStack}
+        options={options}
+      />
+      <Root.Screen
+        name="Creation"
+        component={CreationStack}
         options={options}
       />
     </Root.Navigator>

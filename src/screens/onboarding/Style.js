@@ -1,4 +1,4 @@
-import {Fonts, Colors, Padding} from '../../styles';
+import {Fonts, Colors, Padding, Margin} from '../../styles';
 
 const Main = {
   container: [
@@ -18,7 +18,11 @@ const Main = {
   },
   Title: [
     Fonts.H3,
-    {textAlign: 'center', color: Colors.PRIMARY, marginBottom: 10},
+    {
+      textAlign: 'center',
+      color: Colors.PRIMARY,
+      marginBottom: Margin.TEXT,
+    },
   ],
   Info: [
     Fonts.BODY,
@@ -29,6 +33,20 @@ const Main = {
       paddingHorizontal: 10,
     },
   ],
+  Dot: {
+    position: 'absolute',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: '25%',
+    flexDirection: 'row',
+    height: 20,
+  },
+  dot: {
+    borderRadius: 20,
+    marginHorizontal: 5,
+    backgroundColor: Colors.PRIMARY,
+  },
 };
 
 export {Main};
