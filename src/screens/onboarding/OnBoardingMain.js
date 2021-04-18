@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image} from 'react-native';
+
 import {Main} from './Style';
-import {Images, Fonts, Padding, Colors, Defaults} from '../../styles';
+import {Images, Colors} from '../../styles';
+import {Button} from '../../components';
 
 export default OnBoardingMain = ({navigation}) => {
   return (
@@ -16,11 +18,13 @@ export default OnBoardingMain = ({navigation}) => {
         Protect yourself, your family , and your community to prevent COVID-19
         from spreding.
       </Text>
-      <TouchableOpacity
-        style={Defaults.Button[0]}
-        onPress={() => navigation.navigate('OnBoarding')}>
-        <Text style={Defaults.Button[1]}>Get started</Text>
-      </TouchableOpacity>
+
+      <Button
+        onPress={() => navigation.navigate('OnBoarding')}
+        text="Get started"
+        backgroundColor={Colors.LGREEN}
+        color={Colors.PRIMARY}
+      />
     </View>
   );
 };
