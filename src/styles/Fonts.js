@@ -1,4 +1,5 @@
 import * as Colors from './Colors';
+import * as Margin from './Margin';
 import {RFPercentage} from 'react-native-responsive-fontsize';
 import {Dimensions} from 'react-native';
 
@@ -9,8 +10,9 @@ if (Dimensions.get('window').width < 414) {
 
 export const TITLE = {
   fontFamily: 'Gilroy-Black',
-  fontSize: RFPercentage(4.3) - size,
+  fontSize: RFPercentage(5.5) - size,
   color: Colors.FONTS,
+  marginBottom: Margin.TEXT - 2,
 };
 
 export const BODY = {
