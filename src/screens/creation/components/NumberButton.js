@@ -1,18 +1,18 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faEye} from '@fortawesome/free-solid-svg-icons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Fonts, Padding, Colors, Defaults} from '../../../styles';
 
 export default Number = props => {
-  const {number, onPress, icons} = props;
+  const {number, onPress, icons, margin} = props;
+  const mid = margin == true ? 20 : 0;
 
   const Render = () => {
     if (icons) {
-      return <FontAwesomeIcon icon={faEye} size={30} color="#900" />;
+      return <FontAwesome5 name={'backspace'} color={Colors.FONTS} size={20} />;
     } else {
-      return <Text style={[Fonts.H4]}>{number}</Text>;
+      return <Text style={[Fonts.H3]}>{number}</Text>;
     }
   };
 
@@ -26,6 +26,7 @@ export default Number = props => {
         height: 80,
         borderRadius: 10,
         margin: 2,
+        marginHorizontal: mid,
       }}>
       <Render />
     </TouchableOpacity>
