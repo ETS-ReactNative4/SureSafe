@@ -31,6 +31,7 @@ const Main = {
       color: Colors.PRIMARY,
       lineHeight: 20,
       paddingHorizontal: 10,
+      marginBottom: 'auto',
     },
   ],
   Dot: {
