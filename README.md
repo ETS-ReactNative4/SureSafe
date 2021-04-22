@@ -11,14 +11,14 @@
   <p align="center">
     An Automated Covid Tracing Application
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/jericoxnavarro/SureSafe"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/jericoxnavarro/SureSafe">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/jericoxnavarro/SureSafe/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/jericoxnavarro/SureSafe/issues">Request Feature</a>
   </p>
 </p>
 
@@ -27,7 +27,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<a href="https://ibb.co/qFZ3sZh"><img src="https://i.ibb.co/qFZ3sZh/Screen-Shot-2021-04-23-at-1-15-33-AM.png" alt="Screen-Shot-2021-04-23-at-1-15-33-AM" border="0"></a> <a href="https://ibb.co/9b00MhK"><img src="https://i.ibb.co/9b00MhK/Screen-Shot-2021-04-23-at-1-15-40-AM.png" alt="Screen-Shot-2021-04-23-at-1-15-40-AM" border="0"></a><a href="https://ibb.co/mTdRSK0"><img src="https://i.ibb.co/mTdRSK0/Screen-Shot-2021-04-23-at-1-15-24-AM.png" alt="Screen-Shot-2021-04-23-at-1-15-24-AM" border="0"></a>  <a href="https://ibb.co/NCDXpbD"><img src="https://i.ibb.co/NCDXpbD/Screen-Shot-2021-04-23-at-1-16-16-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-16-AM" border="0"></a> <a href="https://ibb.co/c2hG4mH"><img src="https://i.ibb.co/c2hG4mH/Screen-Shot-2021-04-23-at-1-16-07-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-07-AM" border="0"></a> <a href="https://ibb.co/GsSTh80"><img src="https://i.ibb.co/GsSTh80/Screen-Shot-2021-04-23-at-1-16-00-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-00-AM" border="0"></a>
+ <a href="https://ibb.co/9b00MhK"><img src="https://i.ibb.co/9b00MhK/Screen-Shot-2021-04-23-at-1-15-40-AM.png" alt="Screen-Shot-2021-04-23-at-1-15-40-AM" border="0"></a><a href="https://ibb.co/mTdRSK0"><img src="https://i.ibb.co/mTdRSK0/Screen-Shot-2021-04-23-at-1-15-24-AM.png" alt="Screen-Shot-2021-04-23-at-1-15-24-AM" border="0"></a>  <a href="https://ibb.co/NCDXpbD"><img src="https://i.ibb.co/NCDXpbD/Screen-Shot-2021-04-23-at-1-16-16-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-16-AM" border="0"></a> <a href="https://ibb.co/c2hG4mH"><img src="https://i.ibb.co/c2hG4mH/Screen-Shot-2021-04-23-at-1-16-07-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-07-AM" border="0"></a> <a href="https://ibb.co/GsSTh80"><img src="https://i.ibb.co/GsSTh80/Screen-Shot-2021-04-23-at-1-16-00-AM.png" alt="Screen-Shot-2021-04-23-at-1-16-00-AM" border="0"></a>
 
 Sure Safe is a mobile application that will auto-log what you contact with using Bluetooth technology and a visitor logger using QR code no more writing in a logbook. Safe Alarm is a real-time application that will let you know if you contact an infected person it also makes contact tracing more easily than before.
 
