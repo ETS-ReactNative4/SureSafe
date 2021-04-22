@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import validator from 'validator';
 
-import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, PasswordInput, Button} from '../../components';
-import {Title, NumberButton} from './components';
+import {Fonts, Padding, Colors, Defaults, Margin} from '../../styles';
+import {Button, Alert} from '../../components';
+import {Title, NumberButton, CodeInput} from './components';
 
-export default Number = ({navigation}) => {
+export default Code = props => {
+  const {navigations} = props;
+
   // States
-  const [number, setNumber] = useState('');
+  const [code, setCode] = useState('');
 
   // Design States
   const [alert, setAlert] = useState(false);
@@ -17,14 +19,14 @@ export default Number = ({navigation}) => {
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
 
   const onSubmit = () => {
-    if (number == '') {
+    if (code == '') {
       setAlertTitle('Number is Required!');
-      setAlertInfo('Please enter your phone number to verify your account.');
+      setAlertInfo('Please enter the code we sent you to verify your account.');
       setAlertColor(Colors.LYELLOW);
       setAlert(true);
-    } else if (!validator.isMobilePhone(number)) {
-      setAlertTitle('Invalid Number!');
-      setAlertInfo('Please enter a valid Phone Number.');
+    } else if (code.length != 4) {
+      setAlertTitle('Invalid Code!');
+      setAlertInfo('Please enter a valid Code.');
       setAlertColor(Colors.LYELLOW);
       setAlert(true);
     } else {
@@ -52,66 +54,70 @@ export default Number = ({navigation}) => {
           },
         ]}>
         <Title
-          title="Enter your mobile number"
-          info="You will recieve a 4 digit code for verification purposes."
+          title="Enter code sent to your Number"
+          info="We sent it to the number +639356555717"
           font={Fonts.H2}
           center={true}
         />
-        <Input
-          placeholder="Eg. 9356555717"
-          validator={validator.isMobilePhone}
-          value={number.length > 10 ? number.substr(0, 10) : number}
-          onChangeText={setNumber}
-          showSoftInputOnFocus={true}
-        />
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            marginBottom: Margin.INPUT,
+          }}>
+          <CodeInput value={code.charAt(0)} />
+          <CodeInput value={code.charAt(1)} />
+          <CodeInput value={code.charAt(2)} />
+          <CodeInput value={code.charAt(3)} />
+        </View>
         <Button
-          onPress={() => onSubmit()}
-          text="Send OTP"
+          text="Verify"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
+          onPress={() => onSubmit()}
         />
       </View>
       <View style={[Padding.CREATION, Defaults.Creation.whiteBox]}>
         <View style={{flexDirection: 'row'}}>
-          <NumberButton number={1} onPress={() => setNumber(number + '1')} />
+          <NumberButton number={1} onPress={() => setCode(code + '1')} />
           <NumberButton
             number={2}
             margin={true}
-            onPress={() => setNumber(number + '2')}
+            onPress={() => setCode(code + '2')}
           />
-          <NumberButton number={3} onPress={() => setNumber(number + '3')} />
+          <NumberButton number={3} onPress={() => setCode(code + '3')} />
         </View>
         <View style={{flexDirection: 'row'}}>
-          <NumberButton number={4} onPress={() => setNumber(number + '4')} />
+          <NumberButton number={4} onPress={() => setCode(code + '4')} />
           <NumberButton
             number={5}
             margin={true}
-            onPress={() => setNumber(number + '5')}
+            onPress={() => setCode(code + '5')}
           />
-          <NumberButton number={6} onPress={() => setNumber(number + '6')} />
+          <NumberButton number={6} onPress={() => setCode(code + '6')} />
         </View>
         <View style={{flexDirection: 'row'}}>
-          <NumberButton number={7} onPress={() => setNumber(number + '7')} />
+          <NumberButton number={7} onPress={() => setCode(code + '7')} />
           <NumberButton
             number={8}
             margin={true}
-            onPress={() => setNumber(number + '8')}
+            onPress={() => setCode(code + '8')}
           />
-          <NumberButton number={9} onPress={() => setNumber(number + '9')} />
+          <NumberButton number={9} onPress={() => setCode(code + '9')} />
         </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}></View>
           <NumberButton
             number={0}
             margin={true}
-            onPress={() => setNumber(number + '0')}
+            onPress={() => setCode(code + '0')}
           />
           <NumberButton
             icons={true}
             onPress={() =>
-              number.length > 10
-                ? setNumber(number.substr(0, 9))
-                : setNumber(number.slice(0, -1))
+              code.length > 4
+                ? setCode(code.substr(0, 3))
+                : setCode(code.slice(0, -1))
             }
           />
         </View>

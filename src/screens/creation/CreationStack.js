@@ -6,8 +6,9 @@ import {
 
 import Create from './Create';
 import Login from './Login';
-import Address from './Address';
+import Information from './Information';
 import Number from './Number';
+import Code from './Code';
 
 const Creation = createStackNavigator();
 
@@ -23,8 +24,13 @@ export default CreationStack = () => {
     <Creation.Navigator headerMode="none">
       <Creation.Screen name="Create" component={Create} options={options} />
       <Creation.Screen name="Login" component={Login} options={options} />
-      <Creation.Screen name="Address" component={Address} options={options} />
+      <Creation.Screen
+        name="Information"
+        component={Information}
+        options={options}
+      />
       <Creation.Screen name="Number" component={Number} options={options} />
+      <Creation.Screen name="Code" component={Code} options={options} />
     </Creation.Navigator>
   );
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Defaults, Fonts, Colors} from '../../../styles';
 
 export default CheckBox = props => {
@@ -29,10 +28,7 @@ export default CheckBox = props => {
           borderRadius: 10,
         }}
         onPress={onPress}>
-        <FontAwesomeIcon
-          icon={faCheck}
-          style={{width: '100%', height: '100%', color: Colors.PRIMARY}}
-        />
+        <FontAwesome5 name={'check'} color={Colors.PRIMARY} size={15} />
       </TouchableOpacity>
       <Text
         style={[

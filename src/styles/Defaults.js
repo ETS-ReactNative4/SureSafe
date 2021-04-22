@@ -12,7 +12,6 @@ export const Button = [
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.LGREEN,
-    marginTop: 'auto',
   },
   [
     Fonts.H5,
@@ -32,7 +31,7 @@ export const Input = [
     paddingHorizontal: 20,
     marginBottom: Margin.INPUT,
   },
-  Fonts.H5,
+  Fonts.BODY,
 ];
 
 export const Creation = {
