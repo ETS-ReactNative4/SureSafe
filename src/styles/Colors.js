@@ -16,3 +16,4 @@ export const LGREEN = '#63C9A8';
 export const LYELLOW = '#FBDD8C';
 export const LORANGE = '#F8A92A';
 export const LVIOLET = '#CFA2FF';
+export const LRED = '#F69A9A';
