@@ -4,7 +4,11 @@ import {RFPercentage} from 'react-native-responsive-fontsize';
 import {Dimensions} from 'react-native';
 
 let size = 0;
-if (Dimensions.get('window').width < 414) {
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+if (width >= 411) {
+  size = 5;
+} else if (width >= 390) {
   size = 3;
 }
 

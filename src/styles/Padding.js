@@ -1,6 +1,14 @@
+import {Platform} from 'react-native';
+
+import {RFPercentage} from 'react-native-responsive-fontsize';
+import {Dimensions} from 'react-native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 export const CONTAINER = {
-  paddingTop: 50,
-  paddingBottom: 30,
+  paddingTop: Platform.OS === 'ios' ? 60 : 10,
+  paddingBottom: Platform.OS === 'ios' ? 20 : 20,
   paddingHorizontal: 20,
 };
 
