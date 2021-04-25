@@ -95,7 +95,12 @@ export default Login = ({navigation}) => {
           text="Log in"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
-          onPress={() => onSubmit()}
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'TabNavigation'}],
+            })
+          }
         />
         <Button
           text="Forgot password?"
