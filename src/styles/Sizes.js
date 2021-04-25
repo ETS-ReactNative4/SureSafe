@@ -1,3 +1,39 @@
+import {RFPercentage} from 'react-native-responsive-fontsize';
+import {Dimensions} from 'react-native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
+let updateCardW = 0;
+let updateCardH = 0;
+let mainButtonH = 0;
+let menuButtonH = 0;
+let scanCardH = 0;
+if (width >= 411) {
+  updateCardH = 250;
+  updateCardW = 320;
+  mainButtonH = 81;
+  menuButtonH = 80;
+  scanCardH = 120;
+} else if (width >= 390) {
+  updateCardH = 220;
+  updateCardW = 300;
+  mainButtonH = 80;
+  menuButtonH = 70;
+  scanCardH = 110;
+}
+
+export const Dashboard = {
+  updateCardH: updateCardH,
+  updateCardW: updateCardW,
+  mainButtonH: mainButtonH,
+  menuButtonH: menuButtonH,
+};
+
+export const Components = {
+  scanCardH: scanCardH,
+};
+
 export const MainButton = {
   height: 65,
   width: '90%',
