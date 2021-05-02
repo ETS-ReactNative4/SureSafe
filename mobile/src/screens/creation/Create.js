@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
-import {View, Text, Modal, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text} from 'react-native';
 import validator from 'validator';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
 import {Input, PasswordInput, Button, Alert} from '../../components';
 import {Title, CheckBox} from './components';
+import {CreateAPI} from './api';
 
 export default Create = ({props, navigation}) => {
-  //Props
-  const {navigate} = navigation;
-
   // States
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [checked, setChecked] = useState(false);
+  const [agreement, setAgreement] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   // Design States
   const [passwordShow, setPasswordShow] = useState(true);
@@ -23,52 +22,35 @@ export default Create = ({props, navigation}) => {
   const [alertTitle, setAlertTitle] = useState('');
   const [alertInfo, setAlertInfo] = useState('');
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
 
-  const onSubmit = () => {
-    if (email == '') {
-      setAlertTitle('Email is Required!');
-      setAlertInfo('Email address is required to create a account.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isEmail(email)) {
-      setAlertTitle('Invalid Email!');
-      setAlertInfo('Please enter a valid email address.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (password == '') {
-      setAlertTitle('Password is Required!');
-      setAlertInfo('Password is required to create a account.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isStrongPassword(password)) {
-      setAlertTitle('Invalid Password!');
-      setAlertInfo(
-        'Password must be atleast 8 characters, 1 number, 1 symbol, 1 lowercase and uppercase',
-      );
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (confirm == '') {
-      setAlertTitle('Confirm your Password!');
-      setAlertInfo('Please confirm your password to create a account.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (confirm != password) {
-      setAlertTitle("Password doesn't match!");
-      setAlertInfo(
-        "Your password doesn't match. Please confirm your password.",
-      );
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!checked) {
-      setAlertTitle('Agreement is Required!');
-      setAlertInfo(
-        'You must agree to our Terms & Condition and Privacy Policy to create an account!',
-      );
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else {
-      navigate('Information');
+  useEffect(() => {
+    if (alert == false) {
+      if (success == true) {
+        setBtnStatus(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Information'}],
+        });
+      } else {
+        setBtnStatus(false);
+      }
     }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    CreateAPI(
+      email,
+      password,
+      confirm,
+      agreement,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+    );
   };
 
   return (
@@ -128,18 +110,22 @@ export default Create = ({props, navigation}) => {
           onChangeText={setConfirm}
           confirmpassword={true}
         />
-        <CheckBox onPress={() => setChecked(!checked)} checked={checked} />
+        <CheckBox
+          onPress={() => setAgreement(!agreement)}
+          checked={agreement}
+        />
         <Button
           text="Create Account"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
           onPress={() => onSubmit()}
+          status={btnStatus}
         />
         <Button
           text="Already have an account?"
           backgroundColor={Colors.PRIMARY}
           color={Colors.GREY}
-          onPress={() => navigate('Login')}
+          onPress={() => navigation.navigate('Login')}
         />
       </View>
     </View>
