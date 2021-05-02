@@ -1,0 +1,40 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const morgan = require("morgan");
+const helmet = require("helmet");
+require("dotenv").config();
+
+const server = express();
+const PORT = process.env.PORT || 8080;
+const DBURI = process.env.dbURI;
+
+const UserRoutes = require("./routes/Users.routes");
+
+// Middlewares
+server.use(cors());
+server.use(helmet());
+server.use(morgan("dev"));
+server.use(express.json({ limit: "50mb" }));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+server.use("/suresafe/api", UserRoutes);
+
+const dbOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+};
+mongoose.Promise = global.Promise;
+
+mongoose
+  .connect(DBURI, dbOptions)
+  .then((res) => {
+    console.log("Connected to", res.connections[0].name);
+    server.listen(PORT, async () => {
+      console.log("Server is running on port", PORT);
+    });
+  })
+  .catch((err) => console.log(err.message));
