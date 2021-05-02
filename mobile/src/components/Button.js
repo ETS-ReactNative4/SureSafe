@@ -1,16 +1,21 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Defaults} from '../styles';
+import {Defaults, Colors} from '../styles';
 
 export default Button = props => {
-  const {text, onPress, backgroundColor, color} = props;
+  const {text, onPress, backgroundColor, color, status} = props;
 
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[Defaults.Button[0], {backgroundColor: backgroundColor}]}>
-      <Text style={[Defaults.Button[1], {color: color}]}>{text}</Text>
+      {status ? (
+        <ActivityIndicator size="small" color={Colors.PRIMARY} />
+      ) : (
+        <Text style={[Defaults.Button[1], {color: color}]}>{text}</Text>
+      )}
     </TouchableOpacity>
   );
 };
