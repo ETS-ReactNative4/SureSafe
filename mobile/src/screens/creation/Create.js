@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import validator from 'validator';
+import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
 import {Input, PasswordInput, Button, Alert} from '../../components';
 import {Title, CheckBox} from './components';
 import {CreateAPI} from './api';
 
-export default Create = ({props, navigation}) => {
+const Create = props => {
+  const {navigation, dispatch, userID} = props;
   // States
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,9 +52,9 @@ export default Create = ({props, navigation}) => {
       setAlertInfo,
       setAlertColor,
       setSuccess,
+      dispatch,
     );
   };
-
   return (
     <View style={Defaults.Creation.backgorund}>
       <Alert
@@ -131,3 +133,11 @@ export default Create = ({props, navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Create);
