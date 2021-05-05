@@ -1,35 +1,53 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import validator from 'validator';
+import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, PasswordInput, Button} from '../../components';
+import {Input, Button} from '../../components';
 import {Title, NumberButton} from './components';
+import {NumberAPI} from './api';
 
-export default Number = ({navigation}) => {
+const Number = props => {
+  const {navigation, userID} = props;
   // States
   const [number, setNumber] = useState('');
+  const [success, setSuccess] = useState(false);
+  const date = new Date();
 
   // Design States
   const [alert, setAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
   const [alertInfo, setAlertInfo] = useState('');
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
 
-  const onSubmit = () => {
-    if (number == '') {
-      setAlertTitle('Number is Required!');
-      setAlertInfo('Please enter your phone number to verify your account.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isMobilePhone(number)) {
-      setAlertTitle('Invalid Number!');
-      setAlertInfo('Please enter a valid Phone Number.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else {
-      navigation.navigate('Code');
+  useEffect(() => {
+    if (alert == false) {
+      if (success == true) {
+        setBtnStatus(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Code'}],
+        });
+      } else {
+        setBtnStatus(false);
+      }
     }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    NumberAPI(
+      userID,
+      number,
+      date,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+    );
   };
 
   return (
@@ -65,6 +83,7 @@ export default Number = ({navigation}) => {
           showSoftInputOnFocus={true}
         />
         <Button
+          status={btnStatus}
           onPress={() => onSubmit()}
           text="Send OTP"
           backgroundColor={Colors.LGREEN}
@@ -119,3 +138,11 @@ export default Number = ({navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Number);

@@ -136,11 +136,11 @@ exports.addInfo = async (req, res) => {
         barangay,
       }
     );
-    INFO.info(`User ${req.params._id} info is Updated!`);
-    return res.status(200).send({
+    INFO.info(`User ${_id} info is Updated!`);
+    return res.status(201).send({
       title: "Successfully Updated!",
       message: "User info Updated!",
-      statusCode: 200,
+      statusCode: 201,
       data: update,
     });
   } catch (err) {
@@ -164,9 +164,11 @@ exports.addNumber = async (req, res) => {
 
     const { error } = validation.validate(req.body);
     if (error)
-      return res.status(400).send({
-        message: error,
-        statusCode: 400,
+      return res.status(401).send({
+        title: "Something went Wrong!",
+        message:
+          "Its look like your information is not accepted. Please try again.",
+        statusCode: 401,
       });
 
     const code = Math.floor(1000 + Math.random() * 9000);
@@ -199,15 +201,18 @@ exports.addNumber = async (req, res) => {
         }
       }
     });
-    return res.status(200).send({
-      message: "User number Updated! ",
-      statusCode: 200,
+    return res.status(201).send({
+      title: "Check your number!",
+      message: `OTP has been sent to +63${number}. Press OK to enter your Code.`,
+      statusCode: 201,
     });
   } catch (err) {
     ERROR.error(`${err.message} Users Controller`);
-    return res
-      .status(400)
-      .send({ message: "Someting went wrong.", statusCode: 400 });
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
   }
 };
 
@@ -222,9 +227,11 @@ exports.checkOTP = async (req, res) => {
 
     const { error } = validation.validate(req.body);
     if (error)
-      return res.status(400).send({
-        message: error,
-        statusCode: 400,
+      return res.status(401).send({
+        title: "Something went Wrong!",
+        message:
+          "Its look like your information is not accepted. Please try again.",
+        statusCode: 401,
       });
 
     const user = await Users.findById(_id);
@@ -233,14 +240,21 @@ exports.checkOTP = async (req, res) => {
       const userCode = user.verify.code;
       const userTime = user.verify.time;
       if (code == userCode) {
-        if (moment(date).isAfter(userTime)) {
+        if (moment(userTime).isAfter(date)) {
+          const token = jwt.sign({ _id }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "30d",
+          });
           return res.status(202).send({
-            message: "User is Verified",
+            title: "Code Verified!",
+            message: "Code has been successfully verified!",
+            token: token,
+            loggedIN: true,
             verified: true,
             statusCode: 202,
           });
         } else {
           return res.status(401).send({
+            title: "Code Expired!",
             message: "Code is Expired! Please Try Again.",
             verified: false,
             statusCode: 401,
@@ -248,6 +262,7 @@ exports.checkOTP = async (req, res) => {
         }
       } else {
         return res.status(403).send({
+          title: "Invalid Code!",
           message: "Wrong code! Please Try Again.",
           verified: false,
           statusCode: 403,
@@ -255,15 +270,18 @@ exports.checkOTP = async (req, res) => {
       }
     } else {
       return res.status(404).send({
-        message: "User not Found.",
+        title: "Invalid User!",
+        message: "Invalid User! Please Try Again.",
         verified: false,
         statusCode: 404,
       });
     }
   } catch (err) {
     ERROR.error(`${err.message} Users Controller`);
-    return res
-      .status(400)
-      .send({ message: "Someting went wrong.", statusCode: 400 });
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
   }
 };

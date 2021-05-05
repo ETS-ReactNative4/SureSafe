@@ -1,60 +1,57 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import validator from 'validator';
+import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
 import {Input, Button, Alert} from '../../components';
 import {Title} from './components';
+import {InformationAPI} from './api';
 
-export default Address = ({navigation}) => {
+const Infomation = props => {
+  const {navigation, userID} = props;
   // States
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [municipality, setMunicipality] = useState('');
   const [barangay, setBarangay] = useState('');
+  const [success, setSuccess] = useState(false);
 
   // Design States
   const [alert, setAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
   const [alertInfo, setAlertInfo] = useState('');
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
 
-  const onSubmit = () => {
-    if (firstName == '') {
-      setAlertTitle('First Name is Required!');
-      setAlertInfo('Please enter your First Name.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isAlpha(firstName)) {
-      setAlertTitle('Invalid First Name!');
-      setAlertInfo('Please enter a valid First Name no numbers.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (lastName == '') {
-      setAlertTitle('Last Name is Required!');
-      setAlertInfo('Please enter your Last Name.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isAlpha(lastName)) {
-      setAlertTitle('Invalid First Name!');
-      setAlertInfo('Please enter a valid Last Name no numbers.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (municipality == '') {
-      setAlertTitle('Select Municipality!');
-      setAlertInfo(
-        'Municipality is required. Please select your municipality.',
-      );
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (barangay == '') {
-      setAlertTitle('Select Barangay!');
-      setAlertInfo('Barangay is required. Please select your barangay.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else {
-      navigation.navigate('Number');
+  useEffect(() => {
+    if (alert == false) {
+      if (success == true) {
+        setBtnStatus(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Number'}],
+        });
+      } else {
+        setBtnStatus(false);
+      }
     }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    InformationAPI(
+      userID,
+      firstName,
+      lastName,
+      municipality,
+      barangay,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+    );
   };
 
   return (
@@ -107,6 +104,7 @@ export default Address = ({navigation}) => {
           municipality={municipality}
         />
         <Button
+          status={btnStatus}
           text="Next"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
@@ -116,3 +114,11 @@ export default Address = ({navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Infomation);

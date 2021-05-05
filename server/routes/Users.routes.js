@@ -9,6 +9,6 @@ router.patch("/users/addinfo", UsersControllers.addInfo);
 
 router.patch("/users/addnumber", UsersControllers.addNumber);
 
-router.get("/users/checkOTP", UsersControllers.checkOTP);
+router.patch("/users/checkOTP", UsersControllers.checkOTP);
 
 module.exports = router;

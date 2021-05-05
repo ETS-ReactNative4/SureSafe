@@ -1,7 +1,8 @@
+import validator from 'validator';
 const URI = 'http://localhost:3001/suresafe/api';
 
 import {Colors} from '../../../styles';
-import validator from 'validator';
+import {setUserID} from '../../../redux/actions';
 
 export default CreateAPI = async (
   email,
@@ -13,6 +14,7 @@ export default CreateAPI = async (
   setAlertInfo,
   setAlertColor,
   setSuccess,
+  dispatch,
 ) => {
   const options = {
     method: 'POST',
@@ -27,9 +29,6 @@ export default CreateAPI = async (
       agreement: agreement,
     }),
   };
-
-  const response = await fetch(`${URI}/users/create`, options);
-  const resData = await response.json();
 
   if (email == '') {
     setAlertTitle('Email is Required!');
@@ -70,16 +69,22 @@ export default CreateAPI = async (
     );
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
-  } else if (response.status == 201) {
-    setAlertTitle(resData.title);
-    setAlertInfo(resData.message);
-    setAlertColor(Colors.LGREEN);
-    setAlert(true);
-    setSuccess(true);
   } else {
-    setAlertTitle(resData.title);
-    setAlertInfo(resData.message);
-    setAlertColor(Colors.LRED);
-    setAlert(true);
+    const response = await fetch(`${URI}/users/create`, options);
+    const resData = await response.json();
+
+    if (response.status == 201) {
+      setAlertTitle(resData.title);
+      setAlertInfo(resData.message);
+      setAlertColor(Colors.LGREEN);
+      setAlert(true);
+      setSuccess(true);
+      dispatch(setUserID(resData.data._id));
+    } else {
+      setAlertTitle(resData.title);
+      setAlertInfo(resData.message);
+      setAlertColor(Colors.LRED);
+      setAlert(true);
+    }
   }
 };
