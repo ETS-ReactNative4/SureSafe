@@ -1,37 +1,54 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import validator from 'validator';
+import React, {useState, useEffect} from 'react';
+import {View} from 'react-native';
+import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults, Margin} from '../../styles';
 import {Button, Alert} from '../../components';
 import {Title, NumberButton, CodeInput} from './components';
+import {CodeAPI} from './api';
 
-export default Code = props => {
-  const {navigations} = props;
+const Code = props => {
+  const {navigation, userID, dispatch} = props;
 
   // States
   const [code, setCode] = useState('');
+  const [success, setSuccess] = useState(false);
+  const date = new Date();
 
   // Design States
   const [alert, setAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState('');
   const [alertInfo, setAlertInfo] = useState('');
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
 
-  const onSubmit = () => {
-    if (code == '') {
-      setAlertTitle('Number is Required!');
-      setAlertInfo('Please enter the code we sent you to verify your account.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (code.length != 4) {
-      setAlertTitle('Invalid Code!');
-      setAlertInfo('Please enter a valid Code.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else {
-      navigation.navigate('Code');
+  useEffect(() => {
+    if (alert == false) {
+      if (success == true) {
+        setBtnStatus(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'TabNavigation'}],
+        });
+      } else {
+        setBtnStatus(false);
+      }
     }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    CodeAPI(
+      userID,
+      code,
+      date,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+      dispatch,
+    );
   };
 
   return (
@@ -71,6 +88,7 @@ export default Code = props => {
           <CodeInput value={code.charAt(3)} />
         </View>
         <Button
+          status={btnStatus}
           text="Verify"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
@@ -125,3 +143,11 @@ export default Code = props => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Code);
