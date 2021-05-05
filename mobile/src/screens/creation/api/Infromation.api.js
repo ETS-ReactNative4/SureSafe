@@ -3,11 +3,12 @@ const URI = 'http://localhost:3001/suresafe/api';
 import {Colors} from '../../../styles';
 import validator from 'validator';
 
-export default CreateAPI = async (
-  email,
-  password,
-  confirm,
-  agreement,
+export default InformationAPI = async (
+  userID,
+  firstName,
+  lastName,
+  municipality,
+  barangay,
   setAlert,
   setAlertTitle,
   setAlertInfo,
@@ -15,22 +16,20 @@ export default CreateAPI = async (
   setSuccess,
 ) => {
   const options = {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       responseType: 'json',
     },
     body: JSON.stringify({
+      _id: userID,
       firstName: firstName,
       lastName: lastName,
       municipality: municipality,
       barangay: barangay,
     }),
   };
-
-  const response = await fetch(`${URI}/users/create`, options);
-  const resData = await response.json();
 
   if (firstName == '') {
     setAlertTitle('First Name is Required!');
@@ -62,16 +61,20 @@ export default CreateAPI = async (
     setAlertInfo('Barangay is required. Please select your barangay.');
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
-  } else if (response.status == 201) {
-    setAlertTitle(resData.title);
-    setAlertInfo(resData.message);
-    setAlertColor(Colors.LGREEN);
-    setAlert(true);
-    setSuccess(true);
   } else {
-    setAlertTitle(resData.title);
-    setAlertInfo(resData.message);
-    setAlertColor(Colors.LRED);
-    setAlert(true);
+    const response = await fetch(`${URI}/users/addinfo`, options);
+    const resData = await response.json();
+    if (response.status == 201) {
+      setAlertTitle(resData.title);
+      setAlertInfo(resData.message);
+      setAlertColor(Colors.LGREEN);
+      setAlert(true);
+      setSuccess(true);
+    } else {
+      setAlertTitle(resData.title);
+      setAlertInfo(resData.message);
+      setAlertColor(Colors.LRED);
+      setAlert(true);
+    }
   }
 };
