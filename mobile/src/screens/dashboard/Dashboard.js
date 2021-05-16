@@ -20,8 +20,8 @@ export default Dashboard = ({navigation}) => {
           Track people arround you
         </Text>
         <MainButton
-          icon="bluetooth-b"
-          title="Bluetooth Tracing"
+          icon="street-view"
+          title="Geo Tracing"
           info="Anonymously log other nearby app users"
           onPress={() => navigation.navigate('DashboardStack')}
         />
@@ -38,7 +38,7 @@ export default Dashboard = ({navigation}) => {
             paddingHorizontal: 10,
             paddingVertical: 10,
           }}>
-          <MenuButton icon="bluetooth-b" text="Logs" color={Colors.LBLUE} />
+          <MenuButton icon="street-view" text="Logs" color={Colors.LBLUE} />
           <MenuButton icon="qrcode" text="Visits" color={Colors.LVIOLET} />
           <MenuButton
             icon="clipboard-list"
