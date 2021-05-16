@@ -14,8 +14,9 @@ import {Button} from '../../components';
 
 const data = [
   {
-    title: 'Bluetooth Tracing',
-    info: 'Use Bluetooth to anonymously log when you are near other app users.',
+    title: 'Geo Tracing',
+    info:
+      'Use Geo Tracing to anonymously log when you are near other app users.',
     img: Images.onboarding1,
   },
   {

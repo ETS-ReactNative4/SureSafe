@@ -7,6 +7,7 @@ import {Colors, Fonts, Margin, Sizes} from '../styles';
 export default ScanCard = () => {
   return (
     <View style={styles.main}>
+      <View style={styles.devider}></View>
       <View style={styles.textBox}>
         <Text style={[Fonts.H4]}>8237648237342</Text>
         <Text style={[Fonts.BODY]}>Fri 19 April 2021</Text>
@@ -41,7 +42,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.SECONDARY,
     marginBottom: Margin.TEXT,
   },
-  textBox: {flex: 1, paddingHorizontal: 20, paddingVertical: 15},
+  devider: {
+    height: '100%',
+    width: 20,
+    backgroundColor: Colors.MAIN,
+  },
+  textBox: {flex: 1, paddingHorizontal: 15, paddingVertical: 15},
   statusBox: {flexDirection: 'row', marginTop: 5},
   status: {
     paddingHorizontal: 15,
