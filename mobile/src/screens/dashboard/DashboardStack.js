@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack';
 
 import Dashboard from './Dashboard';
-import Bluetooth from './Bluetooth';
+import Tracing from './Tracing';
 
 const Dash = createStackNavigator();
 
@@ -19,7 +19,7 @@ const options = {
 export default DashboardStack = () => {
   return (
     <Dash.Navigator headerMode="none">
-      <Dash.Screen name="Bluetooth" component={Bluetooth} options={options} />
+      <Dash.Screen name="Tracing" component={Tracing} options={options} />
     </Dash.Navigator>
   );
 };
