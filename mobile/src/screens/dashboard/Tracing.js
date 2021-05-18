@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Padding} from '../../styles';
 import {ScanCard} from '../../components';
+import Trace from './components/Trace';
 
 export default Tracing = ({navigation}) => {
   const [tracing, setTracing] = useState(false);
@@ -33,48 +34,7 @@ export default Tracing = ({navigation}) => {
             <FontAwesome5 name={'info'} size={20} color={Colors.LGREEN} />
           </TouchableOpacity>
         </View>
-
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-          }}>
-          <View style={styles.circle1}>
-            <View style={styles.circle2}>
-              <View style={styles.circle3}>
-                <View style={styles.circle4}>
-                  <View
-                    style={[
-                      styles.circle5,
-                      {
-                        backgroundColor: tracing
-                          ? Colors.LGREEN + 'B3'
-                          : Colors.LRED + 'B3',
-                      },
-                    ]}>
-                    <TouchableOpacity
-                      onPress={() => setTracing(!tracing)}
-                      style={[
-                        styles.tracingBtn,
-                        {
-                          backgroundColor: tracing
-                            ? Colors.LGREEN
-                            : Colors.LRED,
-                        },
-                      ]}>
-                      <FontAwesome5
-                        name={'street-view'}
-                        size={40}
-                        color={Colors.PRIMARY}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
+        <Trace setStatus={setTracing} />
       </View>
 
       <View style={{flex: 1.2, backgroundColor: Colors.PRIMARY}}>
@@ -125,47 +85,6 @@ const styles = StyleSheet.create({
     width: 35,
     borderRadius: 50,
     backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  circle1: {
-    height: 300,
-    width: 300,
-    backgroundColor: Colors.PRIMARY + '4D',
-    borderRadius: 300,
-    padding: 30,
-  },
-  circle2: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: Colors.PRIMARY + 59,
-    borderRadius: 300,
-    padding: 30,
-  },
-  circle3: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: Colors.PRIMARY + 66,
-    borderRadius: 300,
-    padding: 25,
-  },
-  circle4: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: Colors.PRIMARY + 73,
-    borderRadius: 300,
-    padding: 20,
-  },
-  circle5: {
-    height: '100%',
-    width: '100%',
-    borderRadius: 300,
-    padding: 5,
-  },
-  tracingBtn: {
-    height: '100%',
-    width: '100%',
-    borderRadius: 300,
     justifyContent: 'center',
     alignItems: 'center',
   },
