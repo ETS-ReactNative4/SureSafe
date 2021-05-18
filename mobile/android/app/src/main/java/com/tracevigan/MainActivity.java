@@ -3,6 +3,7 @@ package com.tracevigan;
 import com.facebook.react.ReactActivity;
 import android.os.Bundle; // here
 import org.devio.rn.splashscreen.SplashScreen; // here
+import com.voximplant.foregroundservice.VIForegroundServicePackage;
 
 
 public class MainActivity extends ReactActivity {

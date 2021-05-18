@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 8080;
 const DBURI = process.env.dbURI;
 
 const UserRoutes = require("./routes/Users.routes");
+const TracingRoutes = require("./routes/Tracing.routes");
 
 // Middlewares
 server.use(cors());
@@ -20,6 +21,7 @@ server.use(express.json({ limit: "50mb" }));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 server.use("/suresafe/api", UserRoutes);
+server.use("/suresafe/api", TracingRoutes);
 
 const dbOptions = {
   useNewUrlParser: true,
