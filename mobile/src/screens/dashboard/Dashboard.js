@@ -10,7 +10,7 @@ export default Dashboard = ({navigation}) => {
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
-        <Text style={[Fonts.H3, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
+        <Text style={[Fonts.H2, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
           Dashboard
         </Text>
         <Text style={[Fonts.BODY, {color: Colors.PRIMARY, marginBottom: 5}]}>
