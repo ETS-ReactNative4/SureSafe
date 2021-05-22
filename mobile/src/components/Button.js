@@ -5,12 +5,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Defaults, Colors} from '../styles';
 
 export default Button = props => {
-  const {text, onPress, backgroundColor, color, status} = props;
+  const {text, onPress, backgroundColor, color, status, styles} = props;
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[Defaults.Button[0], {backgroundColor: backgroundColor}]}>
+      style={[Defaults.Button[0], {backgroundColor: backgroundColor}, styles]}>
       {status ? (
         <ActivityIndicator size="small" color={Colors.PRIMARY} />
       ) : (
