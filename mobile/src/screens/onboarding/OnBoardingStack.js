@@ -12,8 +12,8 @@ const Stack = createStackNavigator();
 const options = {
   cardStyleInterpolator:
     Platform.OS == 'ios'
-      ? CardStyleInterpolators.forHorizontalIOS
-      : CardStyleInterpolators.forNoAnimation,
+      ? CardStyleInterpolators.forVerticalIOS
+      : CardStyleInterpolators.forFadeFromBottomAndroid,
 };
 
 export default OnBoardingStack = () => {

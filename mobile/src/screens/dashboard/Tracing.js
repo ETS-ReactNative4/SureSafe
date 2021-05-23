@@ -9,7 +9,7 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Padding} from '../../styles';
-import {ScanCard} from '../../components';
+import {ScanCard, Header} from '../../components';
 import Trace from './components/Trace';
 
 export default Tracing = ({navigation}) => {
@@ -18,22 +18,7 @@ export default Tracing = ({navigation}) => {
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}>
-            <FontAwesome5 name={'angle-left'} size={30} color={Colors.LGREEN} />
-          </TouchableOpacity>
-          <Text style={[Fonts.H3, styles.header]}>Geo Tracing</Text>
-          <TouchableOpacity style={styles.info}>
-            <FontAwesome5 name={'info'} size={20} color={Colors.LGREEN} />
-          </TouchableOpacity>
-        </View>
+        <Header navigation={navigation} title="Geo Tracing" />
         <Trace setStatus={setTracing} />
       </View>
 

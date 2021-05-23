@@ -10,7 +10,7 @@ export default Dashboard = ({navigation}) => {
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
-        <Text style={[Fonts.H3, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
+        <Text style={[Fonts.H2, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
           Dashboard
         </Text>
         <Text style={[Fonts.BODY, {color: Colors.PRIMARY, marginBottom: 5}]}>
@@ -29,6 +29,11 @@ export default Dashboard = ({navigation}) => {
           icon="qrcode"
           title="Record Visits"
           info="Scan QR codes to where you go to log your visit."
+          onPress={() =>
+            navigation.navigate('DashboardStack', {
+              screen: 'Scan',
+            })
+          }
         />
 
         <View
@@ -45,7 +50,11 @@ export default Dashboard = ({navigation}) => {
             text="Check"
             color={Colors.LORANGE}
           />
-          <MenuButton icon="history" text="History" color={Colors.LYELLOW} />
+          <MenuButton
+            icon="people-arrows"
+            text="Cases"
+            color={Colors.LYELLOW}
+          />
         </View>
       </View>
       <View
