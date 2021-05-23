@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, Fonts} from '../../../styles';
 
@@ -8,7 +8,7 @@ export default MunicipalityCard = props => {
   return (
     <View
       style={{
-        height: 200,
+        height: Platform.OS == 'ios' ? 200 : 230,
         width: 150,
         backgroundColor: Colors.SECONDARY,
         borderRadius: 20,

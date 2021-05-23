@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Margin, Padding} from '../../styles';
@@ -55,7 +55,7 @@ export default Status = ({navigation}) => {
                 styles.usersBox,
                 {height: 168, justifyContent: 'flex-start'},
               ]}>
-              <Text style={[Fonts.H3, {color: Colors.LGREEN, marginBottom: 5}]}>
+              <Text style={[Fonts.H4, {color: Colors.LGREEN, marginBottom: 5}]}>
                 CovidFree
               </Text>
               <Text style={[Fonts.LIGHT, {color: Colors.GREY}]}>
