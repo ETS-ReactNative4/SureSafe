@@ -4,5 +4,6 @@ import Button from './Button';
 import Picker from './Picker';
 import Alert from './Alert';
 import ScanCard from './ScanCard';
+import Header from './Header';
 
-export {Input, PasswordInput, Button, Picker, Alert, ScanCard};
+export {Input, PasswordInput, Button, Picker, Alert, ScanCard, Header};
