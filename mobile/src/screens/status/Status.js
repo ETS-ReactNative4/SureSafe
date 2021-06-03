@@ -149,6 +149,27 @@ export default Status = ({navigation}) => {
             deaths={14}
             total={1014}
           />
+          <MunicipalityCard
+            municipality="Bantay"
+            recovered={450}
+            suspected={650}
+            deaths={14}
+            total={1014}
+          />
+          <MunicipalityCard
+            municipality="Vigan"
+            recovered={450}
+            suspected={650}
+            deaths={14}
+            total={1014}
+          />
+          <MunicipalityCard
+            municipality="San Vicente"
+            recovered={450}
+            suspected={650}
+            deaths={14}
+            total={1014}
+          />
         </ScrollView>
       </View>
     </View>

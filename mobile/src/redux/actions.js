@@ -12,4 +12,11 @@ const setUserToken = data => {
   };
 };
 
-export {setUserID, setUserToken};
+const setLocalStorage = data => {
+  return {
+    type: 'SETLOCALSTORAGE',
+    payload: data,
+  };
+};
+
+export {setUserID, setUserToken, setLocalStorage};

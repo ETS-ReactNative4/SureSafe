@@ -15,11 +15,13 @@ export default PasswordInput = props => {
     onPress,
     confirmpassword,
     options,
+    login,
   } = props;
 
   const [status, setStatus] = React.useState(false);
   const check = status == true ? Colors.LGREEN : Colors.LRED;
-  const border = value == '' ? 0 : 2;
+  const ifLogin = login ? 0 : 2;
+  const border = value == '' ? 0 : ifLogin;
 
   React.useEffect(() => {
     if (confirmpassword == true) {

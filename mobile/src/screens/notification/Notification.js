@@ -32,16 +32,18 @@ export default Notification = ({navigation}) => {
         ]}>
         <ScrollView
           contentContainerStyle={{
-            paddingBottom: Padding.CONTAINER.paddingBottom,
+            paddingBottom: Padding.CONTAINER.paddingBottom + 80,
             paddingTop: 20,
-          }}>
+          }}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}>
           <NotificationCard
             boxColor={Colors.SECONDARY}
-            iconColor={Colors.LBLUE}
-            icon="clipboard-check"
-            title="Vaccine Request"
-            info="is accepted."
-            time="9 minutes ago"
+            iconColor={Colors.LRED}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
           />
 
           <NotificationCard
@@ -55,11 +57,47 @@ export default Notification = ({navigation}) => {
 
           <NotificationCard
             boxColor={Colors.SECONDARY}
-            iconColor={Colors.LBLUE}
-            icon="clipboard-check"
-            title="Vaccine Request"
-            info="is accepted."
-            time="9 minutes ago"
+            iconColor={Colors.LYELLOW}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
+          />
+
+          <NotificationCard
+            boxColor={Colors.SECONDARY}
+            iconColor={Colors.LRED}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
+          />
+
+          <NotificationCard
+            boxColor={Colors.PRIMARY}
+            iconColor={Colors.LYELLOW}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
+          />
+
+          <NotificationCard
+            boxColor={Colors.PRIMARY}
+            iconColor={Colors.LYELLOW}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
+          />
+
+          <NotificationCard
+            boxColor={Colors.SECONDARY}
+            iconColor={Colors.LRED}
+            icon="exclamation-triangle"
+            title="Exposed"
+            info="to someone infected."
+            time="20 minutes ago"
           />
         </ScrollView>
       </View>

@@ -5,9 +5,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, Fonts, Sizes} from '../../../styles';
 
 export default MenuButton = props => {
-  const {icon, text, color} = props;
+  const {onPress, icon, text, color} = props;
   return (
-    <TouchableOpacity style={styles.main}>
+    <TouchableOpacity onPress={onPress} style={styles.main}>
       <View style={styles.iconBox}>
         <FontAwesome5 name={icon} size={25} color={color} />
       </View>

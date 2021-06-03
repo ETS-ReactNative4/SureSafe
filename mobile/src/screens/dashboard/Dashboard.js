@@ -43,7 +43,16 @@ export default Dashboard = ({navigation}) => {
             paddingHorizontal: 10,
             paddingVertical: 10,
           }}>
-          <MenuButton icon="street-view" text="Logs" color={Colors.LBLUE} />
+          <MenuButton
+            onPress={() =>
+              navigation.navigate('DashboardStack', {
+                screen: 'Logs',
+              })
+            }
+            icon="street-view"
+            text="Logs"
+            color={Colors.LBLUE}
+          />
           <MenuButton icon="qrcode" text="Visits" color={Colors.LVIOLET} />
           <MenuButton
             icon="clipboard-list"

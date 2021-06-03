@@ -11,12 +11,14 @@ export default Input = props => {
     onChangeText,
     validator,
     showSoftInputOnFocus,
+    login,
   } = props;
 
   const [state, setState] = React.useState(false);
   const check = state == true ? Colors.LGREEN : Colors.LRED;
   const icon = state == true ? 'check-circle' : 'times-circle';
-  const border = value == '' ? 0 : 2;
+  const ifLogin = login ? 0 : 2;
+  const border = value == '' ? 0 : ifLogin;
 
   const RenderIcon = () => {
     if (value != '') {
@@ -26,7 +28,7 @@ export default Input = props => {
           solid
           style={{
             paddingRight: Defaults.Input[0].paddingHorizontal,
-            color: check,
+            color: login ? Colors.SECONDARY : check,
           }}
           size={25}
         />
