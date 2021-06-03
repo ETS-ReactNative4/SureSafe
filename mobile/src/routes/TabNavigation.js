@@ -9,6 +9,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, Fonts} from '../styles';
 
 import Dashboard from '../screens/dashboard/Dashboard';
+import Status from '../screens/status/Status';
+import Notification from '../screens/notification/Notification';
+import Profile from '../screens/profile/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +31,55 @@ const TabNavigation = () => {
               name={'home'}
               size={22}
               style={{
-                color: focused ? Colors.PRIMARY : Colors.FONTS,
+                color: focused ? Colors.FONTS : Colors.PRIMARY,
+              }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Status"
+        component={Status}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name={'shield-alt'}
+              size={22}
+              solid
+              style={{
+                color: focused ? Colors.FONTS : Colors.PRIMARY,
+              }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name={'bell'}
+              size={22}
+              solid
+              style={{
+                color: focused ? Colors.FONTS : Colors.PRIMARY,
+              }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name={'user'}
+              solid
+              size={22}
+              style={{
+                color: focused ? Colors.FONTS : Colors.PRIMARY,
               }}
             />
           ),
