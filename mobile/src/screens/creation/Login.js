@@ -1,15 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
-import validator from 'validator';
+import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
 import {Input, PasswordInput, Button} from '../../components';
 import {Title} from './components';
+import {LoginAPI} from './api';
 
-export default Login = ({navigation}) => {
+const Login = props => {
+  const {navigation, dispatch, state} = props;
   // States
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [success, setSuccess] = useState(false);
 
   // Design States
   const [passwordShow, setPasswordShow] = useState(true);
@@ -17,31 +20,35 @@ export default Login = ({navigation}) => {
   const [alertTitle, setAlertTitle] = useState('');
   const [alertInfo, setAlertInfo] = useState('');
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
 
-  const onSubmit = () => {
-    if (email == '') {
-      setAlertTitle('Email is Empty!');
-      setAlertInfo('Please enter your email.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isEmail(email)) {
-      setAlertTitle('Invalid Email!');
-      setAlertInfo('Please enter a valid email address.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (password == '') {
-      setAlertTitle('Password is Empty!');
-      setAlertInfo('Please enter your password.');
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
-    } else if (!validator.isStrongPassword(password)) {
-      setAlertTitle('Invalid Password!');
-      setAlertInfo(
-        'Password must be atleast 8 characters, 1 number, 1 symbol, 1 lowercase and uppercase',
-      );
-      setAlertColor(Colors.LYELLOW);
-      setAlert(true);
+  useEffect(() => {
+    if (alert == false) {
+      if (success == true) {
+        setBtnStatus(false);
+        console.log(state);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'TabNavigation'}],
+        });
+      } else {
+        setBtnStatus(false);
+      }
     }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    LoginAPI(
+      email,
+      password,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+      dispatch,
+    );
   };
 
   return (
@@ -71,15 +78,14 @@ export default Login = ({navigation}) => {
         <Text style={[Fonts.H3, Defaults.Creation.heading]}>Login</Text>
         <Input
           placeholder="Email Address"
-          validator={validator.isEmail}
           value={email}
           onChangeText={setEmail}
+          login={true}
         />
         <PasswordInput
           onPress={() => setPasswordShow(!passwordShow)}
           placeholder="Password"
           state={passwordShow}
-          validator={validator.isStrongPassword}
           options={{
             minLength: 8,
             minLowercase: 1,
@@ -90,17 +96,14 @@ export default Login = ({navigation}) => {
           value={password}
           onChangeText={setPassword}
           confirmpassword={false}
+          login={true}
         />
         <Button
           text="Log in"
           backgroundColor={Colors.LGREEN}
           color={Colors.PRIMARY}
-          onPress={() =>
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'TabNavigation'}],
-            })
-          }
+          status={btnStatus}
+          onPress={() => onSubmit()}
         />
         <Button
           text="Forgot password?"
@@ -117,3 +120,11 @@ export default Login = ({navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStatetoProps)(Login);
