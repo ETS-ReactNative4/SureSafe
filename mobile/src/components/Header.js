@@ -5,23 +5,32 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, Fonts} from '../styles';
 
 export default Header = props => {
-  const {navigation, title} = props;
+  const {style, navigation, title, info} = props;
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+      style={[
+        {
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        style,
+      ]}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={styles.backButton}>
         <FontAwesome5 name={'angle-left'} size={30} color={Colors.LGREEN} />
       </TouchableOpacity>
       <Text style={[Fonts.H3, styles.header]}>{title}</Text>
-      <TouchableOpacity style={styles.info}>
-        <FontAwesome5 name={'info'} size={20} color={Colors.LGREEN} />
-      </TouchableOpacity>
+
+      {info ? (
+        <TouchableOpacity
+          style={[styles.info, {backgroundColor: Colors.PRIMARY}]}>
+          <FontAwesome5 name={'info'} size={20} color={Colors.LGREEN} />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.info}></View>
+      )}
     </View>
   );
 };
@@ -44,7 +53,6 @@ const styles = StyleSheet.create({
     height: 35,
     width: 35,
     borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
     justifyContent: 'center',
     alignItems: 'center',
   },
