@@ -1,11 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
+import {connect} from 'react-redux';
 
 import {Main} from './Style';
 import {Images, Colors} from '../../styles';
 import {Button} from '../../components';
+import {setLocalStorage} from '../../redux/actions';
+import getKeys from './utils/getKeys';
 
-export default OnBoardingMain = ({navigation}) => {
+const OnBoardingMain = props => {
+  const {navigation, loggedIN, dispatch} = props;
+  useEffect(() => {
+    const GET = async () => {
+      const DATA = await getKeys();
+      dispatch(setLocalStorage(DATA));
+      if (loggedIN == 'true') {
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'TabNavigation'}],
+        });
+      }
+    };
+    GET();
+  }, [loggedIN]);
+
   return (
     <View style={Main.container}>
       <Image
@@ -28,3 +46,11 @@ export default OnBoardingMain = ({navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    loggedIN: state.loggedIN,
+  };
+};
+
+export default connect(mapStatetoProps)(OnBoardingMain);
