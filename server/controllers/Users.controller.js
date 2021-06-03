@@ -285,3 +285,87 @@ exports.checkOTP = async (req, res) => {
     });
   }
 };
+
+exports.logIn = async (req, res) => {
+  try {
+    const validation = Joi.object({
+      email: Joi.string().required(),
+      password: Joi.string().required(),
+    });
+
+    // Request Validations
+    const { error } = validation.validate(req.body);
+    if (error)
+      return res.status(401).send({
+        title: "Something went Wrong!",
+        message:
+          "It's look like your information is not accepted. Please try again.",
+        statusCode: 401,
+      });
+
+    // Check if email exists
+    const user = await Users.findOne({ email: req.body.email });
+    if (!user)
+      return res.status(404).send({
+        title: `"Email or Password is Invalid`,
+        message: "Email or Password is wrong. Please try again.",
+        statusCode: 404,
+      });
+
+    // Check if password valid
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass)
+      return res.status(403).send({
+        title: `Invalid Password`,
+        message: "Password is Invalid. Please try again.",
+        statusCode: 403,
+      });
+
+    // Create and assign token
+    const payload = {
+      _id: user._id,
+    };
+
+    const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
+
+    return res.status(200).header("authToken", token).send({
+      title: `User Log In`,
+      message: "User successfully login",
+      statusCode: 200,
+      userID: user._id,
+      token: token,
+      verified: "true",
+      loggedIN: "true",
+    });
+  } catch (err) {
+    console.log(err);
+    ERROR.error(`${err.message} Users Controller`);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.getUser = async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const findUser = Users.findById(userID);
+
+    return res.status(200).send({
+      message: "User data retrived!",
+      data: findUser,
+      statusCode: 200,
+    });
+  } catch (err) {
+    ERROR.error(`${err.message} Users Controller`);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
