@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors, Fonts, Padding} from '../../../styles';
 
 export default Settings = props => {
-  const {color, icon, text} = props;
+  const {color, icon, text, onPress} = props;
 
   return (
     <TouchableOpacity
@@ -18,7 +18,8 @@ export default Settings = props => {
         paddingVertical: 10,
         justifyContent: 'center',
         marginBottom: 7,
-      }}>
+      }}
+      onPress={onPress}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View
           style={{
