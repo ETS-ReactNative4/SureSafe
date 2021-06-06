@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const verify = require("../utils/Verify.token");
 
 const UsersControllers = require("../controllers/Users.controller");
 
@@ -13,6 +14,6 @@ router.patch("/users/checkOTP", UsersControllers.checkOTP);
 
 router.post("/users/login", UsersControllers.logIn);
 
-router.get("/users/user/:userID", UsersControllers.getUser);
+router.get("/users/user/:userID", verify, UsersControllers.getUser);
 
 module.exports = router;
