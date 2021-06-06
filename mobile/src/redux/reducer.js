@@ -6,6 +6,8 @@ const initialState = {
   token: '',
   verified: false,
   loggedIN: false,
+  userData: {},
+  tracingData: [],
 };
 
 export default rootReducer = (state = initialState, action) => {
@@ -39,6 +41,26 @@ export default rootReducer = (state = initialState, action) => {
         token: action.payload.token,
         verified: action.payload.verified,
         loggedIN: action.payload.loggedIN,
+        userData: action.payload.userData,
+      };
+    case 'REMOVELOCALSTORAGE':
+      useLocalStorage('ONBOARD', 'REMOVE');
+      useLocalStorage('USERID', 'REMOVE');
+      useLocalStorage('USERTOKEN', 'REMOVE');
+      useLocalStorage('VERIFIED', 'REMOVE');
+      useLocalStorage('LOGGEDIN', 'REMOVE');
+      return {
+        onboardingDone: false,
+        userID: '',
+        token: '',
+        verified: false,
+        loggedIN: false,
+        userData: {},
+      };
+    case 'SETTRACING':
+      return {
+        ...state,
+        tracingData: action.payload,
       };
     default:
       return state;

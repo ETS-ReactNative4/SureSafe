@@ -19,4 +19,23 @@ const setLocalStorage = data => {
   };
 };
 
-export {setUserID, setUserToken, setLocalStorage};
+const removeLocalStorage = () => {
+  return {
+    type: 'REMOVELOCALSTORAGE',
+  };
+};
+
+const setTracingData = data => {
+  return {
+    type: 'SETTRACING',
+    payload: data,
+  };
+};
+
+export {
+  setUserID,
+  setUserToken,
+  setLocalStorage,
+  removeLocalStorage,
+  setTracingData,
+};
