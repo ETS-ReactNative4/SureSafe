@@ -1,4 +1,4 @@
-const URI = 'http://localhost:3001/suresafe/api';
+import {API} from '../../../constant';
 
 import {setUserToken} from '../../../redux/actions';
 import {Colors} from '../../../styles';
@@ -39,7 +39,7 @@ export default CodeAPI = async (
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else {
-    const response = await fetch(`${URI}/users/checkOTP`, options);
+    const response = await fetch(`${API}/users/checkOTP`, options);
     const resData = await response.json();
     if (response.status == 202) {
       setAlertTitle(resData.title);
@@ -47,7 +47,7 @@ export default CodeAPI = async (
       setAlertColor(Colors.LGREEN);
       setAlert(true);
       setSuccess(true);
-      dispatch(setUserToken(resData.data));
+      dispatch(setUserToken(resData));
     } else {
       setAlertTitle(resData.title);
       setAlertInfo(resData.message);

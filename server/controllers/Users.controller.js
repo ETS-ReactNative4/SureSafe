@@ -67,7 +67,7 @@ exports.userCreate = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const user = new Users({
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: hashedPassword,
       agreement: req.body.agreement,
     });
@@ -105,13 +105,15 @@ exports.addInfo = async (req, res) => {
     });
 
     const { error } = validation.validate(req.body);
-    if (error)
+    if (error) {
+      console.log(error);
       return res.status(401).send({
         title: "Something went Wrong!",
         message:
           "Its look like your information is not accepted. Please try again.",
         statusCode: 401,
       });
+    }
 
     if (!ilocosSur[municipality]) {
       return res.status(401).send({
@@ -145,6 +147,7 @@ exports.addInfo = async (req, res) => {
     });
   } catch (err) {
     ERROR.error(`${err.message} Users Controller`);
+    console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",
       message: "Someting went wrong. Please try again or try again later.",
@@ -248,15 +251,15 @@ exports.checkOTP = async (req, res) => {
             title: "Code Verified!",
             message: "Code has been successfully verified!",
             token: token,
-            loggedIN: true,
-            verified: true,
+            loggedIN: "true",
+            verified: "true",
             statusCode: 202,
           });
         } else {
           return res.status(401).send({
             title: "Code Expired!",
             message: "Code is Expired! Please Try Again.",
-            verified: false,
+            verified: "false",
             statusCode: 401,
           });
         }
@@ -264,7 +267,7 @@ exports.checkOTP = async (req, res) => {
         return res.status(403).send({
           title: "Invalid Code!",
           message: "Wrong code! Please Try Again.",
-          verified: false,
+          verified: "false",
           statusCode: 403,
         });
       }
@@ -272,7 +275,7 @@ exports.checkOTP = async (req, res) => {
       return res.status(404).send({
         title: "Invalid User!",
         message: "Invalid User! Please Try Again.",
-        verified: false,
+        verified: "false",
         statusCode: 404,
       });
     }
@@ -330,15 +333,18 @@ exports.logIn = async (req, res) => {
       expiresIn: "1d",
     });
 
-    return res.status(200).header("authToken", token).send({
-      title: `User Log In`,
-      message: "User successfully login",
-      statusCode: 200,
-      userID: user._id,
-      token: token,
-      verified: "true",
-      loggedIN: "true",
-    });
+    return res
+      .status(200)
+      .header("authToken", token)
+      .send({
+        title: `Logged In`,
+        message: `Successfully Logged In! Welcome back ${user.firstName} ${user.lastName}`,
+        statusCode: 200,
+        userID: user._id,
+        token: token,
+        verified: "true",
+        loggedIN: "true",
+      });
   } catch (err) {
     console.log(err);
     ERROR.error(`${err.message} Users Controller`);
@@ -351,17 +357,40 @@ exports.logIn = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const { userID } = req.params;
   try {
-    const findUser = Users.findById(userID);
+    const findUser = await Users.findOne({ _id: req.params.userID });
+    const { firstName, lastName, municipality, barangay, number, email } =
+      findUser;
 
-    return res.status(200).send({
+    function capitalize(words) {
+      var separateWord = words.toLowerCase().split(" ");
+      for (var i = 0; i < separateWord.length; i++) {
+        separateWord[i] =
+          separateWord[i].charAt(0).toUpperCase() +
+          separateWord[i].substring(1);
+      }
+      return separateWord.join(" ");
+    }
+
+    const brgy = capitalize(barangay.toLowerCase());
+    const muni = capitalize(municipality.toLowerCase());
+    const DATA = {
+      firstName: firstName,
+      lastName: lastName,
+      municipality: muni,
+      barangay: brgy,
+      number: `+63${number}`,
+      email: email.toLowerCase(),
+    };
+
+    return res.status(200).json({
       message: "User data retrived!",
-      data: findUser,
+      data: DATA,
       statusCode: 200,
     });
   } catch (err) {
     ERROR.error(`${err.message} Users Controller`);
+    console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",
       message: "Someting went wrong. Please try again or try again later.",

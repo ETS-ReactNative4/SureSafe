@@ -1,10 +1,10 @@
-import {useLocalStorage} from '../../../hooks';
-import {userData} from '../../../api'
+import {useLocalStorage} from '../hooks';
+import {userData} from '../api';
 
 export default getKeys = async () => {
   const onboardingDone = await useLocalStorage('ONBOARD', 'GET');
   const userID = await useLocalStorage('USERID', 'GET');
-  const token = await useLocalStorage('TOKEN', 'GET');
+  const token = await useLocalStorage('USERTOKEN', 'GET');
   const verified = await useLocalStorage('VERIFIED', 'GET');
   const loggedIN = await useLocalStorage('LOGGEDIN', 'GET');
   const userDatas = await userData(userID, token);
@@ -14,7 +14,7 @@ export default getKeys = async () => {
     token: token,
     verified: verified,
     loggedIN: loggedIN,
-    user
+    userData: userDatas.data,
   };
   return data;
 };

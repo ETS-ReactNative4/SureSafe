@@ -6,13 +6,14 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
 
 import {Colors, Fonts, Padding} from '../../styles';
 import {ScanCard, Header} from '../../components';
 import Trace from './components/Trace';
 
-export default Tracing = ({navigation}) => {
+const Tracing = props => {
+  const {navigation, tracingData} = props;
   const [tracing, setTracing] = useState(false);
 
   return (
@@ -41,36 +42,19 @@ export default Tracing = ({navigation}) => {
             flex: 1,
             paddingHorizontal: 10,
           }}>
-          <ScanCard />
-          <ScanCard />
-          <ScanCard />
-          <ScanCard />
+          {tracingData?.map((item, index) => {
+            return <ScanCard key={index} item={item} />;
+          })}
         </ScrollView>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  backButton: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    color: Colors.PRIMARY,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  info: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const mapStatetoProps = state => {
+  return {
+    tracingData: state.tracingData,
+  };
+};
+
+export default connect(mapStatetoProps)(Tracing);

@@ -10,17 +10,23 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 import Geolocation from 'react-native-geolocation-service';
+import {connect} from 'react-redux';
 
 import {Colors, Fonts, Padding} from '../../../styles';
-import TracingAPI from '../api/Tracing.api';
+import {TracingAPI, UpdateTracingAPI, RemoveTracingAPI} from '../api';
 import {usePermision} from '../../../hooks';
+import {setTracingData} from '../../../redux/actions';
 
-export default Trace = ({setStatus}) => {
+const Trace = props => {
+  const {setStatus, userID, dispatch} = props;
   const [tracing, setTracing] = useState(false);
-  const [geolocation, setGeolocation] = useState({});
+  const [geolocation, setGeolocation] = useState({
+    latitude: '',
+    longitude: '',
+    accuracy: 2,
+  });
   const [foregroundService, setForegroundService] = useState(false);
   const [request, setRequest] = useState(0);
-  const userID = '089172634345';
   const watchId = useRef(null);
 
   const circle1 = useState(new Animated.Value(290))[0];
@@ -36,23 +42,28 @@ export default Trace = ({setStatus}) => {
 
       watchId.current = Geolocation.watchPosition(
         position => {
-          const {latitude, longitude} = position.coords;
-          setGeolocation({latitude: latitude, longitude: longitude});
-          console.log({latitude, longitude});
+          const {latitude, longitude, accuracy} = position.coords;
+          setGeolocation({
+            latitude: latitude,
+            longitude: longitude,
+            accuracy: accuracy,
+          });
+          console.log('ACCURACY', accuracy);
         },
         error => {
           setGeolocation({});
           console.log(error);
         },
         {
+          enableHighAccuracy: true,
           accuracy: {
             android: 'high',
-            ios: 'best',
+            ios: 'bestForNavigation',
           },
-          enableHighAccuracy: true,
           distanceFilter: 0,
-          interval: 300,
-          fastestInterval: 100,
+          interval: 3000,
+          fastestInterval: 5000,
+          maximumAge: 1000,
         },
       );
     }
@@ -109,15 +120,27 @@ export default Trace = ({setStatus}) => {
         toValue: stat ? 320 : 290,
         duration: 500,
         easing: Easing.linear,
-        useNativeDriver: false, // <-- neccessary
+        useNativeDriver: false,
       }).start();
       setStat(!stat);
       setRequest(request + 1);
-      if (request == 10) {
-        TracingAPI(userID, geolocation);
+      if (geolocation.accuracy >= 20) {
+        const promise = async () => {
+          await TracingAPI(userID, geolocation);
+          const updateTracing = await UpdateTracingAPI(userID);
+          dispatch(setTracingData(updateTracing));
+        };
+        promise();
       }
+    } else {
+      const promise = async () => {
+        await RemoveTracingAPI(userID);
+        const updateTracing = await UpdateTracingAPI(userID);
+        dispatch(setTracingData(updateTracing));
+      };
+      promise();
     }
-  }, [geolocation]);
+  }, [geolocation, tracing]);
 
   return (
     <View
@@ -166,6 +189,14 @@ export default Trace = ({setStatus}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Trace);
 
 const styles = StyleSheet.create({
   circle1: {

@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
 
 import {Colors, Fonts, Margin, Padding} from '../../styles';
 
 import {MainButton, MenuButton, UpdateCard} from './components';
 
-export default Dashboard = ({navigation}) => {
+const Dashboard = props => {
+  const {navigation, userData} = props;
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
@@ -14,7 +15,7 @@ export default Dashboard = ({navigation}) => {
           Dashboard
         </Text>
         <Text style={[Fonts.BODY, {color: Colors.PRIMARY, marginBottom: 5}]}>
-          Hello, Jerico
+          {`Hello, ${userData?.firstName}`}
         </Text>
         <Text style={[Fonts.H5, {color: Colors.PRIMARY, marginBottom: 10}]}>
           Track people arround you
@@ -53,10 +54,24 @@ export default Dashboard = ({navigation}) => {
             text="Logs"
             color={Colors.LBLUE}
           />
-          <MenuButton icon="qrcode" text="Visits" color={Colors.LVIOLET} />
           <MenuButton
-            icon="clipboard-list"
-            text="Check"
+            icon="qrcode"
+            onPress={() =>
+              navigation.navigate('DashboardStack', {
+                screen: 'Visits',
+              })
+            }
+            text="Visits"
+            color={Colors.LVIOLET}
+          />
+          <MenuButton
+            icon="shield-alt"
+            onPress={() =>
+              navigation.navigate('TabNavigation', {
+                screen: 'Status',
+              })
+            }
+            text="Status"
             color={Colors.LORANGE}
           />
           <MenuButton
@@ -97,3 +112,11 @@ export default Dashboard = ({navigation}) => {
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userData: state.userData,
+  };
+};
+
+export default connect(mapStatetoProps)(Dashboard);

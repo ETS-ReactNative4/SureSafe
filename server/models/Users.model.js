@@ -24,20 +24,11 @@ const UsersSchema = new Schema({
   },
   Logs: [
     {
+      userID: { type: String },
       logDate: { type: Date },
-      logData: [
-        {
-          userID: { type: String },
-          logDate: { type: Date },
-          status: { type: String },
-          exposure: { type: String },
-          geolocation: {
-            longitude: { type: String },
-            latitude: { type: String },
-          },
-          time: { type: Date },
-        },
-      ],
+      status: { type: String },
+      exposure: { type: String },
+      time: { type: Number },
     },
   ],
   Visits: [
@@ -54,7 +45,7 @@ const UsersSchema = new Schema({
   realTimeLogs: [
     {
       userID: { type: String },
-      logDate: { type: Date },
+      logDate: { type: Date, default: Date.now },
       status: { type: String },
       exposure: { type: String },
       geolocation: {

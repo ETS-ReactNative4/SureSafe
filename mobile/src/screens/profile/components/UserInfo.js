@@ -1,10 +1,12 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
 
 import {Colors, Fonts} from '../../../styles';
 
-export default UserInfo = () => {
+const UserInfo = props => {
+  const {userData} = props;
   return (
     <View
       style={{
@@ -30,10 +32,24 @@ export default UserInfo = () => {
           <FontAwesome5 name={'user'} solid size={25} color={Colors.PRIMARY} />
         </View>
         <View style={{justifyContent: 'center'}}>
-          <Text style={Fonts.H4}>Jerico Navarro</Text>
-          <Text style={Fonts.LIGHT}>Anonang Mayor, Caoayan</Text>
+          <Text
+            style={
+              Fonts.H4
+            }>{`${userData?.firstName} ${userData?.lastName}`}</Text>
+          <Text
+            style={
+              Fonts.LIGHT
+            }>{`${userData?.barangay}, ${userData?.municipality}`}</Text>
         </View>
       </View>
     </View>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userData: state.userData,
+  };
+};
+
+export default connect(mapStatetoProps)(UserInfo);

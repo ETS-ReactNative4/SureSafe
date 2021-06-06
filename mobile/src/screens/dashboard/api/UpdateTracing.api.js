@@ -1,18 +1,16 @@
-import {API} from '../constant';
+import {API} from '../../../constant';
 
-export default userData = async (userID, token) => {
+export default UpdateTracingAPI = async userID => {
   const options = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       responseType: 'json',
-      authToken: token,
     },
   };
 
-  const response = await fetch(`${API}/users/user/${userID}`, options);
+  const response = await fetch(`${API}/tracing/update/${userID}`, options);
   const resData = await response.json();
-
-  return resData;
+  return resData.data;
 };
