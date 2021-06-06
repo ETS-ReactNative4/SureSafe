@@ -11,6 +11,8 @@ export const useLocalStorage = async (storeKey, method, value, bool) => {
       } else {
         return bool ? '' : false;
       }
+    } else if (method == 'REMOVE') {
+      await AsyncStorage.removeItem(storeKey);
     }
   } catch (error) {
     console.log(err);
