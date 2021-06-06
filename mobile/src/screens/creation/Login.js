@@ -6,6 +6,8 @@ import {Fonts, Padding, Colors, Defaults} from '../../styles';
 import {Input, PasswordInput, Button} from '../../components';
 import {Title} from './components';
 import {LoginAPI} from './api';
+import {getKeys} from '../../utils';
+import {setLocalStorage} from '../../redux/actions';
 
 const Login = props => {
   const {navigation, dispatch, state} = props;
@@ -26,11 +28,15 @@ const Login = props => {
     if (alert == false) {
       if (success == true) {
         setBtnStatus(false);
-        console.log(state);
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'TabNavigation'}],
-        });
+        const GET = async () => {
+          const DATA = await getKeys();
+          dispatch(setLocalStorage(DATA));
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'TabNavigation'}],
+          });
+        };
+        GET();
       } else {
         setBtnStatus(false);
       }

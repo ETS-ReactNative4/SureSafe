@@ -6,6 +6,8 @@ import {Fonts, Padding, Colors, Defaults, Margin} from '../../styles';
 import {Button, Alert} from '../../components';
 import {Title, NumberButton, CodeInput} from './components';
 import {CodeAPI} from './api';
+import {getKeys} from '../../utils';
+import {setLocalStorage} from '../../redux/actions';
 
 const Code = props => {
   const {navigation, userID, dispatch} = props;
@@ -26,10 +28,15 @@ const Code = props => {
     if (alert == false) {
       if (success == true) {
         setBtnStatus(false);
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'TabNavigation'}],
-        });
+        const GET = async () => {
+          const DATA = await getKeys();
+          dispatch(setLocalStorage(DATA));
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'TabNavigation'}],
+          });
+        };
+        GET();
       } else {
         setBtnStatus(false);
       }

@@ -6,7 +6,7 @@ import {Main} from './Style';
 import {Images, Colors} from '../../styles';
 import {Button} from '../../components';
 import {setLocalStorage} from '../../redux/actions';
-import getKeys from './utils/getKeys';
+import {getKeys} from '../../utils';
 
 const OnBoardingMain = props => {
   const {navigation, loggedIN, dispatch} = props;
