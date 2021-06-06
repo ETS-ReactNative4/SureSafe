@@ -1,4 +1,4 @@
-const URI = 'http://localhost:3001/suresafe/api';
+import {API} from '../../../constant';
 
 import {Colors} from '../../../styles';
 import validator from 'validator';
@@ -38,7 +38,7 @@ export default NumberAPI = async (
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else {
-    const response = await fetch(`${URI}/users/addnumber`, options);
+    const response = await fetch(`${API}/users/addnumber`, options);
     const resData = await response.json();
 
     if (response.status == 201) {

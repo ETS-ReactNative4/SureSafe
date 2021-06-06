@@ -1,5 +1,5 @@
 import validator from 'validator';
-const URI = 'http://localhost:3001/suresafe/api';
+import {API} from '../../../constant';
 
 import {Colors} from '../../../styles';
 import {setUserID} from '../../../redux/actions';
@@ -70,7 +70,7 @@ export default CreateAPI = async (
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else {
-    const response = await fetch(`${URI}/users/create`, options);
+    const response = await fetch(`${API}/users/create`, options);
     const resData = await response.json();
 
     if (response.status == 201) {
@@ -79,7 +79,7 @@ export default CreateAPI = async (
       setAlertColor(Colors.LGREEN);
       setAlert(true);
       setSuccess(true);
-      dispatch(setUserID(resData.data._id));
+      dispatch(setUserID(resData.user));
     } else {
       setAlertTitle(resData.title);
       setAlertInfo(resData.message);

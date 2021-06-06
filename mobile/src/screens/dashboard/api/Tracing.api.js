@@ -1,4 +1,4 @@
-const URI = 'https://tidy-moth-74.loca.lt/suresafe/api';
+import {API} from '../../../constant';
 
 export default TracingAPI = async (userID, geolocation) => {
   const options = {
@@ -14,7 +14,7 @@ export default TracingAPI = async (userID, geolocation) => {
     }),
   };
 
-  const response = await fetch(`${URI}/tracing/send`, options);
+  const response = await fetch(`${API}/tracing/add`, options);
   const resData = await response.json();
   console.log(resData);
 };

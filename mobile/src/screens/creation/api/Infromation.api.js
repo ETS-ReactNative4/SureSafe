@@ -1,7 +1,5 @@
-const URI = 'http://localhost:3001/suresafe/api';
-
 import {Colors} from '../../../styles';
-import validator from 'validator';
+import {API} from '../../../constant';
 
 export default InformationAPI = async (
   userID,
@@ -36,19 +34,9 @@ export default InformationAPI = async (
     setAlertInfo('Please enter your First Name.');
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
-  } else if (!validator.isAlpha(firstName)) {
-    setAlertTitle('Invalid First Name!');
-    setAlertInfo('Please enter a valid First Name no numbers.');
-    setAlertColor(Colors.LYELLOW);
-    setAlert(true);
   } else if (lastName == '') {
     setAlertTitle('Last Name is Required!');
     setAlertInfo('Please enter your Last Name.');
-    setAlertColor(Colors.LYELLOW);
-    setAlert(true);
-  } else if (!validator.isAlpha(lastName)) {
-    setAlertTitle('Invalid First Name!');
-    setAlertInfo('Please enter a valid Last Name no numbers.');
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else if (municipality == '') {
@@ -62,7 +50,7 @@ export default InformationAPI = async (
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else {
-    const response = await fetch(`${URI}/users/addinfo`, options);
+    const response = await fetch(`${API}/users/addinfo`, options);
     const resData = await response.json();
     if (response.status == 201) {
       setAlertTitle(resData.title);

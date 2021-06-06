@@ -1,7 +1,7 @@
-const URI = 'http://localhost:3001/suresafe/api';
+import {API} from '../../../constant';
 
 import {Colors} from '../../../styles';
-import {setUserToken} from '../../../redux/actions';
+import {setUserToken, setUserID} from '../../../redux/actions';
 
 export default LoginAPI = async (
   email,
@@ -37,7 +37,7 @@ export default LoginAPI = async (
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
   } else {
-    const response = await fetch(`${URI}/users/login`, options);
+    const response = await fetch(`${API}/users/login`, options);
     const resData = await response.json();
     if (response.status == 200) {
       console.log(resData);
@@ -47,6 +47,7 @@ export default LoginAPI = async (
       setAlert(true);
       setSuccess(true);
       dispatch(setUserToken(resData));
+      dispatch(setUserID(resData.userID));
     } else {
       setAlertTitle(resData.title);
       setAlertInfo(resData.message);
