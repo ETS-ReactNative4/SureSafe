@@ -4,27 +4,52 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Margin, Sizes} from '../styles';
 
-export default ScanCard = () => {
+export default ScanCard = ({item}) => {
+  let userIdentification = item.userID.substring(0, 12);
+  const logDate = new Date(item.logDate);
+  const time = new Date(item.time);
+  const diffMs = logDate - time;
+  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  const logDateString = logDate.toString().substring(0, 15);
   return (
     <View style={styles.main}>
       <View style={styles.devider}></View>
       <View style={styles.textBox}>
-        <Text style={[Fonts.H4]}>8237648237342</Text>
-        <Text style={[Fonts.BODY]}>Fri 19 April 2021</Text>
+        <Text style={[Fonts.H4]}>{userIdentification}</Text>
+        <Text style={[Fonts.BODY]}>{logDateString}</Text>
         <View style={styles.statusBox}>
           <View style={styles.status}>
-            <Text style={[Fonts.H6, {color: Colors.LRED}]}>Infected</Text>
+            <Text
+              style={[
+                Fonts.H6,
+                {
+                  color:
+                    item.status == 'Infected' ? Colors.LRED : Colors.LGREEN,
+                },
+              ]}>
+              {item.status}
+            </Text>
           </View>
           <View style={styles.status}>
-            <Text style={[Fonts.H6, {color: Colors.LYELLOW}]}>Exposed</Text>
+            <Text
+              style={[
+                Fonts.H6,
+                {
+                  color:
+                    item.exposure == 'Exposed' ? Colors.LYELLOW : Colors.LBLUE,
+                },
+              ]}>
+              {item.exposure}
+            </Text>
           </View>
         </View>
       </View>
       <View style={styles.timeBox}>
         <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>50</Text>
+          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>{diffMins}</Text>
           <Text style={[Fonts.H4, {color: Colors.PRIMARY, marginBottom: 5}]}>
-            sec
+            {' '}
+            min
           </Text>
         </View>
       </View>
