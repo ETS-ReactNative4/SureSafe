@@ -12,6 +12,7 @@ const DBURI = process.env.dbURI;
 
 const UserRoutes = require("./routes/Users.routes");
 const TracingRoutes = require("./routes/Tracing.routes");
+const EstablishmentsRoutes = require("./routes/Establishments.routes");
 
 // Middlewares
 server.use(cors());
@@ -22,6 +23,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 server.use("/suresafe/api", UserRoutes);
 server.use("/suresafe/api", TracingRoutes);
+server.use("/suresafe/api", EstablishmentsRoutes);
 
 const dbOptions = {
   useNewUrlParser: true,
