@@ -1,0 +1,16 @@
+{
+  "title": "Geo Tracing",
+  "text": "Use Geo Tracing to anonymously log when you are near other app users.",
+  "section": [
+    {
+      "title": "What is Geolocation?",
+      "content": "It refers to the identification of the geographic location of a user or computing device via a variety of data collection mechanisms. Typically, most geolocation services use network routing addresses or internal GPS devices to determine this location.",
+      "icon": "Location.png"
+    },
+    {
+      "title": "Why Geo Tracing?",
+      "content": "To obtain the geographical location of the managed mobile device, you need to have the ME MDM app installed in it.",
+      "icon": "Questions.png"
+    }
+  ]
+}
