@@ -21,6 +21,12 @@ if (width >= 411) {
   mainButtonH = 80;
   menuButtonH = 70;
   scanCardH = 110;
+} else {
+  updateCardH = 200;
+  updateCardW = 290;
+  mainButtonH = 70;
+  menuButtonH = 60;
+  scanCardH = 100;
 }
 
 export const Dashboard = {

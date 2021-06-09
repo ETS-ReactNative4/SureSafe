@@ -1,0 +1,15 @@
+{
+  "title": "SureSafe An Automatic Covid Tracing App",
+  "text": "Let's help each other to prevent COVID-19. Protect yourself, your family, and your community to prevent COVID-19 from spreading.",
+  "button": [
+    {
+      "title": "Generate QR",
+      "scroll": "qrcodegenerator"
+    },
+    {
+      "title": "Learn more",
+      "color": "#fff",
+      "scroll": "about"
+    }
+  ]
+}
