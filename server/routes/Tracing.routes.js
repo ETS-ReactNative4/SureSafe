@@ -9,4 +9,6 @@ router.delete("/tracing/remove", TracingControllers.removeTracing);
 
 router.get("/tracing/update/:_id", TracingControllers.updateTracing);
 
+router.get("/tracing/get/:userID", TracingControllers.getTracing);
+
 module.exports = router;

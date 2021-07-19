@@ -44,7 +44,7 @@ const Generator = ({ title, content, id }: GeneratorProps) => {
     };
 
     const response = await fetch(
-      `http://localhost:3001/suresafe/api/establishment/add`,
+      `https://suresafe.herokuapp.com/suresafe/api/establishment/add`,
       options
     );
     const resData = await response.json();

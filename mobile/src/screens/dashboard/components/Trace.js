@@ -124,14 +124,20 @@ const Trace = props => {
       }).start();
       setStat(!stat);
       setRequest(request + 1);
-      if (geolocation.accuracy >= 20) {
-        const promise = async () => {
-          await TracingAPI(userID, geolocation);
-          const updateTracing = await UpdateTracingAPI(userID);
-          dispatch(setTracingData(updateTracing));
-        };
-        promise();
-      }
+      // if (geolocation.accuracy >= 20) {
+      //   const promise = async () => {
+      //     await TracingAPI(userID, geolocation);
+      //     const updateTracing = await UpdateTracingAPI(userID);
+      //     dispatch(setTracingData(updateTracing));
+      //   };
+      //   promise();
+      // }
+      const promise = async () => {
+        await TracingAPI(userID, geolocation);
+        const updateTracing = await UpdateTracingAPI(userID);
+        dispatch(setTracingData(updateTracing));
+      };
+      promise();
     } else {
       const promise = async () => {
         await RemoveTracingAPI(userID);

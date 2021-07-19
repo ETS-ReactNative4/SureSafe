@@ -5,4 +5,11 @@ const EstablishmentsController = require("../controllers/Establishments.controll
 
 router.post("/establishment/add", EstablishmentsController.addEstablishment);
 
+router.post("/establishment/addVisit", EstablishmentsController.addVisit);
+
+router.get(
+  "/establishment/getVisits/:userID",
+  EstablishmentsController.getVisits
+);
+
 module.exports = router;

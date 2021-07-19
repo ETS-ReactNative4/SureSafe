@@ -1,64 +1,72 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, FlatList, StyleSheet, RefreshControl} from 'react-native';
+import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '../../styles';
+import {Colors, Padding} from '../../styles';
 import {ScanCard, Header} from '../../components';
-import Trace from './components/Trace';
+import {LogsApi} from './api';
+import {InfoCard, Filters} from './components';
 
-export default Logs = ({navigation}) => {
-  const [tracing, setTracing] = useState(false);
+const Logs = props => {
+  const {navigation, userID} = props;
+  const [data, setData] = useState({});
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await LogsApi(userID, setData);
+    setRefreshing(false);
+  }, [userID]);
+
+  useEffect(() => {
+    const getData = async () => {
+      await LogsApi(userID, setData);
+    };
+    getData();
+  }, [userID]);
 
   return (
-    <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
+    <View style={[styles.visits]}>
       <View style={[Padding.CONTAINER]}>
         <Header navigation={navigation} title="Logs" info={false} />
-        <View style={{}}></View>
+        <InfoCard
+          name={data.data?.name}
+          address={data.data?.address}
+          title="Total Logs"
+          total={data.data?.total}
+        />
+        <Filters />
       </View>
-
-      <View style={{flex: 1, backgroundColor: Colors.PRIMARY}}>
-        <ScrollView
-          contentContainerStyle={{paddingTop: 15}}
-          style={{
-            flex: 1,
-            paddingHorizontal: 10,
-          }}>
-          <ScanCard />
-          <ScanCard />
-          <ScanCard />
-          <ScanCard />
-        </ScrollView>
+      <View style={styles.list}>
+        <FlatList
+          data={data?.data?.Logs}
+          renderItem={ScanCard}
+          keyExtractor={item => item._id}
+          contentContainerStyle={styles.containerScroll}
+          style={styles.scroll}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backButton: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
+  visits: {flex: 1, backgroundColor: Colors.MAIN},
+  list: {flex: 1, backgroundColor: Colors.PRIMARY},
+  scroll: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
-  header: {
-    color: Colors.PRIMARY,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  info: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  containerScroll: {paddingVertical: 15},
 });
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Logs);

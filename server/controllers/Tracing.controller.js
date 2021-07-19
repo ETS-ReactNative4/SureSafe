@@ -4,6 +4,7 @@ const Joi = require("@hapi/joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const geolin = require("geolib");
+const capitalize = require("../utils/CapitalizeFirst");
 
 const dateToday = new Date();
 
@@ -173,6 +174,40 @@ exports.updateTracing = async (req, res) => {
       message: "User tracing is Updated!",
       statusCode: 201,
       data: latestData.realTimeLogs,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.getTracing = async (req, res) => {
+  try {
+    const { userID } = req.params;
+
+    const user = await Users.findById(userID);
+
+    const fullAddress = `${capitalize.capitalize(
+      user?.barangay
+    )}, ${capitalize.capitalize(user?.municipality)}`;
+    const fullName = `${user?.firstName} ${user?.lastName}`;
+
+    const data = {
+      Logs: user?.Logs,
+      address: fullAddress,
+      name: fullName,
+      total: user?.Logs.length,
+    };
+
+    return res.status(200).send({
+      title: "Successfully Retrieve Tracing!",
+      message: "User tracing Retrieve!",
+      statusCode: 200,
+      data: data,
     });
   } catch (err) {
     console.log(err);

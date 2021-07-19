@@ -4,20 +4,36 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Margin, Sizes} from '../styles';
 
-export default VisitsCard = ({item}) => {
+export default VisitsCard = props => {
+  const {estabName, visitDate} = props?.item;
+  const date = new Date(visitDate);
+  const dateString = date.toString().substring(0, 15);
+
+  function formatAMPM(date, bool) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return bool ? hours + ':' + minutes : ampm;
+  }
+
   return (
     <View style={styles.main}>
-      <View style={styles.devider}></View>
+      <View style={styles.devider} />
       <View style={styles.textBox}>
-        <Text style={[Fonts.H4, {marginBottom: 5}]}>{'Puregold Vigan'}</Text>
-        <Text style={[Fonts.BODY]}>{'Fri 9 Apr 2021'}</Text>
+        <Text style={[Fonts.H4, {marginBottom: 5}]}>{estabName}</Text>
+        <Text style={[Fonts.BODY]}>{dateString}</Text>
       </View>
       <View style={styles.timeBox}>
         <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>{'3:50'}</Text>
+          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>
+            {formatAMPM(date, true)}
+          </Text>
           <Text style={[Fonts.H4, {color: Colors.PRIMARY, marginBottom: 5}]}>
             {' '}
-            pm
+            {formatAMPM(date, false)}
           </Text>
         </View>
       </View>
@@ -56,6 +72,7 @@ const styles = StyleSheet.create({
   },
   timeBox: {
     height: '100%',
+    flex: 0.6,
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
