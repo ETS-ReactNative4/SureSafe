@@ -32,7 +32,9 @@ exports.userCreate = async (req, res) => {
         statusCode: 401,
       });
 
-    const emailExist = await Users.findOne({ email: req.body.email });
+    const emailExist = await Users.findOne({
+      email: req.body.email.toLowerCase(),
+    });
     if (emailExist)
       return res.status(409).send({
         title: "Email is Used!",
@@ -307,7 +309,7 @@ exports.logIn = async (req, res) => {
       });
 
     // Check if email exists
-    const user = await Users.findOne({ email: req.body.email });
+    const user = await Users.findOne({ email: req.body.email.toLowerCase() });
     if (!user)
       return res.status(404).send({
         title: `"Email or Password is Invalid`,

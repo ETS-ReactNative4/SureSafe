@@ -1,61 +1,73 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, FlatList, StyleSheet, RefreshControl} from 'react-native';
+import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '../../styles';
+import {Colors, Padding} from '../../styles';
 import {VisitsCard, Header} from '../../components';
-import Trace from './components/Trace';
+import {VisitsApi} from './api';
+import {InfoCard, Filters} from './components';
 
-export default Visits = ({navigation}) => {
-  const [tracing, setTracing] = useState(false);
+const Visits = props => {
+  const {navigation, userID} = props;
+  const [data, setData] = useState({});
+  const [filter, setFilter] = useState('Today');
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await VisitsApi(userID, setData, filter);
+    setRefreshing(false);
+  }, [userID, filter]);
+
+  useEffect(() => {
+    const getData = async () => {
+      await VisitsApi(userID, setData, filter);
+    };
+    getData();
+  }, [userID, filter]);
 
   return (
-    <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
+    <View style={[styles.visits]}>
       <View style={[Padding.CONTAINER]}>
         <Header navigation={navigation} title="Visits" info={false} />
-        <View style={{}}></View>
+        <InfoCard
+          name={data.data?.name ? data.data?.name : 'Your Name'}
+          address={data.data?.address ? data.data?.address : 'Your Address'}
+          title="Total Visits"
+          total={data.data?.total ? data.data?.total : '0'}
+        />
+        <Filters setFilter={setFilter} />
       </View>
-
-      <View style={{flex: 1, backgroundColor: Colors.PRIMARY}}>
-        <ScrollView
-          contentContainerStyle={{paddingTop: 15}}
-          style={{
-            flex: 1,
-            paddingHorizontal: 10,
-          }}>
-          <VisitsCard />
-        </ScrollView>
+      <View style={styles.list}>
+        <FlatList
+          data={data?.data?.Visits}
+          renderItem={VisitsCard}
+          keyExtractor={item => item._id}
+          contentContainerStyle={styles.containerScroll}
+          style={styles.scroll}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backButton: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
+  visits: {flex: 1, backgroundColor: Colors.MAIN},
+  list: {flex: 1, backgroundColor: Colors.PRIMARY},
+  scroll: {
+    flex: 1,
+    paddingHorizontal: 10,
   },
-  header: {
-    color: Colors.PRIMARY,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  info: {
-    height: 35,
-    width: 35,
-    borderRadius: 50,
-    backgroundColor: Colors.PRIMARY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  containerScroll: {paddingVertical: 15},
 });
+
+const mapStatetoProps = state => {
+  return {
+    userID: state.userID,
+  };
+};
+
+export default connect(mapStatetoProps)(Visits);

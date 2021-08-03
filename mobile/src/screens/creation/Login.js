@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 
 import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, PasswordInput, Button} from '../../components';
+import {Input, PasswordInput, Button, Alert} from '../../components';
 import {Title} from './components';
 import {LoginAPI} from './api';
 import {getKeys} from '../../utils';

@@ -1,1 +1,1 @@
-export default API = 'https://kind-panda-78.loca.lt/suresafe/api';
+export default API = 'https://purple-fish-29.loca.lt/suresafe/api';

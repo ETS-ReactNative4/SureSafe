@@ -34,12 +34,9 @@ const UsersSchema = new Schema({
   Visits: [
     {
       visitDate: { type: Date },
-      visitData: [
-        {
-          visitTime: { type: Date },
-          visitName: { type: String },
-        },
-      ],
+      estabID: { type: String },
+      estabName: { type: String },
+      estabAddress: { type: String },
     },
   ],
   realTimeLogs: [
