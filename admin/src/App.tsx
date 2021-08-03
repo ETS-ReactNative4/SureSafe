@@ -1,14 +1,20 @@
 import React from "react";
-import { FlexRow, Div, Text, Images, Flex } from "@suresafe/core";
-import { BrowserRouter } from "react-router-dom";
+import { FlexRow, Div, Text, H3, Flex } from "@suresafe/core";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Sidebar } from "@suresafe/components";
+import { Dashboard } from "@suresafe/pages";
 
 export const App = () => {
   return (
-    <BrowserRouter>
-      <FlexRow className="bg-main">
+    <Router>
+      <Flex className="bg-main pl-72">
         <Sidebar />
-      </FlexRow>
-    </BrowserRouter>
+        <Flex className={`bg-secondary`}>
+          <Switch>
+            <Route exact path="/dashboard" component={Dashboard} />
+          </Switch>
+        </Flex>
+      </Flex>
+    </Router>
   );
 };

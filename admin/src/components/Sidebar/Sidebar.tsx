@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { FlexRow, Div, Text, Images, Flex, H6 } from "@suresafe/core";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Div, Images, Flex, H6 } from "@suresafe/core";
+import { Link } from "react-router-dom";
 import { sideBar } from "@suresafe/constants";
 
 interface NavItemProps {
@@ -43,7 +43,7 @@ const NavItem = ({
 };
 
 export const Sidebar = () => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(1);
 
   return (
     <Div className="w-72 h-full px-6 py-6 fixed top-0 left-0 bottom-0 bg-primary">
