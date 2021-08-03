@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@suresafe/core": ["core/"],
+      "@suresafe/assets": ["assets/"],
+      "@suresafe/components": ["components/"],
+      "@suresafe/constants": ["constants/"]
+    }
+  }
+}
