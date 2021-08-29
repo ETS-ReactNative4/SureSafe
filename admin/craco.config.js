@@ -7,6 +7,7 @@ module.exports = {
       "@suresafe/components": path.resolve(__dirname, "src/components/"),
       "@suresafe/constants": path.resolve(__dirname, "src/constants/"),
       "@suresafe/pages": path.resolve(__dirname, "src/pages/"),
+      "@suresafe/hooks": path.resolve(__dirname, "src/hooks/"),
     },
   },
   style: {
