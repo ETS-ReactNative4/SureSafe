@@ -6,7 +6,8 @@
       "@suresafe/assets": ["assets/"],
       "@suresafe/components": ["components/"],
       "@suresafe/constants": ["constants/"],
-      "@suresafe/pages": ["pages/"]
+      "@suresafe/pages": ["pages/"],
+      "@suresafe/hooks": ["hooks/"]
     }
   }
 }

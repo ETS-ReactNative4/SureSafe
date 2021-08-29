@@ -7,6 +7,12 @@ module.exports = {
         gilroy: ["Gilroy"],
       },
     },
+    screens: {
+      phone: "0px",
+      tablet: "800px",
+      laptop: "1500px",
+      desktop: "1880px",
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",

@@ -1,16 +1,15 @@
 import React from "react";
-import { FlexRow, Div, Text, H3, Flex } from "@suresafe/core";
+import { Flex } from "@suresafe/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Sidebar } from "@suresafe/components";
-import { Dashboard } from "@suresafe/pages";
+import { Dashboard, Authentication } from "@suresafe/pages";
 
 export const App = () => {
   return (
     <Router>
-      <Flex className="bg-main pl-72">
-        <Sidebar />
+      <Flex className="bg-main phone:pl-24 tablet:pl-64 laptop:pl-64 desktop:pl-72">
         <Flex className={`bg-secondary`}>
           <Switch>
+            <Route exact path="/" component={Authentication} />
             <Route exact path="/dashboard" component={Dashboard} />
           </Switch>
         </Flex>
