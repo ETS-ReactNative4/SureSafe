@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 import {Main} from './Style';
-import {Images, Colors, Defaults} from '../../styles';
-import {Button} from '../../components';
+import {Images, Colors, Defaults} from '_styles';
+import {Button} from '_components';
 
 const data = [
   {
@@ -39,7 +39,7 @@ const data = [
 
 const width = Dimensions.get('window').width;
 
-export default OnBoarding = ({navigation}) => {
+const OnBoarding = ({navigation}) => {
   const scrollX = new Animated.Value(0);
 
   function renderContent() {
@@ -112,7 +112,8 @@ export default OnBoarding = ({navigation}) => {
                   height: dotSize,
                   width: dotSize,
                 },
-              ]}></Animated.View>
+              ]}
+            />
           );
         })}
       </View>
@@ -126,3 +127,5 @@ export default OnBoarding = ({navigation}) => {
     </View>
   );
 };
+
+export default OnBoarding;

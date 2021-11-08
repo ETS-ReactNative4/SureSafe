@@ -2,9 +2,9 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Colors, Padding} from '../../styles';
-import {ScanCard, Header} from '../../components';
-import {LogsApi} from './api';
+import {Colors, Padding} from '_styles';
+import {ScanCard, Header} from '_components';
+import {LogsAPI} from './api';
 import {InfoCard, Filters} from './components';
 
 const Logs = props => {
@@ -14,13 +14,13 @@ const Logs = props => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await LogsApi(userID, setData);
+    await LogsAPI(userID, setData);
     setRefreshing(false);
   }, [userID]);
 
   useEffect(() => {
     const getData = async () => {
-      await LogsApi(userID, setData);
+      await LogsAPI(userID, setData);
     };
     getData();
   }, [userID]);

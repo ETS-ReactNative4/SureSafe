@@ -1,4 +1,4 @@
-import {useLocalStorage} from '../hooks/';
+import {useLocalStorage} from '_hooks';
 
 const initialState = {
   onboardingDone: false,
@@ -10,7 +10,7 @@ const initialState = {
   tracingData: [],
 };
 
-export default rootReducer = (state = initialState, action) => {
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SETONBOARDDONE':
       useLocalStorage('ONBOARD', 'SET', action.payload, true);
@@ -66,3 +66,5 @@ export default rootReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default rootReducer;

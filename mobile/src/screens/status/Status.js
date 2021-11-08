@@ -2,8 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Margin, Padding} from '../../styles';
-import {Button} from '../../components';
+import {Colors, Fonts, Margin, Padding} from '_styles';
+import {Button} from '_components';
 import {MunicipalityCard} from './components';
 
 export default Status = ({navigation}) => {
@@ -56,13 +56,13 @@ export default Status = ({navigation}) => {
                 {height: 168, justifyContent: 'flex-start'},
               ]}>
               <Text style={[Fonts.H4, {color: Colors.LGREEN, marginBottom: 5}]}>
-                CovidFree
+                Status
               </Text>
               <Text style={[Fonts.LIGHT, {color: Colors.GREY}]}>
-                You are not exposed to someone with the virus!
+                You can change your status using a access code given by Admin.
               </Text>
               <Button
-                text="Check"
+                text="Change"
                 status={false}
                 backgroundColor={Colors.LBLUE}
                 color={Colors.PRIMARY}

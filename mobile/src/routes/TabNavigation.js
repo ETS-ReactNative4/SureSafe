@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts} from '../styles';
+import {Colors, Fonts} from '_styles';
 
 import Dashboard from '../screens/dashboard/Dashboard';
 import Status from '../screens/status/Status';
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    elevation: 0,
     backgroundColor: Colors.MAIN,
     borderTopColor: Colors.PRIMARY,
     justifyContent: 'center',
@@ -111,7 +110,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
-
     elevation: 8,
   },
   mapsButton: {

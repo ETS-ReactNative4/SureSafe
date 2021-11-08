@@ -10,6 +10,10 @@ const UsersSchema = new Schema({
   municipality: { type: String, default: "" },
   barangay: { type: String, default: "" },
   number: { type: Number, default: "" },
+  lastShare: {
+    logs: { type: String, default: "None" },
+    visits: { type: String, default: "None" },
+  },
   verify: {
     code: { type: Number },
     time: { type: Date },
@@ -17,10 +21,6 @@ const UsersSchema = new Schema({
   userState: {
     status: { type: String },
     exposure: { type: String },
-    geolocation: {
-      longitude: { type: String },
-      latitude: { type: String },
-    },
   },
   Logs: [
     {
@@ -42,14 +42,14 @@ const UsersSchema = new Schema({
   realTimeLogs: [
     {
       userID: { type: String },
-      logDate: { type: Date, default: Date.now },
+      logDate: { type: Date },
       status: { type: String },
       exposure: { type: String },
       geolocation: {
         longitude: { type: String },
         latitude: { type: String },
       },
-      time: { type: Date },
+      time: { type: Number },
     },
   ],
 });

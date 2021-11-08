@@ -3,7 +3,7 @@ import {Text, View, TouchableOpacity} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts} from '../../../styles';
+import {Colors, Fonts} from '_styles';
 
 const UserInfo = props => {
   const {userData} = props;
@@ -17,6 +17,7 @@ const UserInfo = props => {
         padding: 20,
         justifyContent: 'center',
         marginBottom: 7,
+        marginTop: 10,
       }}>
       <View style={{flexDirection: 'row'}}>
         <View

@@ -1,4 +1,4 @@
-import {Fonts, Colors, Padding, Margin} from '../../styles';
+import {Fonts, Colors, Padding, Margin} from '_styles';
 
 const Main = {
   container: [

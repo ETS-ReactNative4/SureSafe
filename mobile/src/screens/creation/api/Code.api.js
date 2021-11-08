@@ -1,9 +1,9 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-import {setUserToken} from '../../../redux/actions';
-import {Colors} from '../../../styles';
+import {setUserToken} from '_redux';
+import {Colors} from '_styles';
 
-export default CodeAPI = async (
+export const CodeAPI = async (
   userID,
   code,
   date,
@@ -28,7 +28,7 @@ export default CodeAPI = async (
     }),
   };
 
-  if (code == '') {
+  if (code === '') {
     setAlertTitle('Number is Required!');
     setAlertInfo('Please enter the code we sent you to verify your account.');
     setAlertColor(Colors.LYELLOW);
@@ -41,7 +41,7 @@ export default CodeAPI = async (
   } else {
     const response = await fetch(`${API}/users/checkOTP`, options);
     const resData = await response.json();
-    if (response.status == 202) {
+    if (response.status === 202) {
       setAlertTitle(resData.title);
       setAlertInfo(resData.message);
       setAlertColor(Colors.LGREEN);

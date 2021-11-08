@@ -1,9 +1,9 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-import {Colors} from '../../../styles';
+import {Colors} from '_styles';
 import validator from 'validator';
 
-export default NumberAPI = async (
+export const NumberAPI = async (
   userID,
   number,
   date,

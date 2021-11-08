@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, PasswordInput, Button, Alert} from '../../components';
+import {Fonts, Padding, Colors, Defaults} from '_styles';
+import {Input, PasswordInput, Button, Alert} from '_components';
 import {Title} from './components';
 import {LoginAPI} from './api';
-import {getKeys} from '../../utils';
-import {setLocalStorage} from '../../redux/actions';
+import {getKeys} from '_utils';
+import {setLocalStorage} from '_redux';
 
 const Login = props => {
   const {navigation, dispatch, state} = props;
@@ -25,8 +25,8 @@ const Login = props => {
   const [btnStatus, setBtnStatus] = useState(false);
 
   useEffect(() => {
-    if (alert == false) {
-      if (success == true) {
+    if (alert === false) {
+      if (success === true) {
         setBtnStatus(false);
         const GET = async () => {
           const DATA = await getKeys();

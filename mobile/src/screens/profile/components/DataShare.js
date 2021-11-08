@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Padding} from '../../../styles';
+import {Colors, Fonts, Padding} from '_styles';
 
 export default DataShare = () => {
   return (

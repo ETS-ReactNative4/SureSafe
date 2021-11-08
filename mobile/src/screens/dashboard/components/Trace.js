@@ -12,10 +12,10 @@ import VIForegroundService from '@voximplant/react-native-foreground-service';
 import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '../../../styles';
+import {Colors, Fonts, Padding} from '_styles';
 import {TracingAPI, UpdateTracingAPI, RemoveTracingAPI} from '../api';
-import {usePermision} from '../../../hooks';
-import {setTracingData} from '../../../redux/actions';
+import {usePermision} from '_hooks';
+import {setTracingData} from '_redux';
 
 const Trace = props => {
   const {setStatus, userID, dispatch} = props;
@@ -25,6 +25,7 @@ const Trace = props => {
     longitude: '',
     accuracy: 2,
   });
+  const [ready, setReady] = useState(true);
   const [foregroundService, setForegroundService] = useState(false);
   const [request, setRequest] = useState(0);
   const watchId = useRef(null);
@@ -35,37 +36,40 @@ const Trace = props => {
   const getLocationUpdates = async () => {
     const hasPermission = await usePermision();
 
-    if (hasPermission) {
-      if (Platform.OS === 'android' && foregroundService) {
-        await startForegroundService();
-      }
+    if (ready) {
+      if (hasPermission) {
+        if (Platform.OS === 'android' && foregroundService) {
+          await startForegroundService();
+        }
 
-      watchId.current = Geolocation.watchPosition(
-        position => {
-          const {latitude, longitude, accuracy} = position.coords;
-          setGeolocation({
-            latitude: latitude,
-            longitude: longitude,
-            accuracy: accuracy,
-          });
-          console.log('ACCURACY', accuracy);
-        },
-        error => {
-          setGeolocation({});
-          console.log(error);
-        },
-        {
-          enableHighAccuracy: true,
-          accuracy: {
-            android: 'high',
-            ios: 'bestForNavigation',
+        watchId.current = Geolocation.watchPosition(
+          position => {
+            const {latitude, longitude, accuracy} = position.coords;
+            setGeolocation({
+              latitude: latitude,
+              longitude: longitude,
+              accuracy: accuracy,
+            });
+            setReady(false);
+            console.log('ACCURACY', accuracy);
           },
-          distanceFilter: 0,
-          interval: 3000,
-          fastestInterval: 5000,
-          maximumAge: 1000,
-        },
-      );
+          error => {
+            setGeolocation({});
+            console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            accuracy: {
+              android: 'high',
+              ios: 'bestForNavigation',
+            },
+            distanceFilter: 0,
+            interval: 3000,
+            fastestInterval: 5000,
+            maximumAge: 1000,
+          },
+        );
+      }
     }
   };
 
@@ -136,6 +140,7 @@ const Trace = props => {
         await TracingAPI(userID, geolocation);
         const updateTracing = await UpdateTracingAPI(userID);
         dispatch(setTracingData(updateTracing));
+        setReady(true);
       };
       promise();
     } else {

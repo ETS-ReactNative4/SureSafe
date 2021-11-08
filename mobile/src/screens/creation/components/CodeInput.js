@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-import {Fonts, Padding, Colors, Margin, Sizes} from '../../../styles';
+import {Fonts, Padding, Colors, Margin, Sizes} from '_styles';
 
 export default CodeInput = props => {
   return (

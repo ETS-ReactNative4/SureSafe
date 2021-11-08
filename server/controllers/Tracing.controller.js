@@ -6,7 +6,10 @@ const jwt = require("jsonwebtoken");
 const geolin = require("geolib");
 const capitalize = require("../utils/CapitalizeFirst");
 
-const dateToday = new Date();
+function getMinutes(date1, date2) {
+  const diffInMs = Math.abs(date2 - date1);
+  return diffInMs / (1000 * 60);
+}
 
 exports.addTracing = async (req, res) => {
   try {
@@ -46,9 +49,12 @@ exports.addTracing = async (req, res) => {
             }
 
             if (cache == 0) {
+              const dateToday = new Date();
               const contactUser = {
                 userID: userID,
                 geolocation: geolocation,
+                logDate: dateToday,
+                time: 0,
               };
               await Users.updateOne(
                 { _id: _id },
@@ -91,6 +97,53 @@ exports.removeTracing = async (req, res) => {
     const { _id } = req.body;
 
     const deleteUser = await Tracing.deleteOne({ userID: _id });
+    const userData = await Users.findOne({ _id: _id });
+    const { realTimeLogs, Logs } = userData;
+    const updatedData = [];
+    for (let x = 0; x < realTimeLogs.length; x++) {
+      const findUsers = Logs.find((user) => {
+        if (user.userID === realTimeLogs[x].userID) {
+          const dateToday = new Date();
+          const logDate = new Date(user.logDate);
+          if (`${dateToday}`.substr(0, 15) == `${logDate}`.substr(0, 15)) {
+            return user;
+          }
+        }
+      });
+
+      if (findUsers) {
+        updatedData.push({
+          userID: findUsers.userID,
+          logDate: findUsers.logDate,
+          time: findUsers.time + realTimeLogs[x].time,
+          status: realTimeLogs[x].status,
+          exposure: realTimeLogs[x].exposure,
+        });
+      } else {
+        updatedData.push({
+          userID: realTimeLogs[x].userID,
+          logDate: realTimeLogs[x].logDate,
+          time: realTimeLogs[x].time,
+          status: realTimeLogs[x].status,
+          exposure: realTimeLogs[x].exposure,
+        });
+      }
+    }
+    for (let x = 0; x < Logs.length; x++) {
+      const findUsers = updatedData.find((user) => {
+        if (user.userID === Logs[x].userID) {
+          return user;
+        }
+      });
+      if (!findUsers) {
+        updatedData.push(Logs[x]);
+      }
+    }
+    console.log(updatedData);
+    await Users.updateOne(
+      { _id: _id },
+      { realTimeLogs: [], Logs: updatedData }
+    );
 
     return res.status(201).send({
       title: "Successfully Remove!",
@@ -100,13 +153,43 @@ exports.removeTracing = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    ERROR.error(`${err.message} Users Controller`);
+    // ERROR.error(`${err.message} Users Controller`);
     return res.status(400).send({
       title: "Someting went wrong!",
       message: "Someting went wrong. Please try again or try again later.",
       statusCode: 400,
     });
   }
+};
+
+const updateLogs = async (UID, LOGS) => {
+  const findUser = await Users.findOne({ _id: UID });
+  let updatedData = [];
+  if (findUser.Logs.length === 0) {
+    updatedData.push({
+      userID: LOGS.userId,
+      logDate: LOGS.logDate,
+      time: LOGS.time,
+    });
+  } else {
+    for (let i = 0; i < findUser.Logs.length; i++) {
+      const userLogs = findUser.Logs[i];
+      if (LOGS.userId === userLogs.userId) {
+        updatedData.push({
+          userID: userLogs.userId,
+          logDate: userLogs.logDate,
+          time: userLogs.time + LOGS.time,
+        });
+      } else {
+        updatedData.push({
+          userID: LOGS.userId,
+          logDate: LOGS.logDate,
+          time: LOGS.time,
+        });
+      }
+    }
+  }
+  await Users.updateOne({ _id: UID }, { Logs: updatedData });
 };
 
 exports.updateTracing = async (req, res) => {
@@ -119,7 +202,7 @@ exports.updateTracing = async (req, res) => {
     let updatedData = [];
 
     for (let i = 0; i < realTimeLogs.length; i++) {
-      const { userID, logDate } = realTimeLogs[i];
+      const { userID, logDate, time } = realTimeLogs[i];
       const findUserTracing = await Tracing.findOne({ userID: userID });
       const thisUserTracing = await Tracing.findOne({ userID: _id });
       if (findUserTracing) {
@@ -137,6 +220,8 @@ exports.updateTracing = async (req, res) => {
 
         console.log("METERS AWAY", distance - 3);
         if (distance - 3 < 1) {
+          const dateToday = new Date();
+          const min = getMinutes(logDate, dateToday);
           const findUser = await Users.findById(userID);
           const update = {
             userID: userID,
@@ -147,22 +232,16 @@ exports.updateTracing = async (req, res) => {
               longitude: findUserTracing.geolocation.longitude,
               latitude: findUserTracing.geolocation.latitude,
             },
-            time: dateToday,
+            time: min,
           };
           updatedData.push(update);
           await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
         } else {
-          await Users.updateOne(
-            { _id: _id },
-            { $push: { Logs: realTimeLogs[i] } }
-          );
+          // await updateLogs(_id, realTimeLogs[i]);
           await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
         }
       } else {
-        await Users.updateOne(
-          { _id: _id },
-          { $push: { Logs: realTimeLogs[i] } }
-        );
+        // await updateLogs(_id, realTimeLogs[i]);
         await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
       }
     }

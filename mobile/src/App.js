@@ -5,9 +5,9 @@ import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import store from './redux/store';
 
-import RootStack from './routes/RootStack';
+import {RootStack} from './routes/RootStack';
 
-export default App = () => {
+const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -22,3 +22,5 @@ export default App = () => {
     </Provider>
   );
 };
+
+export default App;

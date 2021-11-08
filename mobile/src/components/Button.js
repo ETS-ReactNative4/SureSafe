@@ -2,7 +2,7 @@ import React from 'react';
 import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Defaults, Colors} from '../styles';
+import {Defaults, Colors} from '_styles';
 
 export default Button = props => {
   const {text, onPress, backgroundColor, color, status, styles} = props;

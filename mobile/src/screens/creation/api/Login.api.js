@@ -1,9 +1,9 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-import {Colors} from '../../../styles';
-import {setUserToken, setUserID} from '../../../redux/actions';
+import {Colors} from '_styles';
+import {setUserToken, setUserID} from '_redux';
 
-export default LoginAPI = async (
+export const LoginAPI = async (
   email,
   password,
   setAlert,
@@ -13,6 +13,7 @@ export default LoginAPI = async (
   setSuccess,
   dispatch,
 ) => {
+  console.log('API', API);
   const options = {
     method: 'POST',
     headers: {
@@ -26,12 +27,12 @@ export default LoginAPI = async (
     }),
   };
 
-  if (email == '') {
+  if (email === '') {
     setAlertTitle('Email is Empty!');
     setAlertInfo('Please enter your email.');
     setAlertColor(Colors.LYELLOW);
     setAlert(true);
-  } else if (password == '') {
+  } else if (password === '') {
     setAlertTitle('Password is Empty!');
     setAlertInfo('Please enter your password.');
     setAlertColor(Colors.LYELLOW);
@@ -39,7 +40,8 @@ export default LoginAPI = async (
   } else {
     const response = await fetch(`${API}/users/login`, options);
     const resData = await response.json();
-    if (response.status == 200) {
+    console.log('resData', resData);
+    if (response.status === 200) {
       console.log(resData);
       setAlertTitle(resData.title);
       setAlertInfo(resData.message);

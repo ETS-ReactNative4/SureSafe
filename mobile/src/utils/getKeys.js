@@ -1,7 +1,7 @@
-import {useLocalStorage} from '../hooks';
-import {userData} from '../api';
+import {useLocalStorage} from '_hooks';
+import {userData} from '_services';
 
-export default getKeys = async () => {
+export const getKeys = async () => {
   const onboardingDone = await useLocalStorage('ONBOARD', 'GET');
   const userID = await useLocalStorage('USERID', 'GET');
   const token = await useLocalStorage('USERTOKEN', 'GET');

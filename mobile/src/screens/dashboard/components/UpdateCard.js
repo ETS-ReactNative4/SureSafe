@@ -1,36 +1,50 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {RFPercentage} from 'react-native-responsive-fontsize';
-import {Dimensions} from 'react-native';
 
-import {Colors, Fonts, Sizes} from '../../../styles';
+import {Colors, Fonts, Sizes} from '_styles';
 
-export default UpdateCard = props => {
-  const {color, contact} = props;
-
+const UpdateCard = ({data}) => {
+  console.log(data);
+  const userIdentification = data.userID.substring(
+    data.userID.length - 4,
+    data.userID.length,
+  );
+  const date = new Date(data.date);
+  const updateDate = date.toString().substr(0, 15);
   return (
     <View style={styles.mainCard}>
       <View style={styles.topContent}>
         <View style={styles.idText}>
-          <Text style={[Fonts.H3, styles.id]}>IS-C123</Text>
-          <Text style={[Fonts.H5, styles.whiteText]}>Undetermined</Text>
+          <Text
+            style={[Fonts.H3, styles.id]}>{`SS-${userIdentification}`}</Text>
+          <Text style={[Fonts.H5, styles.whiteText]}>{data.exposure}</Text>
         </View>
         <View style={styles.contacts}>
-          <Text style={[Fonts.H3, {color: color}]}>{contact}</Text>
+          <Text style={[Fonts.H3, {color: Colors.MAIN}]}>{data.status}</Text>
         </View>
       </View>
       <View style={{flex: 1, paddingVertical: 15}}>
         <Text style={[Fonts.BODY, styles.whiteText]}>
-          21 y/o, Male{' '}
-          <Text style={[Fonts.H5, styles.whiteText]}>Web Developer</Text> from{' '}
-          <Text style={[Fonts.H5, styles.whiteText]}>Brgy Anonang Mayor.</Text>{' '}
-          Signs and symtoms are{' '}
-          <Text style={[Fonts.H5, styles.whiteText]}>Headache and Fever</Text>,
-          travel history <Text style={[Fonts.H5, styles.whiteText]}>None.</Text>
+          <Text
+            style={[
+              Fonts.H5,
+              styles.whiteText,
+            ]}>{`SS-${userIdentification}`}</Text>{' '}
+          from <Text style={[Fonts.H5, styles.whiteText]}>{data.barangay}</Text>
+          ,{' '}
+          <Text style={[Fonts.H5, styles.whiteText]}>{data.municipality}</Text>{' '}
+          has been{' '}
+          <Text style={[Fonts.H5, styles.whiteText]}>{data.status}</Text>, with{' '}
+          <Text style={[Fonts.H5, styles.whiteText]}>{data.totalExposed}</Text>{' '}
+          exposed and{' '}
+          <Text style={[Fonts.H5, styles.whiteText]}>
+            {data.totalPotential}
+          </Text>{' '}
+          potential.
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={[Fonts.H6, styles.whiteText]}>Apr 24 2021</Text>
+        <Text style={[Fonts.H6, styles.whiteText]}>{updateDate}</Text>
         <View style={styles.covidCase}>
           <Text style={[Fonts.H6, {color: Colors.LYELLOW}]}>
             Covid - 19 Cases
@@ -40,6 +54,8 @@ export default UpdateCard = props => {
     </View>
   );
 };
+
+export default UpdateCard;
 
 const styles = StyleSheet.create({
   mainCard: {

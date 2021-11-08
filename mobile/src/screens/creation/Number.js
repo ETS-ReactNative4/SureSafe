@@ -3,8 +3,8 @@ import {View} from 'react-native';
 import validator from 'validator';
 import {connect} from 'react-redux';
 
-import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, Button} from '../../components';
+import {Fonts, Padding, Colors, Defaults} from '_styles';
+import {Input, Button} from '_components';
 import {Title, NumberButton} from './components';
 import {NumberAPI} from './api';
 
@@ -119,7 +119,7 @@ const Number = props => {
           <NumberButton number={9} onPress={() => setNumber(number + '9')} />
         </View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1}}></View>
+          <View style={{flex: 1}} />
           <NumberButton
             number={0}
             margin={true}

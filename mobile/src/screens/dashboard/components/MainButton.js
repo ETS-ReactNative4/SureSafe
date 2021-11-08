@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Margin, Sizes} from '../../../styles';
+import {Colors, Fonts, Margin, Sizes} from '_styles';
 
 export default MainButton = props => {
   const {icon, title, info, onPress} = props;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex } from "@suresafe/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Dashboard, Authentication } from "@suresafe/pages";
+import { Dashboard, Authentication, Exposed } from "@suresafe/pages";
 
 export const App = () => {
   return (
@@ -11,6 +11,7 @@ export const App = () => {
           <Switch>
             <Route exact path="/" component={Authentication} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/exposed" component={Exposed} />
           </Switch>
         </Flex>
       </Flex>

@@ -8,11 +8,16 @@
         "extensions": [".js", ".ios.js", ".android.js"],
         "alias": {
           "_assets": "./src/assets",
-          "_apis": "./src/apis",
+          "_services": "./src/services",
+          "_hooks": "./src/hooks",
+          "_redux": "./src/redux",
           "_screens": "./src/screens",
           "_styles": "./src/styles",
           "_routes": "./src/routes",
-          "_components": "./src/components"
+          "_components": "./src/components",
+          "_constants": "./src/constants",
+          "_utils": "./src/utils",
+          "redux": "./node_modules/redux"
         }
       }
     ]

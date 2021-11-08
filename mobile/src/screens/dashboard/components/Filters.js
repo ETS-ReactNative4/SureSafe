@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
-import {Colors, Fonts} from '../../../styles';
+import {Colors, Fonts} from '_styles';
 
 const Filters = props => {
   const {setFilter} = props;

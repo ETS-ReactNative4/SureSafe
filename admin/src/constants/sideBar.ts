@@ -7,13 +7,13 @@ export const sideBar = [
   },
   {
     id: 2,
-    name: "Shared Tracing",
-    icon: "fas fa-street-view",
-    link: "/tracing",
+    name: "Exposed",
+    icon: "fas fa-exclamation",
+    link: "/exposed",
   },
   {
     id: 3,
-    name: "Shared Visits",
+    name: "Infected",
     icon: "fas fa-qrcode",
     link: "/visits",
   },

@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import validator from 'validator';
 import {connect} from 'react-redux';
 
-import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, PasswordInput, Button, Alert} from '../../components';
+import {Fonts, Padding, Colors, Defaults} from '_styles';
+import {Input, PasswordInput, Button, Alert} from '_components';
 import {Title, CheckBox} from './components';
 import {CreateAPI} from './api';
 
@@ -27,8 +27,8 @@ const Create = props => {
   const [btnStatus, setBtnStatus] = useState(false);
 
   useEffect(() => {
-    if (alert == false) {
-      if (success == true) {
+    if (alert === false) {
+      if (success === true) {
         setBtnStatus(false);
         navigation.reset({
           index: 0,

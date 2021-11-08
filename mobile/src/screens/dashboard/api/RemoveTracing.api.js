@@ -1,6 +1,6 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default TracingAPI = async userID => {
+export const RemoveTracingAPI = async userID => {
   const options = {
     method: 'DELETE',
     headers: {
@@ -15,5 +15,5 @@ export default TracingAPI = async userID => {
 
   const response = await fetch(`${API}/tracing/remove`, options);
   const resData = await response.json();
-  console.log(resData);
+  console.log('Remove', resData);
 };

@@ -1,6 +1,6 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default LogsAPI = async (userID, setData) => {
+export const LogsAPI = async (userID, setData) => {
   const options = {
     method: 'GET',
     headers: {
