@@ -1,9 +1,10 @@
-import TracingAPI from './Tracing.api';
-import UpdateTracingAPI from './UpdateTracing.api';
-import RemoveTracingAPI from './RemoveTracing.api';
-import ScanApi from './Scan.api';
-import VisitsApi from './Visits.api';
-import LogsApi from './Logs.api';
+import {TracingAPI} from './Tracing.api';
+import {UpdateTracingAPI} from './UpdateTracing.api';
+import {RemoveTracingAPI} from './RemoveTracing.api';
+import {ScanApi} from './Scan.api';
+import {VisitsApi} from './Visits.api';
+import {LogsAPI} from './Logs.api';
+import {UpdatesAPI} from './Updates.api';
 
 export {
   TracingAPI,
@@ -11,5 +12,6 @@ export {
   RemoveTracingAPI,
   ScanApi,
   VisitsApi,
-  LogsApi,
+  LogsAPI,
+  UpdatesAPI,
 };

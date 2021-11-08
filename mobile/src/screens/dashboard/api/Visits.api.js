@@ -1,6 +1,6 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default VisitsAPI = async (userID, setData, filter) => {
+export const VisitsAPI = async (userID, setData, filter) => {
   const options = {
     method: 'GET',
     headers: {

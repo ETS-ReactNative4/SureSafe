@@ -3,10 +3,10 @@ import {View, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
 
 import {Main} from './Style';
-import {Images, Colors} from '../../styles';
-import {Button} from '../../components';
-import {setLocalStorage} from '../../redux/actions';
-import {getKeys} from '../../utils';
+import {Images, Colors} from '_styles';
+import {Button} from '_components';
+import {setLocalStorage} from '_redux';
+import {getKeys} from '_utils';
 
 const OnBoardingMain = props => {
   const {navigation, loggedIN, dispatch} = props;

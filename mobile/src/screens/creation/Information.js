@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import validator from 'validator';
 import {connect} from 'react-redux';
 
-import {Fonts, Padding, Colors, Defaults} from '../../styles';
-import {Input, Button, Alert} from '../../components';
+import {Fonts, Padding, Colors, Defaults} from '_styles';
+import {Input, Button, Alert} from '_components';
 import {Title} from './components';
 import {InformationAPI} from './api';
 
@@ -70,7 +70,7 @@ const Infomation = props => {
         ]}>
         <Title
           title="More Info."
-          info="Please enter your address for us to easilly find you in case of 
+          info="Please enter your address for us to easilly find you in case of
         emergency. We don't share your information with others."
           font={Fonts.TITLE}
           center={false}

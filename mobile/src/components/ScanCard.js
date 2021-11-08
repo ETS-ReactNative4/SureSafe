@@ -2,20 +2,23 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Margin, Sizes} from '../styles';
+import {Colors, Fonts, Margin, Sizes} from '_styles';
 
 export default ScanCard = ({item}) => {
-  let userIdentification = item.userID.substring(0, 12);
+  let userIdentification = item.userID.substring(
+    item.userID.length - 4,
+    item.userID.length,
+  );
   const logDate = new Date(item.logDate);
-  const time = new Date(item.time);
-  const diffMs = logDate - time;
-  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  // const time = new Date(item.time);
+  // const diffMs = logDate - time;
+  // const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
   const logDateString = logDate.toString().substring(0, 15);
   return (
     <View style={styles.main}>
-      <View style={styles.devider}></View>
+      <View style={styles.devider} />
       <View style={styles.textBox}>
-        <Text style={[Fonts.H4]}>{userIdentification}</Text>
+        <Text style={[Fonts.H4]}>{`SS-${userIdentification}`}</Text>
         <Text style={[Fonts.BODY]}>{logDateString}</Text>
         <View style={styles.statusBox}>
           <View style={styles.status}>
@@ -23,11 +26,10 @@ export default ScanCard = ({item}) => {
               style={[
                 Fonts.H6,
                 {
-                  color:
-                    item.status == 'Infected' ? Colors.LRED : Colors.LGREEN,
+                  color: Colors.MAIN,
                 },
               ]}>
-              {item.status}
+              {item.status ? item.status : 'Covid Free'}
             </Text>
           </View>
           <View style={styles.status}>
@@ -35,8 +37,7 @@ export default ScanCard = ({item}) => {
               style={[
                 Fonts.H6,
                 {
-                  color:
-                    item.exposure == 'Exposed' ? Colors.LYELLOW : Colors.LBLUE,
+                  color: Colors.MAIN,
                 },
               ]}>
               {item.exposure}
@@ -46,7 +47,9 @@ export default ScanCard = ({item}) => {
       </View>
       <View style={styles.timeBox}>
         <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>{diffMins}</Text>
+          <Text style={[Fonts.H2, {color: Colors.PRIMARY}]}>
+            {parseInt(item.time)}
+          </Text>
           <Text style={[Fonts.H4, {color: Colors.PRIMARY, marginBottom: 5}]}>
             {' '}
             min

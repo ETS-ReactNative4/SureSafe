@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Margin, Padding} from '../../styles';
-import {Button} from '../../components';
+import {Colors, Fonts, Margin, Padding} from '_styles';
+import {Button} from '_components';
 import {NotificationCard} from './components';
 
 export default Notification = ({navigation}) => {

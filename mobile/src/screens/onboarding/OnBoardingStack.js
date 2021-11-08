@@ -3,6 +3,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import {Platform} from 'react-native';
 
 import OnBoardingMain from './OnBoardingMain';
 import OnBoarding from './OnBoarding';
@@ -11,12 +12,12 @@ const Stack = createStackNavigator();
 
 const options = {
   cardStyleInterpolator:
-    Platform.OS == 'ios'
+    Platform.OS === 'ios'
       ? CardStyleInterpolators.forVerticalIOS
       : CardStyleInterpolators.forFadeFromBottomAndroid,
 };
 
-export default OnBoardingStack = () => {
+const OnBoardingStack = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen
@@ -32,3 +33,5 @@ export default OnBoardingStack = () => {
     </Stack.Navigator>
   );
 };
+
+export default OnBoardingStack;

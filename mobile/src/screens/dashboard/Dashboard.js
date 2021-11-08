@@ -1,13 +1,27 @@
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, ScrollView, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Margin, Padding} from '../../styles';
+import {Colors, Fonts, Margin, Padding} from '_styles';
 
 import {MainButton, MenuButton, UpdateCard} from './components';
+import {UpdatesAPI} from './api';
 
 const Dashboard = props => {
   const {navigation, userData} = props;
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const getData = async () => {
+      await UpdatesAPI(setData);
+    };
+    getData();
+  }, []);
+
+  const renderUpdates = data => {
+    return <UpdateCard data={data.item} />;
+  };
+
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
@@ -55,7 +69,7 @@ const Dashboard = props => {
             color={Colors.LBLUE}
           />
           <MenuButton
-            icon="qrcode"
+            icon="building"
             onPress={() =>
               navigation.navigate('DashboardStack', {
                 screen: 'Visits',
@@ -74,11 +88,7 @@ const Dashboard = props => {
             text="Status"
             color={Colors.LORANGE}
           />
-          <MenuButton
-            icon="people-arrows"
-            text="Cases"
-            color={Colors.LYELLOW}
-          />
+          <MenuButton icon="qrcode" text="Code" color={Colors.LYELLOW} />
         </View>
       </View>
       <View
@@ -99,7 +109,7 @@ const Dashboard = props => {
           ]}>
           Updates
         </Text>
-        <ScrollView
+        {/* <ScrollView
           contentContainerStyle={{
             paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
           }}
@@ -107,7 +117,17 @@ const Dashboard = props => {
           <UpdateCard contact="Limited" color={Colors.LYELLOW} />
           <UpdateCard contact="Broad" color={Colors.LRED} />
           <UpdateCard contact="Extensive" color={Colors.LORANGE} />
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+          data={data?.data}
+          renderItem={renderUpdates}
+          keyExtractor={item => item._id}
+          contentContainerStyle={{
+            paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
+          }}
+          // style={styles.scroll}
+          horizontal
+        />
       </View>
     </View>
   );

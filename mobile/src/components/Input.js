@@ -15,13 +15,13 @@ export default Input = props => {
   } = props;
 
   const [state, setState] = React.useState(false);
-  const check = state == true ? Colors.LGREEN : Colors.LRED;
-  const icon = state == true ? 'check-circle' : 'times-circle';
+  const check = state === true ? Colors.LGREEN : Colors.LRED;
+  const icon = state === true ? 'check-circle' : 'times-circle';
   const ifLogin = login ? 0 : 2;
-  const border = value == '' ? 0 : ifLogin;
+  const border = value === '' ? 0 : ifLogin;
 
   const RenderIcon = () => {
-    if (value != '') {
+    if (value !== '') {
       return (
         <FontAwesome5
           name={icon}
@@ -62,6 +62,8 @@ export default Input = props => {
           value={value}
           showSoftInputOnFocus={showSoftInputOnFocus ? false : true}
           onChangeText={onChangeText}
+          autoCapitalize="none"
+          autoCorrect={false}
           style={[
             Defaults.Input,
             {flex: 1, marginBottom: 0, height: Defaults.Input[0].height - 4},

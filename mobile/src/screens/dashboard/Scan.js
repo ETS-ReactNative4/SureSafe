@@ -5,8 +5,8 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding, Icons} from '../../styles';
-import {Header, Alert} from '../../components';
+import {Colors, Fonts, Padding, Icons} from '_styles';
+import {Header, Alert} from '_components';
 import {ScanApi} from './api';
 
 const Scan = props => {

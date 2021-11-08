@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Modal} from 'react-native';
 
-import {Colors, Fonts} from '../styles';
+import {Colors, Fonts} from '_styles';
 
 export default Alert = props => {
   const {title, info, color, status, setStatus} = props;

@@ -15,20 +15,20 @@ export const Dashboard = () => {
           <OverviewItem
             title="Total Cases"
             value="24k"
-            color="bg-main"
+            color="bg-orange-200"
             icon="fas fa-users"
           />
           <OverviewItem
             title="Recovered"
             value="12k"
-            color="bg-green-200"
+            color="bg-lightblue"
             icon="fas fa-heartbeat"
           />
           <OverviewItem
-            title="Suspected"
+            title="Infected"
             value="7k"
             color="bg-yellow-200"
-            icon="fas fa-exclamation"
+            icon="fas fa-disease"
           />
           <OverviewItem
             title="Deaths"
@@ -37,33 +37,32 @@ export const Dashboard = () => {
             icon="fas fa-skull-crossbones"
           />
         </Div>
-        <H4 className={`text-fonts-100 mt-5`}>Analytics</H4>
         <Div
           className={`w-full mt-3 grid gap-4 phone:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4`}
         >
           <OverviewItem
-            title="QR Scans"
+            title="Exposed"
             value="24k"
-            color="bg-main"
-            icon="fas fa-qrcode"
+            color="bg-orange-200"
+            icon="fas fa-exclamation"
           />
           <OverviewItem
-            title="Active Geo"
+            title="Vaccinated"
             value="12k"
-            color="bg-main"
-            icon="fas fa-heartbeat"
+            color="bg-lightblue"
+            icon="fas fa-syringe"
           />
           <OverviewItem
-            title="Shared Visits"
+            title="Users"
             value="7k"
-            color="bg-main"
-            icon="fas fa-landmark"
+            color="bg-yellow-200"
+            icon="fas fa-user"
           />
           <OverviewItem
-            title="Shared Tracing"
+            title="Tracers"
             value="5k"
-            color="bg-main"
-            icon="fas fa-map-marker-alt"
+            color="bg-lightred"
+            icon="fas fa-user-nurse"
           />
         </Div>
         <Div

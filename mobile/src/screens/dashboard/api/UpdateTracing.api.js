@@ -1,6 +1,6 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default UpdateTracingAPI = async userID => {
+export const UpdateTracingAPI = async userID => {
   const options = {
     method: 'GET',
     headers: {

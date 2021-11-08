@@ -28,6 +28,7 @@
     "helmet": "^4.5.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
+    "localtunnel": "^2.0.1",
     "log4js": "^6.3.0",
     "moment": "^2.29.1",
     "mongoose": "^5.12.6",

@@ -2,12 +2,18 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "_assets": ["./src/assets"],
-      "_apis": ["./src/apis"],
+      "*": ["./src/*"],
+      "_assets/*": ["./src/assets/*"],
+      "_hooks": ["./src/hooks"],
+      "_components": ["./src/components"],
+      "_fixtures": ["./src/utils"],
+      "_constants": ["./src/constants"],
       "_screens": ["./src/screens"],
+      "_redux": ["./src/redux"],
+      "_services": ["./src/services"],
+      "_navigation": ["./src/routes"],
       "_styles": ["./src/styles"],
-      "_routes": ["src/routes"],
-      "_components": ["./src/components"]
+      "redux": ["./node_modules/redux"]
     }
   }
 }

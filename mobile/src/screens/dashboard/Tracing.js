@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '../../styles';
-import {ScanCard, Header} from '../../components';
+import {Colors, Fonts, Padding} from '_styles';
+import {ScanCard, Header} from '_components';
 import Trace from './components/Trace';
 
 const Tracing = props => {

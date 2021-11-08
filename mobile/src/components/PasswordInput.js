@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {Defaults, Fonts, Colors} from '../styles';
+import {Defaults, Fonts, Colors} from '_styles';
 
 export default PasswordInput = props => {
   const {

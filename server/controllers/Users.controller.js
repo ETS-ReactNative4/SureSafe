@@ -72,6 +72,10 @@ exports.userCreate = async (req, res) => {
       email: req.body.email.toLowerCase(),
       password: hashedPassword,
       agreement: req.body.agreement,
+      userState: {
+        status: "Covid Free",
+        exposure: "Not Exposed",
+      },
     });
 
     const saveUser = await user.save();

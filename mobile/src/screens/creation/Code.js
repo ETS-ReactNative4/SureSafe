@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Fonts, Padding, Colors, Defaults, Margin} from '../../styles';
-import {Button, Alert} from '../../components';
+import {Fonts, Padding, Colors, Defaults, Margin} from '_styles';
+import {Button, Alert} from '_components';
 import {Title, NumberButton, CodeInput} from './components';
 import {CodeAPI} from './api';
-import {getKeys} from '../../utils';
-import {setLocalStorage} from '../../redux/actions';
+import {getKeys} from '_utils';
+import {setLocalStorage} from '_redux';
 
 const Code = props => {
   const {navigation, userID, dispatch} = props;
@@ -25,8 +25,8 @@ const Code = props => {
   const [btnStatus, setBtnStatus] = useState(false);
 
   useEffect(() => {
-    if (alert == false) {
-      if (success == true) {
+    if (alert === false) {
+      if (success === true) {
         setBtnStatus(false);
         const GET = async () => {
           const DATA = await getKeys();
@@ -131,7 +131,7 @@ const Code = props => {
           <NumberButton number={9} onPress={() => setCode(code + '9')} />
         </View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1}}></View>
+          <View style={{flex: 1}} />
           <NumberButton
             number={0}
             margin={true}

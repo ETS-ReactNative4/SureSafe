@@ -2,9 +2,9 @@ import React from 'react';
 import {Text, View, Platform} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '../../styles';
+import {Colors, Fonts, Padding} from '_styles';
 import {UserInfo, DataShare, Settings} from './components';
-import {removeLocalStorage} from '../../redux/actions';
+import {removeLocalStorage} from '_redux';
 
 const Profile = props => {
   const {navigation, state, dispatch} = props;
@@ -15,6 +15,8 @@ const Profile = props => {
       routes: [{name: 'Creation'}],
     });
   };
+
+  console.log('state', state);
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-import {Fonts, Padding, Colors, Margin} from '../../../styles';
+import {Fonts, Padding, Colors, Margin} from '_styles';
 
 export default Title = props => {
   const align = props.center == true ? 'center' : 'left';

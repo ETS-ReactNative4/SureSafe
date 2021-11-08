@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Platform} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {Colors, Fonts} from '../../../styles';
+import {Colors, Fonts} from '_styles';
 
 export default MunicipalityCard = props => {
   const {municipality, recovered, suspected, deaths, total} = props;

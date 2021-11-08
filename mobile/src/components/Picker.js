@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Defaults, Colors, Fonts} from '../styles';
+import {Defaults, Colors, Fonts} from '_styles';
 import Data from '../assets/json/IlocosSur.json';
 export default Picker = props => {
   const {text, value, barangay, setValue, municipality} = props;

@@ -3,6 +3,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import {Platform} from 'react-native';
 
 import Create from './Create';
 import Login from './Login';
@@ -14,12 +15,12 @@ const Creation = createStackNavigator();
 
 const options = {
   cardStyleInterpolator:
-    Platform.OS == 'ios'
+    Platform.OS === 'ios'
       ? CardStyleInterpolators.forVerticalIOS
       : CardStyleInterpolators.forFadeFromBottomAndroid,
 };
 
-export default CreationStack = () => {
+const CreationStack = () => {
   return (
     <Creation.Navigator headerMode="none">
       <Creation.Screen name="Create" component={Create} options={options} />
@@ -34,3 +35,5 @@ export default CreationStack = () => {
     </Creation.Navigator>
   );
 };
+
+export default CreationStack;

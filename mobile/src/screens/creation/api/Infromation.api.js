@@ -1,7 +1,8 @@
-import {Colors} from '../../../styles';
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default InformationAPI = async (
+import {Colors} from '_styles';
+
+export const InformationAPI = async (
   userID,
   firstName,
   lastName,

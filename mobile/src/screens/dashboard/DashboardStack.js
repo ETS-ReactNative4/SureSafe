@@ -3,8 +3,8 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import {Platform} from 'react-native';
 
-import Dashboard from './Dashboard';
 import Tracing from './Tracing';
 import Scan from './Scan';
 import Logs from './Logs';
@@ -19,7 +19,7 @@ const options = {
       : CardStyleInterpolators.forFadeFromBottomAndroid,
 };
 
-export default DashboardStack = () => {
+const DashboardStack = () => {
   return (
     <Dash.Navigator headerMode="none">
       <Dash.Screen name="Tracing" component={Tracing} options={options} />
@@ -29,3 +29,5 @@ export default DashboardStack = () => {
     </Dash.Navigator>
   );
 };
+
+export default DashboardStack;

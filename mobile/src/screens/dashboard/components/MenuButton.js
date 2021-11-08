@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts, Sizes} from '../../../styles';
+import {Colors, Fonts, Sizes} from '_styles';
 
 export default MenuButton = props => {
   const {onPress, icon, text, color} = props;

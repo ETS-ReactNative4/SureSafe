@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Fonts, Padding, Colors, Defaults} from '../../../styles';
+import {Fonts, Padding, Colors, Defaults} from '_styles';
 
 export default Number = props => {
   const {number, onPress, icons, margin} = props;

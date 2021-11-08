@@ -1,6 +1,6 @@
-import {API} from '../constant';
+import {API} from '_constants';
 
-export default userData = async (userID, token) => {
+export const userData = async (userID, token) => {
   const options = {
     method: 'GET',
     headers: {

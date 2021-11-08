@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts} from '../styles';
+import {Colors, Fonts} from '_styles';
 
 export default Header = props => {
   const {style, navigation, title, info} = props;
@@ -29,7 +29,7 @@ export default Header = props => {
           <FontAwesome5 name={'info'} size={20} color={Colors.LGREEN} />
         </TouchableOpacity>
       ) : (
-        <View style={styles.info}></View>
+        <View style={styles.info} />
       )}
     </View>
   );

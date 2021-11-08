@@ -1,10 +1,10 @@
 import validator from 'validator';
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-import {Colors} from '../../../styles';
-import {setUserID} from '../../../redux/actions';
+import {Colors} from '_styles';
+import {setUserID} from '_redux';
 
-export default CreateAPI = async (
+export const CreateAPI = async (
   email,
   password,
   confirm,
@@ -72,6 +72,7 @@ export default CreateAPI = async (
   } else {
     const response = await fetch(`${API}/users/create`, options);
     const resData = await response.json();
+    console.log(response);
 
     if (response.status == 201) {
       setAlertTitle(resData.title);

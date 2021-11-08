@@ -1,7 +1,7 @@
 import Geolocation from 'react-native-geolocation-service';
 
 export const useGeolocation = async () => {
-  const data = Geolocation.getCurrentPosition(
+  let data = Geolocation.getCurrentPosition(
     position => {
       data = position;
     },

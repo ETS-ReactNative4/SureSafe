@@ -1,6 +1,6 @@
-import {API} from '../../../constant';
+import {API} from '_constants';
 
-export default TracingAPI = async (userID, geolocation) => {
+export const TracingAPI = async (userID, geolocation) => {
   const options = {
     method: 'POST',
     headers: {

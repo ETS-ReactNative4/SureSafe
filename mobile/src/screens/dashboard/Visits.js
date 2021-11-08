@@ -2,8 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import {connect} from 'react-redux';
 
-import {Colors, Padding} from '../../styles';
-import {VisitsCard, Header} from '../../components';
+import {Colors, Padding} from '_styles';
+import {VisitsCard, Header} from '_components';
 import {VisitsApi} from './api';
 import {InfoCard, Filters} from './components';
 

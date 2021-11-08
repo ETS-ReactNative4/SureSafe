@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Colors, Fonts} from '../../../styles';
+import {Colors, Fonts} from '_styles';
 
 export default NotificationCard = props => {
   const {boxColor, iconColor, icon, title, info, time} = props;

@@ -25,7 +25,7 @@ const hasPermissionIOS = async () => {
 
   if (status === 'disabled') {
     Alert.alert(
-      `Turn on Location Services to allow "${appConfig.displayName}" to determine your location.`,
+      'Turn on Location Services to allow SureSafe to determine your location.',
       '',
       [
         {text: 'Go to Settings', onPress: openSetting},
