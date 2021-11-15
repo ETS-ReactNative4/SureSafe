@@ -80,21 +80,21 @@ exports.getVisits = async (req, res) => {
     const dateToday = new Date();
 
     const user = await Users.findById(userID);
-    let arr = [];
-    const { Visits } = user;
-    if (filter == "Today") {
-      for (let i = 0; i < Visits.length; i++) {
-        const visitDate = new Date(Visits[i].visitDate);
-        if (
-          visitDate.toString().substr(0, 15) ==
-          dateToday.toString().substr(0, 15)
-        ) {
-          arr.push(Visits[i]);
-        }
-      }
-    } else if (filter == "All") {
-      arr = Visits;
-    }
+    // let arr = [];
+    // const { Visits } = user;
+    // if (filter == "Today") {
+    //   for (let i = 0; i < Visits.length; i++) {
+    //     const visitDate = new Date(Visits[i].visitDate);
+    //     if (
+    //       visitDate.toString().substr(0, 15) ==
+    //       dateToday.toString().substr(0, 15)
+    //     ) {
+    //       arr.push(Visits[i]);
+    //     }
+    //   }
+    // } else if (filter == "All") {
+    //   arr = Visits;
+    // }
 
     const fullAddress = `${capitalize.capitalize(
       user?.barangay
@@ -102,7 +102,7 @@ exports.getVisits = async (req, res) => {
     const fullName = `${user?.firstName} ${user?.lastName}`;
 
     const data = {
-      Visits: arr,
+      Visits: user.Visits,
       address: fullAddress,
       name: fullName,
       total: user?.Visits.length,

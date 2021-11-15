@@ -10,10 +10,25 @@ const UsersSchema = new Schema({
   municipality: { type: String, default: "" },
   barangay: { type: String, default: "" },
   number: { type: Number, default: "" },
-  lastShare: {
-    logs: { type: String, default: "None" },
-    visits: { type: String, default: "None" },
-  },
+  role: { type: String },
+  lastLogs: { type: String, default: "None" },
+  lastVisits: { type: String, default: "None" },
+  notifications: [
+    {
+      clicked: { type: Boolean },
+      title: { type: String },
+      date: { type: Date },
+      status: { type: String },
+      permission: { type: Boolean },
+      data: {
+        userID: { type: String },
+        logDate: { type: Date },
+        status: { type: String },
+        exposure: { type: String },
+        time: { type: Number },
+      },
+    },
+  ],
   verify: {
     code: { type: Number },
     time: { type: Date },
@@ -50,6 +65,23 @@ const UsersSchema = new Schema({
         latitude: { type: String },
       },
       time: { type: Number },
+    },
+  ],
+  sharedLogs: [
+    {
+      userID: { type: String },
+      logDate: { type: Date },
+      status: { type: String },
+      exposure: { type: String },
+      time: { type: Number },
+    },
+  ],
+  sharedVisits: [
+    {
+      visitDate: { type: Date },
+      estabID: { type: String },
+      estabName: { type: String },
+      estabAddress: { type: String },
     },
   ],
 });

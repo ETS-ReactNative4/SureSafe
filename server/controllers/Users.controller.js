@@ -1,4 +1,7 @@
 const Users = require("../models/Users.model");
+const Tracing = require("../models/Tracing.model");
+const Data = require("../models/Data.model");
+const Cases = require("../models/Cases.model");
 const Joi = require("@hapi/joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -76,6 +79,7 @@ exports.userCreate = async (req, res) => {
         status: "Covid Free",
         exposure: "Not Exposed",
       },
+      role: "User",
     });
 
     const saveUser = await user.save();
@@ -387,6 +391,7 @@ exports.getUser = async (req, res) => {
       barangay: brgy,
       number: `+63${number}`,
       email: email.toLowerCase(),
+      role: "Admin",
     };
 
     return res.status(200).json({
@@ -403,4 +408,90 @@ exports.getUser = async (req, res) => {
       statusCode: 400,
     });
   }
+};
+
+exports.changeRole = async (req, res) => {
+  try {
+    const { _id, role } = req.body;
+    const updateUser = await Users.updateOne(
+      { _id },
+      {
+        role,
+      }
+    );
+    if (updateUser) {
+      return res.status(201).send({
+        title: `Changed Role`,
+        message: `${_id} is now ${role}`,
+        statusCode: 201,
+        data: updateUser,
+      });
+    }
+  } catch (err) {}
+};
+
+exports.getNotifications = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const findUser = await Users.findOne({ _id: userID });
+    if (findUser) {
+      return res.status(201).send({
+        title: `Retrived Notifications`,
+        message: `Retrived Notifications`,
+        statusCode: 201,
+        data: findUser.notifications,
+      });
+    }
+  } catch (err) {}
+};
+
+exports.getStatus = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const findUser = await Users.findOne({ _id: userID });
+    const getData = await Data.find();
+    const getCases = await Cases.find();
+    const getUsers = await Users.find();
+    const getTracing = await Tracing.find();
+    let infected = 0;
+    let exposed = 0;
+    let recovered = 0;
+    let potential = 0;
+    let geotracing = getTracing.length;
+    let users = getUsers.length;
+    for (let i = 0; i < getCases.length; i++) {
+      if (getCases[i].status === "Infected") {
+        infected = 1 + infected;
+      } else if (getCases[i].status === "Exposed") {
+        exposed = 1 + exposed;
+      }
+    }
+    for (let i = 0; i < getData.length; i++) {
+      if (getData[i].statusType === "Potential") {
+        potential = 1 + potential;
+      } else if (getCases[i].statusType === "Recovered") {
+        recovered = 1 + recovered;
+      }
+    }
+
+    return res.status(201).send({
+      title: `Retrived Status`,
+      message: `Retrived Status`,
+      statusCode: 201,
+      data: {
+        userState: findUser.userState,
+        infected,
+        exposed,
+        recovered,
+        potential,
+        geotracing,
+        users,
+        total: getCases.length,
+        logs: findUser.Logs.length,
+        visits: findUser.Visits.length,
+        sharedLogs: findUser.sharedLogs.length,
+        sharedVisits: findUser.sharedVisits.length,
+      },
+    });
+  } catch (err) {}
 };

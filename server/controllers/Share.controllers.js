@@ -48,6 +48,26 @@ exports.shareLogs = async (req, res) => {
             });
             await newData.save();
             totalExposed = 1 + totalExposed;
+            await Users.updateOne(
+              { _id: userLogs[i].userID },
+              {
+                $push: {
+                  notifications: {
+                    clicked: false,
+                    title: "Exposed",
+                    date: new Date(),
+                    permission: true,
+                    data: {
+                      userID: userData._id,
+                      logDate: userLogs[i].logDate,
+                      status: status,
+                      exposure: "None",
+                      time: userLogs[i].time,
+                    },
+                  },
+                },
+              }
+            );
           } else {
             const newData = new Data({
               ...config,
@@ -55,6 +75,26 @@ exports.shareLogs = async (req, res) => {
             });
             await newData.save();
             totalPotential = 1 + totalPotential;
+            await Users.updateOne(
+              { _id: userLogs[i].userID },
+              {
+                $push: {
+                  notifications: {
+                    clicked: false,
+                    title: "Potential",
+                    date: new Date(),
+                    permission: false,
+                    data: {
+                      userID: userData._id,
+                      logDate: userLogs[i].logDate,
+                      status: status,
+                      exposure: "None",
+                      time: userLogs[i].time,
+                    },
+                  },
+                },
+              }
+            );
           }
         } else if (status === "Exposed") {
           if (parseInt(userLogs[i].time) >= 5) {
@@ -64,6 +104,26 @@ exports.shareLogs = async (req, res) => {
             });
             await newData.save();
             totalPotential = 1 + totalPotential;
+            await Users.updateOne(
+              { _id: userLogs[i].userID },
+              {
+                $push: {
+                  notifications: {
+                    clicked: false,
+                    title: "Potential",
+                    date: new Date(),
+                    permission: false,
+                    data: {
+                      userID: userData._id,
+                      logDate: userLogs[i].logDate,
+                      status: status,
+                      exposure: "None",
+                      time: userLogs[i].time,
+                    },
+                  },
+                },
+              }
+            );
           }
         }
       }
@@ -91,6 +151,18 @@ exports.shareLogs = async (req, res) => {
         });
         await newCase.save();
       }
+      await Users.updateOne(
+        { _id: userID },
+        {
+          lastLogs: new Date(),
+          Logs: [],
+          sharedLogs: [...user.Logs, ...user?.sharedLogs],
+          userState: {
+            status: status,
+            exposure: exposure,
+          },
+        }
+      );
     }
 
     return res.status(201).send({

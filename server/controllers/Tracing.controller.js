@@ -167,24 +167,30 @@ const updateLogs = async (UID, LOGS) => {
   let updatedData = [];
   if (findUser.Logs.length === 0) {
     updatedData.push({
-      userID: LOGS.userId,
+      userID: LOGS.userID,
       logDate: LOGS.logDate,
       time: LOGS.time,
+      status: LOGS.status,
+      exposure: LOGS.exposure,
     });
   } else {
     for (let i = 0; i < findUser.Logs.length; i++) {
       const userLogs = findUser.Logs[i];
-      if (LOGS.userId === userLogs.userId) {
+      if (LOGS.userID === userLogs.userID) {
         updatedData.push({
-          userID: userLogs.userId,
+          userID: userLogs.userID,
           logDate: userLogs.logDate,
           time: userLogs.time + LOGS.time,
+          status: userLogs.status,
+          exposure: userLogs.exposure,
         });
       } else {
         updatedData.push({
-          userID: LOGS.userId,
+          userID: LOGS.userID,
           logDate: LOGS.logDate,
           time: LOGS.time,
+          status: LOGS.status,
+          exposure: LOGS.exposure,
         });
       }
     }
@@ -237,11 +243,11 @@ exports.updateTracing = async (req, res) => {
           updatedData.push(update);
           await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
         } else {
-          // await updateLogs(_id, realTimeLogs[i]);
+          await updateLogs(_id, realTimeLogs[i]);
           await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
         }
       } else {
-        // await updateLogs(_id, realTimeLogs[i]);
+        await updateLogs(_id, realTimeLogs[i]);
         await Users.updateOne({ _id: _id }, { realTimeLogs: updatedData });
       }
     }

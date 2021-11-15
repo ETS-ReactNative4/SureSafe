@@ -1,12 +1,56 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
 
 import {Colors, Fonts, Margin, Padding} from '_styles';
 import {Button} from '_components';
-import {MunicipalityCard} from './components';
+import {StatusAPI} from './api';
 
-export default Status = ({navigation}) => {
+const Status = props => {
+  const {navigation, userData} = props;
+  const [data, setData] = useState({
+    data: {
+      userState: {
+        status: 'N/A',
+        exposure: 'N/A',
+      },
+      infected: 0,
+      exposed: 0,
+      recovered: 0,
+      potential: 0,
+      geotracing: 0,
+      users: 0,
+      total: 0,
+      logs: 0,
+      visits: 0,
+      sharedLogs: 0,
+      sharedVisits: 0,
+    },
+  });
+
+  const {
+    userState,
+    infected,
+    exposed,
+    recovered,
+    potential,
+    geotracing,
+    users,
+    total,
+    logs,
+    visits,
+    sharedLogs,
+    sharedVisits,
+  } = data?.data;
+
+  useEffect(() => {
+    const getData = async () => {
+      await StatusAPI(userData, setData);
+    };
+    getData();
+  }, [navigation, userData]);
+
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
@@ -24,26 +68,26 @@ export default Status = ({navigation}) => {
               />
             </View>
             <View style={{justifyContent: 'center', marginLeft: 12}}>
-              <Text style={Fonts.H3}>50,076</Text>
-              <Text style={Fonts.LIGHT}>
-                Total cases in Ilocos sur as of today.
-              </Text>
+              <Text style={Fonts.H3}>{total}</Text>
+              <Text style={Fonts.LIGHT}>Total cases in suresafe</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={styles.recovered}>
-              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Recovered</Text>
-              <Text style={[Fonts.H4, {color: Colors.LGREEN}]}>3,057</Text>
+              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Potential</Text>
+              <Text style={[Fonts.H4, {color: Colors.LGREEN}]}>
+                {potential}
+              </Text>
             </View>
 
             <View style={styles.suspected}>
-              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Suspected</Text>
-              <Text style={[Fonts.H4, {color: Colors.LYELLOW}]}>3,057</Text>
+              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Exposed</Text>
+              <Text style={[Fonts.H4, {color: Colors.LYELLOW}]}>{exposed}</Text>
             </View>
 
             <View style={styles.deaths}>
-              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Deaths</Text>
-              <Text style={[Fonts.H4, {color: Colors.LRED}]}>3,057</Text>
+              <Text style={[Fonts.LIGHT, {width: '100%'}]}>Infected</Text>
+              <Text style={[Fonts.H4, {color: Colors.LRED}]}>{infected}</Text>
             </View>
           </View>
         </View>
@@ -55,24 +99,18 @@ export default Status = ({navigation}) => {
                 styles.usersBox,
                 {height: 168, justifyContent: 'flex-start'},
               ]}>
-              <Text style={[Fonts.H4, {color: Colors.LGREEN, marginBottom: 5}]}>
-                Status
+              <View style={[styles.usersIcon, {marginBottom: 10}]}>
+                <FontAwesome5
+                  name={'street-view'}
+                  solid
+                  size={25}
+                  color={Colors.SECONDARY}
+                />
+              </View>
+              <Text style={[Fonts.H4, {marginBottom: 5}]}>{recovered}</Text>
+              <Text style={[Fonts.LIGHT]}>
+                Total recovered using the SureSafe application.
               </Text>
-              <Text style={[Fonts.LIGHT, {color: Colors.GREY}]}>
-                You can change your status using a access code given by Admin.
-              </Text>
-              <Button
-                text="Change"
-                status={false}
-                backgroundColor={Colors.LBLUE}
-                color={Colors.PRIMARY}
-                styles={{
-                  width: '100%',
-                  height: 50,
-                  borderRadius: 15,
-                  marginTop: 'auto',
-                }}
-              />
             </View>
           </View>
 
@@ -88,7 +126,7 @@ export default Status = ({navigation}) => {
                   />
                 </View>
                 <View style={{justifyContent: 'center', marginLeft: 8}}>
-                  <Text style={Fonts.H4}>120,304</Text>
+                  <Text style={Fonts.H4}>{geotracing}</Text>
                   <Text
                     style={[Fonts.LIGHT, {fontSize: Fonts.LIGHT.fontSize - 2}]}>
                     Geo Tracing active
@@ -108,10 +146,10 @@ export default Status = ({navigation}) => {
                   />
                 </View>
                 <View style={{justifyContent: 'center', marginLeft: 8}}>
-                  <Text style={Fonts.H4}>120,304</Text>
+                  <Text style={Fonts.H4}>{users}</Text>
                   <Text
                     style={[Fonts.LIGHT, {fontSize: Fonts.LIGHT.fontSize - 2}]}>
-                    QR Codes Scans
+                    Total suresafe users
                   </Text>
                 </View>
               </View>
@@ -125,58 +163,131 @@ export default Status = ({navigation}) => {
             backgroundColor: Colors.PRIMARY,
             paddingTop: 20,
             paddingBottom: 100,
+            paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
           },
         ]}>
-        <Text
-          style={[
-            Fonts.H3,
-            {
-              marginBottom: 15,
-              paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
-            },
-          ]}>
-          Municipality
-        </Text>
-        <ScrollView
-          horizontal
-          contentContainerStyle={{
-            paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
-          }}>
-          <MunicipalityCard
-            municipality="Caoayan"
-            recovered={450}
-            suspected={650}
-            deaths={14}
-            total={1014}
-          />
-          <MunicipalityCard
-            municipality="Bantay"
-            recovered={450}
-            suspected={650}
-            deaths={14}
-            total={1014}
-          />
-          <MunicipalityCard
-            municipality="Vigan"
-            recovered={450}
-            suspected={650}
-            deaths={14}
-            total={1014}
-          />
-          <MunicipalityCard
-            municipality="San Vicente"
-            recovered={450}
-            suspected={650}
-            deaths={14}
-            total={1014}
-          />
-        </ScrollView>
+        <View style={styles.statusBox}>
+          <View style={styles.myStatus}>
+            <View style={{marginRight: 'auto'}}>
+              <Text style={[Fonts.H4, {color: Colors.PRIMARY}]}>
+                {userState?.status}
+              </Text>
+              <Text style={[Fonts.LIGHT, {color: Colors.PRIMARY}]}>
+                {userState?.exposure}
+              </Text>
+            </View>
+            <FontAwesome5
+              name={'heartbeat'}
+              solid
+              size={40}
+              color={Colors.SECONDARY}
+            />
+          </View>
+          <View
+            style={{
+              padding: 10,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <View style={styles.statusNumbers}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{justifyContent: 'center', marginLeft: 8}}>
+                    <Text style={Fonts.H4}>{logs}</Text>
+                    <Text
+                      style={[
+                        Fonts.LIGHT,
+                        {fontSize: Fonts.LIGHT.fontSize - 2},
+                      ]}>
+                      Your logs now
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.statusNumbers}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{justifyContent: 'center', marginLeft: 8}}>
+                    <Text style={Fonts.H4}>{visits}</Text>
+                    <Text
+                      style={[
+                        Fonts.LIGHT,
+                        {fontSize: Fonts.LIGHT.fontSize - 2},
+                      ]}>
+                      Your visits now
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <View style={styles.statusNumbers}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{justifyContent: 'center', marginLeft: 8}}>
+                    <Text style={Fonts.H4}>{sharedLogs}</Text>
+                    <Text
+                      style={[
+                        Fonts.LIGHT,
+                        {fontSize: Fonts.LIGHT.fontSize - 2},
+                      ]}>
+                      Logs you shared
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.statusNumbers}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{justifyContent: 'center', marginLeft: 8}}>
+                    <Text style={Fonts.H4}>{sharedVisits}</Text>
+                    <Text
+                      style={[
+                        Fonts.LIGHT,
+                        {fontSize: Fonts.LIGHT.fontSize - 2},
+                      ]}>
+                      Visits you shared
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  statusNumbers: {
+    backgroundColor: Colors.PRIMARY,
+    borderRadius: 20,
+    overflow: 'hidden',
+    padding: 15,
+    marginBottom: 10,
+    justifyContent: 'center',
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  statusBox: {
+    height: 250,
+    width: '100%',
+    backgroundColor: Colors.SECONDARY,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  myStatus: {
+    width: '100%',
+    height: 80,
+    backgroundColor: Colors.MAIN,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    flexDirection: 'row',
+  },
   casesBox: {
     backgroundColor: Colors.PRIMARY,
     borderRadius: 20,
@@ -242,3 +353,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const mapStatetoProps = state => {
+  return {
+    userData: state,
+  };
+};
+
+export default connect(mapStatetoProps)(Status);

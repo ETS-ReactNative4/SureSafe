@@ -9,6 +9,7 @@ import Tracing from './Tracing';
 import Scan from './Scan';
 import Logs from './Logs';
 import Visits from './Visits';
+import AddCase from './AddCase';
 
 const Dash = createStackNavigator();
 
@@ -26,6 +27,7 @@ const DashboardStack = () => {
       <Dash.Screen name="Scan" component={Scan} options={options} />
       <Dash.Screen name="Logs" component={Logs} options={options} />
       <Dash.Screen name="Visits" component={Visits} options={options} />
+      <Dash.Screen name="AddCase" component={AddCase} options={options} />
     </Dash.Navigator>
   );
 };

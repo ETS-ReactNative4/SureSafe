@@ -1,5 +1,5 @@
 import UserInfo from './UserInfo';
-import DataShare from './DataShare';
+export * from './DataShare';
 import Settings from './Settings';
 
-export {UserInfo, DataShare, Settings};
+export {UserInfo, Settings};
