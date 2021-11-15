@@ -30,12 +30,12 @@ const Logs = props => {
       <View style={[Padding.CONTAINER]}>
         <Header navigation={navigation} title="Logs" info={false} />
         <InfoCard
-          name={data.data?.name}
-          address={data.data?.address}
+          name={data.data?.name ? data.data?.name : 'Your Name'}
+          address={data.data?.address ? data.data?.address : 'Your Address'}
           title="Total Logs"
-          total={data.data?.total}
+          total={data.data?.total ? data.data?.total : '0'}
         />
-        <Filters />
+        {/* <Filters /> */}
       </View>
       <View style={styles.list}>
         <FlatList

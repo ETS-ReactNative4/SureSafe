@@ -7,15 +7,14 @@ import {connect} from 'react-redux';
 
 import {Colors, Fonts, Padding, Icons} from '_styles';
 import {Header, Alert} from '_components';
-import {ScanAPI} from './api';
+import {ScanApi} from './api';
 
-const Scan = props => {
-  const {navigation, userID, route} = props;
+const AddCase = props => {
+  const {navigation, userID} = props;
   const [scan, setScan] = useState(true);
   const [light, setLight] = useState(false);
   const [camera, setCamera] = useState(true);
   const scanner = useRef();
-  console.log('route', route);
 
   const [success, setSuccess] = useState(false);
 
@@ -34,7 +33,7 @@ const Scan = props => {
   }, [alert]);
 
   const successRead = async e => {
-    await ScanAPI(
+    await ScanApi(
       userID,
       e.data,
       setAlert,
@@ -56,7 +55,7 @@ const Scan = props => {
         info={alertInfo}
         color={alertColor}
       />
-      <Header style={styles.header} navigation={navigation} title="Scan" />
+      <Header style={styles.header} navigation={navigation} title="Add Case" />
       {scan ? (
         <QRCodeScanner
           ref={scanner}
@@ -194,4 +193,4 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps)(Scan);
+export default connect(mapStatetoProps)(AddCase);

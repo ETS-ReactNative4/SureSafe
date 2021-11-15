@@ -41,7 +41,7 @@ const rootReducer = (state = initialState, action) => {
         token: action.payload.token,
         verified: action.payload.verified,
         loggedIN: action.payload.loggedIN,
-        userData: action.payload.userData,
+        userData: {...action.payload.userData},
       };
     case 'REMOVELOCALSTORAGE':
       useLocalStorage('ONBOARD', 'REMOVE');

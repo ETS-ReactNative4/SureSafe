@@ -16,4 +16,14 @@ router.post("/users/login", UsersControllers.logIn);
 
 router.get("/users/user/:userID", verify, UsersControllers.getUser);
 
+router.post("/users/change/role", verify, UsersControllers.changeRole);
+
+router.get(
+  "/users/notifications/:userID",
+  verify,
+  UsersControllers.getNotifications
+);
+
+router.get("/users/status/:userID", verify, UsersControllers.getStatus);
+
 module.exports = router;

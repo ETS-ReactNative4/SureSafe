@@ -5,18 +5,24 @@ import {connect} from 'react-redux';
 import {Colors, Fonts, Margin, Padding} from '_styles';
 
 import {MainButton, MenuButton, UpdateCard} from './components';
+import {Alert} from '_components';
 import {UpdatesAPI} from './api';
 
 const Dashboard = props => {
   const {navigation, userData} = props;
   const [data, setData] = useState({});
 
+  const [alert, setAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertInfo, setAlertInfo] = useState('');
+  const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+
   useEffect(() => {
     const getData = async () => {
       await UpdatesAPI(setData);
     };
     getData();
-  }, []);
+  }, [navigation]);
 
   const renderUpdates = data => {
     return <UpdateCard data={data.item} />;
@@ -34,6 +40,13 @@ const Dashboard = props => {
         <Text style={[Fonts.H5, {color: Colors.PRIMARY, marginBottom: 10}]}>
           Track people arround you
         </Text>
+        <Alert
+          status={alert}
+          setStatus={setAlert}
+          title={alertTitle}
+          info={alertInfo}
+          color={alertColor}
+        />
         <MainButton
           icon="street-view"
           title="Geo Tracing"
@@ -88,7 +101,25 @@ const Dashboard = props => {
             text="Status"
             color={Colors.LORANGE}
           />
-          <MenuButton icon="qrcode" text="Code" color={Colors.LYELLOW} />
+          <MenuButton
+            onPress={() => {
+              if (userData.role === 'User') {
+                setAlertTitle('Access Error');
+                setAlertInfo(
+                  'This functionality is only available for contact tracers.',
+                );
+                setAlertColor(Colors.LRED);
+                setAlert(true);
+              } else {
+                navigation.navigate('DashboardStack', {
+                  screen: 'AddCase',
+                });
+              }
+            }}
+            icon="qrcode"
+            text="Case"
+            color={Colors.LYELLOW}
+          />
         </View>
       </View>
       <View
@@ -97,6 +128,7 @@ const Dashboard = props => {
             backgroundColor: Colors.PRIMARY,
             paddingTop: 20,
             paddingBottom: 100,
+            height: '47%',
           },
         ]}>
         <Text

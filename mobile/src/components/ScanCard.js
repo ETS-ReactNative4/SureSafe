@@ -4,7 +4,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts, Margin, Sizes} from '_styles';
 
-export default ScanCard = ({item}) => {
+export default ScanCard = ({item, notif}) => {
   let userIdentification = item.userID.substring(
     item.userID.length - 4,
     item.userID.length,
@@ -32,17 +32,21 @@ export default ScanCard = ({item}) => {
               {item.status ? item.status : 'Covid Free'}
             </Text>
           </View>
-          <View style={styles.status}>
-            <Text
-              style={[
-                Fonts.H6,
-                {
-                  color: Colors.MAIN,
-                },
-              ]}>
-              {item.exposure}
-            </Text>
-          </View>
+          {notif ? (
+            <></>
+          ) : (
+            <View style={styles.status}>
+              <Text
+                style={[
+                  Fonts.H6,
+                  {
+                    color: Colors.MAIN,
+                  },
+                ]}>
+                {item.exposure}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
       <View style={styles.timeBox}>

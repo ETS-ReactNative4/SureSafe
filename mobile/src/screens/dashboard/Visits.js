@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {Colors, Padding} from '_styles';
 import {VisitsCard, Header} from '_components';
-import {VisitsApi} from './api';
+import {VisitsAPI} from './api';
 import {InfoCard, Filters} from './components';
 
 const Visits = props => {
@@ -15,16 +15,20 @@ const Visits = props => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await VisitsApi(userID, setData, filter);
+    await VisitsAPI(userID, setData, filter);
     setRefreshing(false);
   }, [userID, filter]);
-
+  console.log('data', data);
   useEffect(() => {
     const getData = async () => {
-      await VisitsApi(userID, setData, filter);
+      await VisitsAPI(userID, setData, filter);
     };
     getData();
   }, [userID, filter]);
+
+  const renderVisitCard = data => {
+    return <VisitsCard item={data?.item} />;
+  };
 
   return (
     <View style={[styles.visits]}>
@@ -36,12 +40,12 @@ const Visits = props => {
           title="Total Visits"
           total={data.data?.total ? data.data?.total : '0'}
         />
-        <Filters setFilter={setFilter} />
+        {/* <Filters setFilter={setFilter} /> */}
       </View>
       <View style={styles.list}>
         <FlatList
           data={data?.data?.Visits}
-          renderItem={VisitsCard}
+          renderItem={renderVisitCard}
           keyExtractor={item => item._id}
           contentContainerStyle={styles.containerScroll}
           style={styles.scroll}
