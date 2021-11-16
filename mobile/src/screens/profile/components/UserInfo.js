@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {Colors, Fonts} from '_styles';
 
 const UserInfo = props => {
-  const {userData} = props;
+  const {userData, data} = props;
   return (
     <View
       style={{
@@ -33,14 +33,11 @@ const UserInfo = props => {
           <FontAwesome5 name={'user'} solid size={25} color={Colors.PRIMARY} />
         </View>
         <View style={{justifyContent: 'center'}}>
-          <Text
-            style={
-              Fonts.H4
-            }>{`${userData?.firstName} ${userData?.lastName}`}</Text>
+          <Text style={Fonts.H4}>{`${data?.firstName} ${data?.lastName}`}</Text>
           <Text
             style={
               Fonts.LIGHT
-            }>{`${userData?.barangay}, ${userData?.municipality}`}</Text>
+            }>{`${data?.barangay}, ${data?.municipality}`}</Text>
         </View>
       </View>
     </View>

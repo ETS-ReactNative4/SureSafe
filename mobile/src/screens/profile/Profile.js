@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, Platform} from 'react-native';
 import {connect} from 'react-redux';
 
 import {Colors, Fonts, Padding} from '_styles';
 import {UserInfo, DataShare, Settings} from './components';
 import {removeLocalStorage} from '_redux';
+import {ProfileAPI} from './api';
 
 const Profile = props => {
   const {navigation, state, dispatch} = props;
+  const [data, setData] = useState({});
   const handleSignOut = () => {
     dispatch(removeLocalStorage());
     navigation.reset({
@@ -15,6 +17,14 @@ const Profile = props => {
       routes: [{name: 'Creation'}],
     });
   };
+  console.log('data', data);
+
+  useEffect(() => {
+    const getData = async () => {
+      await ProfileAPI(state, setData);
+    };
+    getData();
+  }, [state, navigation]);
 
   console.log('state', state);
   return (
@@ -23,8 +33,8 @@ const Profile = props => {
         <Text style={[Fonts.H2, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
           Profile
         </Text>
-        <UserInfo />
-        <DataShare />
+        <UserInfo data={data?.data} />
+        <DataShare data={data?.data} />
       </View>
 
       <View

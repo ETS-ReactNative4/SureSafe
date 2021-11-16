@@ -369,7 +369,7 @@ exports.logIn = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const findUser = await Users.findOne({ _id: req.params.userID });
-    const { firstName, lastName, municipality, barangay, number, email } =
+    const { firstName, lastName, municipality, barangay, number, email, role } =
       findUser;
 
     function capitalize(words) {
@@ -391,7 +391,7 @@ exports.getUser = async (req, res) => {
       barangay: brgy,
       number: `+63${number}`,
       email: email.toLowerCase(),
-      role: "Admin",
+      role: role,
     };
 
     return res.status(200).json({
@@ -494,4 +494,60 @@ exports.getStatus = async (req, res) => {
       },
     });
   } catch (err) {}
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const findUser = await Users.findOne({ _id: req.params.userID });
+    const {
+      _id,
+      firstName,
+      lastName,
+      municipality,
+      barangay,
+      number,
+      email,
+      role,
+      lastLogs,
+      lastVisits,
+    } = findUser;
+
+    function capitalize(words) {
+      var separateWord = words.toLowerCase().split(" ");
+      for (var i = 0; i < separateWord.length; i++) {
+        separateWord[i] =
+          separateWord[i].charAt(0).toUpperCase() +
+          separateWord[i].substring(1);
+      }
+      return separateWord.join(" ");
+    }
+
+    const brgy = capitalize(barangay.toLowerCase());
+    const muni = capitalize(municipality.toLowerCase());
+    const DATA = {
+      userID: _id,
+      firstName: firstName,
+      lastName: lastName,
+      municipality: muni,
+      barangay: brgy,
+      number: `+63${number}`,
+      email: email.toLowerCase(),
+      role: role,
+      lastVisits: lastVisits ? lastVisits : "None",
+      lastLogs: lastLogs ? lastLogs : "None",
+    };
+
+    return res.status(200).json({
+      message: "User data retrived!",
+      data: DATA,
+      statusCode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
 };

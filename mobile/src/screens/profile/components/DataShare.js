@@ -6,7 +6,7 @@ import QRCode from 'react-native-qrcode-svg';
 import {Colors, Fonts, Padding, Icons} from '_styles';
 import {Button} from '_components';
 
-const ModalQrCode = ({modalVisible, setModalVisible, mode}) => {
+const ModalQrCode = ({modalVisible, setModalVisible, mode, data}) => {
   return (
     <Modal transparent={true} animationType="fade" visible={modalVisible}>
       <View
@@ -38,7 +38,7 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode}) => {
             Please share this QR Code to contact tracers.
           </Text>
           <QRCode
-            value="617fd73254dd421b2c0c9074"
+            value={data?.userID}
             size={280}
             logo={Icons.sureSafeLogo}
             logoSize={70}
@@ -59,10 +59,13 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode}) => {
   );
 };
 
-export const DataShare = () => {
+export const DataShare = ({data}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState(false);
-
+  const lastLogs =
+    data?.lastLogs === 'None' ? 'N/A' : data?.lastLogs.substr(0, 15);
+  const lastVisits =
+    data?.lastVisits === 'None' ? 'N/A' : data?.lastVisits.substr(0, 15);
   return (
     <View
       style={{
@@ -77,6 +80,7 @@ export const DataShare = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         mode={mode}
+        data={data}
       />
       <TouchableOpacity
         onPress={() => {
@@ -97,7 +101,7 @@ export const DataShare = () => {
             marginRight: 'auto',
           }}>
           <Text style={Fonts.H5}>Share my Geo Tracing</Text>
-          <Text style={Fonts.LIGHT}>Last share: April, 20, 2021</Text>
+          <Text style={Fonts.LIGHT}>Last share: {lastLogs}</Text>
         </View>
         <FontAwesome5
           name={'chevron-right'}
@@ -131,7 +135,7 @@ export const DataShare = () => {
             marginRight: 'auto',
           }}>
           <Text style={Fonts.H5}>Share my Visits</Text>
-          <Text style={Fonts.LIGHT}>Last share: April, 20, 2021</Text>
+          <Text style={Fonts.LIGHT}>Last share: {lastVisits}</Text>
         </View>
         <FontAwesome5
           name={'chevron-right'}
