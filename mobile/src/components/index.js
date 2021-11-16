@@ -6,6 +6,7 @@ import Alert from './Alert';
 import ScanCard from './ScanCard';
 import Header from './Header';
 import VisitsCard from './VisitsCard';
+import PickerCustom from './PickerCustom';
 
 export {
   Input,
@@ -16,4 +17,5 @@ export {
   ScanCard,
   Header,
   VisitsCard,
+  PickerCustom,
 };
