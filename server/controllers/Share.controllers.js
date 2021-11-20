@@ -169,7 +169,9 @@ exports.shareLogs = async (req, res) => {
         {
           lastLogs: new Date(),
           Logs: [],
+          Visits: [],
           sharedLogs: [...user.Logs, ...user?.sharedLogs],
+          sharedVisits: [...user.Visits, ...user?.sharedVisits],
           userState: {
             status: status,
             exposure: exposure,
