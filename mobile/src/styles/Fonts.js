@@ -5,11 +5,14 @@ import {Dimensions} from 'react-native';
 
 let size = 0;
 const width = Dimensions.get('window').width;
+console.log('width', width);
 const height = Dimensions.get('window').height;
 if (width >= 411) {
   size = 5;
 } else if (width >= 390) {
   size = 3;
+} else if (width >= 360) {
+  size = 4;
 }
 
 export const TITLE = {

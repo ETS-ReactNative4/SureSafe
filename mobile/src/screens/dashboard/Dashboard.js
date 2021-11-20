@@ -9,7 +9,7 @@ import {Alert} from '_components';
 import {UpdatesAPI} from './api';
 
 const Dashboard = props => {
-  const {navigation, userData} = props;
+  const {navigation, userData, userID} = props;
   const [data, setData] = useState({});
 
   const [alert, setAlert] = useState(false);
@@ -19,7 +19,7 @@ const Dashboard = props => {
 
   useEffect(() => {
     const getData = async () => {
-      await UpdatesAPI(setData);
+      await UpdatesAPI(setData, userID);
     };
     getData();
   }, [navigation]);
@@ -103,7 +103,7 @@ const Dashboard = props => {
           />
           <MenuButton
             onPress={() => {
-              if (userData.role === 'User') {
+              if (data?.role === 'User') {
                 setAlertTitle('Access Error');
                 setAlertInfo(
                   'This functionality is only available for contact tracers.',
@@ -128,7 +128,7 @@ const Dashboard = props => {
             backgroundColor: Colors.PRIMARY,
             paddingTop: 20,
             paddingBottom: 100,
-            height: '47%',
+            height: data?.data?.length > 0 ? 'auto' : '47%',
           },
         ]}>
         <Text
@@ -141,15 +141,6 @@ const Dashboard = props => {
           ]}>
           Updates
         </Text>
-        {/* <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: Padding.CONTAINER.paddingHorizontal,
-          }}
-          horizontal>
-          <UpdateCard contact="Limited" color={Colors.LYELLOW} />
-          <UpdateCard contact="Broad" color={Colors.LRED} />
-          <UpdateCard contact="Extensive" color={Colors.LORANGE} />
-        </ScrollView> */}
         <FlatList
           data={data?.data}
           renderItem={renderUpdates}
@@ -168,6 +159,7 @@ const Dashboard = props => {
 const mapStatetoProps = state => {
   return {
     userData: state.userData,
+    userID: state.userID,
   };
 };
 

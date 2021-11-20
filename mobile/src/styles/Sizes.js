@@ -21,6 +21,12 @@ if (width >= 411) {
   mainButtonH = 80;
   menuButtonH = 70;
   scanCardH = 110;
+} else if (width >= 360) {
+  updateCardH = 210;
+  updateCardW = 280;
+  mainButtonH = 75;
+  menuButtonH = 70;
+  scanCardH = 105;
 } else {
   updateCardH = 200;
   updateCardW = 290;

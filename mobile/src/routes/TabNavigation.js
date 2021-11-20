@@ -35,6 +35,7 @@ const TabNavigation = () => {
               }}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -51,6 +52,7 @@ const TabNavigation = () => {
               }}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -67,6 +69,7 @@ const TabNavigation = () => {
               }}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -83,6 +86,7 @@ const TabNavigation = () => {
               }}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

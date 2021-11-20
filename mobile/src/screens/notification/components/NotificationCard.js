@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {Colors, Fonts} from '_styles';
 import {ScanCard, Button} from '_components';
+import {connect} from 'react-redux';
+import {ShareDataAPI} from '../api';
 
 const ModalNotification = ({
   item,
@@ -11,7 +13,16 @@ const ModalNotification = ({
   permission,
   modalVisible,
   setModalVisible,
+  userData,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const getData = async () => {
+    setLoading(true);
+    await ShareDataAPI(userData, title);
+    setLoading(false);
+    setModalVisible(false);
+  };
+
   return (
     <Modal transparent={true} animationType="fade" visible={modalVisible}>
       <View
@@ -23,13 +34,14 @@ const ModalNotification = ({
         }}>
         <View
           style={{
-            height: '45%',
+            // height: '45%',
             width: '90%',
             margin: 20,
             backgroundColor: Colors.PRIMARY,
             borderRadius: 20,
             alignItems: 'center',
             overflow: 'hidden',
+            paddingBottom: 20,
           }}>
           <View
             style={{
@@ -61,11 +73,12 @@ const ModalNotification = ({
           </View>
           <Button
             disabled={!permission}
-            status={false}
+            status={loading}
             text="Share my data"
             backgroundColor={permission ? Colors.LGREEN : Colors.GREY}
             color={Colors.PRIMARY}
             styles={{marginTop: 10}}
+            onPress={() => getData()}
           />
         </View>
       </View>
@@ -73,8 +86,9 @@ const ModalNotification = ({
   );
 };
 
-export default NotificationCard = props => {
-  const {isSelected, permission, title, info, time, data} = props;
+const NotificationCard = props => {
+  const {isSelected, permission, title, info, time, data, userData} = props;
+  console.log('data', userData);
   const [modalVisible, setModalVisible] = useState(false);
   const boxColor = isSelected ? Colors.PRIMARY : Colors.SECONDARY;
   return (
@@ -87,6 +101,7 @@ export default NotificationCard = props => {
         item={data}
         title={title}
         permission={permission}
+        userData={userData}
       />
       <View style={{flexDirection: 'row'}}>
         <View
@@ -110,6 +125,14 @@ export default NotificationCard = props => {
     </TouchableOpacity>
   );
 };
+
+const mapStatetoProps = state => {
+  return {
+    userData: state,
+  };
+};
+
+export default connect(mapStatetoProps)(NotificationCard);
 
 const styles = StyleSheet.create({
   main: {

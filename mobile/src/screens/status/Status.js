@@ -61,9 +61,9 @@ const Status = props => {
           <View style={{flexDirection: 'row'}}>
             <View style={styles.totalCases}>
               <FontAwesome5
-                name={'users'}
+                name={'hospital-user'}
                 solid
-                size={30}
+                size={25}
                 color={Colors.SECONDARY}
               />
             </View>
@@ -101,7 +101,7 @@ const Status = props => {
               ]}>
               <View style={[styles.usersIcon, {marginBottom: 10}]}>
                 <FontAwesome5
-                  name={'street-view'}
+                  name={'medkit'}
                   solid
                   size={25}
                   color={Colors.SECONDARY}
@@ -139,7 +139,7 @@ const Status = props => {
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.usersIcon}>
                   <FontAwesome5
-                    name={'qrcode'}
+                    name={'users'}
                     solid
                     size={25}
                     color={Colors.SECONDARY}
@@ -274,7 +274,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   statusBox: {
-    height: 250,
     width: '100%',
     backgroundColor: Colors.SECONDARY,
     borderRadius: 20,
@@ -282,10 +281,9 @@ const styles = StyleSheet.create({
   },
   myStatus: {
     width: '100%',
-    height: 80,
     backgroundColor: Colors.MAIN,
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 15,
     flexDirection: 'row',
   },
   casesBox: {

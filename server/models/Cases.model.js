@@ -10,6 +10,7 @@ const CasesSchema = new Schema({
   exposure: { type: String },
   totalExposed: { type: Number },
   totalPotential: { type: Number },
+  totalVisits: { type: Number },
   status: { type: String },
 });
 

@@ -5,7 +5,7 @@ const ShareControllers = require("../controllers/Share.controllers");
 
 router.post("/share/logs", ShareControllers.shareLogs);
 
-router.get("/cases/updates", ShareControllers.getCases);
+router.get("/cases/updates/:userID", ShareControllers.getCases);
 
 // router.delete("/tracing/remove", TracingControllers.removeTracing);
 

@@ -11,7 +11,8 @@ exports.shareLogs = async (req, res) => {
       userID: userID,
       shareType: "Logs",
       shareDate: new Date(),
-      shares: user.Logs,
+      logs: user.Logs,
+      visits: user.Visits,
     });
     const saveShare = await newShare.save();
 
@@ -32,6 +33,7 @@ exports.shareLogs = async (req, res) => {
       let totalPotential = 0;
       for (let i = 0; i < userLogs.length; i++) {
         const userData = await Users.findOne({ _id: userLogs[i].userID });
+        const ifCase = await Cases.findOne({ userID: userLogs[i].userID });
         const config = {
           userID: userData._id,
           name: `${userData.firstName} ${userData.lastName}`,
@@ -40,90 +42,93 @@ exports.shareLogs = async (req, res) => {
           totalLogs: userData.Logs.length,
           time: parseInt(userLogs[i].time),
         };
-        if (status === "Infected" || status === "Death") {
-          if (parseInt(userLogs[i].time) >= 5) {
-            const newData = new Data({
-              ...config,
-              statusType: "Exposed",
-            });
-            await newData.save();
-            totalExposed = 1 + totalExposed;
-            await Users.updateOne(
-              { _id: userLogs[i].userID },
-              {
-                $push: {
-                  notifications: {
-                    clicked: false,
-                    title: "Exposed",
-                    date: new Date(),
-                    permission: true,
-                    data: {
-                      userID: userData._id,
-                      logDate: userLogs[i].logDate,
-                      status: status,
-                      exposure: "None",
-                      time: userLogs[i].time,
+
+        if (!ifCase) {
+          if (status === "Infected" || status === "Death") {
+            if (parseInt(userLogs[i].time) >= 5) {
+              const newData = new Data({
+                ...config,
+                statusType: "Exposed",
+              });
+              await newData.save();
+              totalExposed = 1 + totalExposed;
+              await Users.updateOne(
+                { _id: userLogs[i].userID },
+                {
+                  $push: {
+                    notifications: {
+                      clicked: false,
+                      title: "Exposed",
+                      date: new Date(),
+                      permission: true,
+                      data: {
+                        userID: userData._id,
+                        logDate: userLogs[i].logDate,
+                        status: status,
+                        exposure: "None",
+                        time: userLogs[i].time,
+                      },
                     },
                   },
-                },
-              }
-            );
-          } else {
-            const newData = new Data({
-              ...config,
-              statusType: "Potential",
-            });
-            await newData.save();
-            totalPotential = 1 + totalPotential;
-            await Users.updateOne(
-              { _id: userLogs[i].userID },
-              {
-                $push: {
-                  notifications: {
-                    clicked: false,
-                    title: "Potential",
-                    date: new Date(),
-                    permission: false,
-                    data: {
-                      userID: userData._id,
-                      logDate: userLogs[i].logDate,
-                      status: status,
-                      exposure: "None",
-                      time: userLogs[i].time,
+                }
+              );
+            } else {
+              const newData = new Data({
+                ...config,
+                statusType: "Potential",
+              });
+              await newData.save();
+              totalPotential = 1 + totalPotential;
+              await Users.updateOne(
+                { _id: userLogs[i].userID },
+                {
+                  $push: {
+                    notifications: {
+                      clicked: false,
+                      title: "Potential",
+                      date: new Date(),
+                      permission: false,
+                      data: {
+                        userID: userData._id,
+                        logDate: userLogs[i].logDate,
+                        status: status,
+                        exposure: "None",
+                        time: userLogs[i].time,
+                      },
                     },
                   },
-                },
-              }
-            );
-          }
-        } else if (status === "Exposed") {
-          if (parseInt(userLogs[i].time) >= 5) {
-            const newData = new Data({
-              ...config,
-              statusType: "Potential",
-            });
-            await newData.save();
-            totalPotential = 1 + totalPotential;
-            await Users.updateOne(
-              { _id: userLogs[i].userID },
-              {
-                $push: {
-                  notifications: {
-                    clicked: false,
-                    title: "Potential",
-                    date: new Date(),
-                    permission: false,
-                    data: {
-                      userID: userData._id,
-                      logDate: userLogs[i].logDate,
-                      status: status,
-                      exposure: "None",
-                      time: userLogs[i].time,
+                }
+              );
+            }
+          } else if (status === "Exposed") {
+            if (parseInt(userLogs[i].time) >= 5) {
+              const newData = new Data({
+                ...config,
+                statusType: "Potential",
+              });
+              await newData.save();
+              totalPotential = 1 + totalPotential;
+              await Users.updateOne(
+                { _id: userLogs[i].userID },
+                {
+                  $push: {
+                    notifications: {
+                      clicked: false,
+                      title: "Potential",
+                      date: new Date(),
+                      permission: false,
+                      data: {
+                        userID: userData._id,
+                        logDate: userLogs[i].logDate,
+                        status: status,
+                        exposure: "None",
+                        time: userLogs[i].time,
+                      },
                     },
                   },
-                },
-              }
-            );
+                }
+              );
+            }
           }
         }
       }
@@ -137,19 +142,27 @@ exports.shareLogs = async (req, res) => {
         exposure = "Limited";
       }
 
-      if (totalExposed !== 0 || totalPotential !== 0) {
-        const newCase = new Cases({
-          userID: user._id,
-          name: `${user.firstName} ${user.lastName}`,
-          municipality: user.municipality,
-          barangay: user.barangay,
-          date: new Date(),
-          totalExposed: totalExposed,
-          totalPotential: totalPotential,
-          exposure: exposure,
-          status: status,
-        });
-        await newCase.save();
+      if (
+        status === "Infected" ||
+        status === "Exposed" ||
+        status === "Potential"
+      ) {
+        const ifCase = await Cases.findOne({ userID: user._id });
+        if (!ifCase) {
+          const newCase = new Cases({
+            userID: user._id,
+            name: `${user.firstName} ${user.lastName}`,
+            municipality: user.municipality,
+            barangay: user.barangay,
+            date: new Date(),
+            totalExposed: totalExposed,
+            totalPotential: totalPotential,
+            totalVisits: user.Visits.length,
+            exposure: exposure,
+            status: status,
+          });
+          await newCase.save();
+        }
       }
       await Users.updateOne(
         { _id: userID },
@@ -183,12 +196,15 @@ exports.shareLogs = async (req, res) => {
 
 exports.getCases = async (req, res) => {
   try {
+    const { userID } = req.params;
     const getAll = await Cases.find();
+    const getUser = await Users.findById(userID);
     return res.status(201).send({
       title: "Successfully Added!",
       message: "Shared Successfully Added!",
       statusCode: 201,
       data: getAll,
+      role: getUser.role,
     });
   } catch (err) {
     console.log(err);
