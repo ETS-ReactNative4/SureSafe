@@ -18,7 +18,7 @@ router.get("/users/user/:userID", verify, UsersControllers.getUser);
 
 router.get("/users/profile/:userID", verify, UsersControllers.getProfile);
 
-router.post("/users/change/role", verify, UsersControllers.changeRole);
+router.post("/users/role", verify, UsersControllers.changeRole);
 
 router.get(
   "/users/notifications/:userID",

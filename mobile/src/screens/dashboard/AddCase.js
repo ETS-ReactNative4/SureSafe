@@ -14,12 +14,22 @@ import {connect} from 'react-redux';
 
 import {Colors, Fonts, Padding, Icons} from '_styles';
 import {Header, Alert, Button, PickerCustom} from '_components';
-import {ScanApi} from './api';
+import {AddCaseAPI} from './api';
 
 const ModalCase = ({modalVisible, setModalVisible, mode}) => {
   const [status, setStatus] = useState('Status');
+  const [data, setData] = useState('Status');
+  const [loading, setLoading] = useState(false);
   const statuses = ['Infected', 'Potential', 'Recovered', 'Exposed'];
   let userIdentification = mode?.substring(mode?.length - 4, mode?.length);
+
+  const addCase = async () => {
+    setLoading(true);
+    await AddCaseAPI(setData, mode, status);
+    setLoading(false);
+    setModalVisible(false);
+  };
+
   return (
     <Modal transparent={true} animationType="fade" visible={modalVisible}>
       <View
@@ -74,11 +84,12 @@ const ModalCase = ({modalVisible, setModalVisible, mode}) => {
             />
           </View>
           <Button
-            status={false}
+            status={loading}
             text="Continue"
             backgroundColor={Colors.LGREEN}
             color={Colors.PRIMARY}
             styles={{marginTop: 10}}
+            onPress={() => addCase()}
           />
         </View>
       </View>

@@ -2,6 +2,7 @@ const Users = require("../models/Users.model");
 const Tracing = require("../models/Tracing.model");
 const Data = require("../models/Data.model");
 const Cases = require("../models/Cases.model");
+const Admin = require("../models/Admin.model");
 const Joi = require("@hapi/joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -412,18 +413,59 @@ exports.getUser = async (req, res) => {
 
 exports.changeRole = async (req, res) => {
   try {
-    const { _id, role } = req.body;
-    const updateUser = await Users.updateOne(
-      { _id },
-      {
-        role,
+    const { _id, role, code } = req.body;
+    const getAdmins = await Admin.find();
+    const codes = getAdmins[0]?.codes;
+    const findCode = codes.find((value) => value.code === code);
+    if (findCode) {
+      if (findCode.used) {
+        return res.status(400).send({
+          title: `Code is Invalid`,
+          message: `${code} is now used already.`,
+          statusCode: 400,
+          data: updateUser,
+        });
+      } else {
+        const updateUser = await Users.updateOne(
+          { _id },
+          {
+            role,
+          }
+        );
+        const updatedCode = [];
+        for (let i = 0; i < codes.length; i++) {
+          if (codes[i].code === code) {
+            updatedCode.push({
+              code: codes[i].code,
+              used: true,
+            });
+          } else {
+            updatedCode.push({
+              code: codes[i].code,
+              used: codes[i].used,
+            });
+          }
+        }
+        await Users.updateOne(
+          { _id: getAdmins[0]?._id },
+          {
+            codes: updatedCode,
+          }
+        );
+        if (updateUser) {
+          return res.status(201).send({
+            title: `Changed Role`,
+            message: `${_id} is now ${role}`,
+            statusCode: 201,
+            data: updateUser,
+          });
+        }
       }
-    );
-    if (updateUser) {
-      return res.status(201).send({
-        title: `Changed Role`,
-        message: `${_id} is now ${role}`,
-        statusCode: 201,
+    } else {
+      return res.status(405).send({
+        title: `Code is Invalid`,
+        message: `${code} not find.`,
+        statusCode: 405,
         data: updateUser,
       });
     }

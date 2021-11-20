@@ -5,7 +5,8 @@ const SharesSchema = new Schema({
   userID: { type: String },
   shareDate: { type: Date },
   shareType: { type: String },
-  shares: [],
+  logs: [],
+  visits: [],
 });
 
 const Shares = mongoose.model("Shares", SharesSchema);

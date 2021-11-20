@@ -29,6 +29,7 @@ const Trace = props => {
   const [foregroundService, setForegroundService] = useState(false);
   const [request, setRequest] = useState(0);
   const watchId = useRef(null);
+  console.log('tracing', tracing);
 
   const circle1 = useState(new Animated.Value(290))[0];
   const [stat, setStat] = useState(false);

@@ -36,11 +36,13 @@ const UpdateCard = ({data}) => {
           has been{' '}
           <Text style={[Fonts.H5, styles.whiteText]}>{data.status}</Text>, with{' '}
           <Text style={[Fonts.H5, styles.whiteText]}>{data.totalExposed}</Text>{' '}
-          exposed and{' '}
+          exposed,{' '}
           <Text style={[Fonts.H5, styles.whiteText]}>
             {data.totalPotential}
           </Text>{' '}
-          potential.
+          potential and{' '}
+          <Text style={[Fonts.H5, styles.whiteText]}>{data.totalVisits}</Text>{' '}
+          visits.
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>

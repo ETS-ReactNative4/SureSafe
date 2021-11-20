@@ -1,6 +1,6 @@
 import {API} from '_constants';
 
-export const ShareDataAPI = async (userData, status, setData) => {
+export const ShareDataAPI = async (userData, status) => {
   const options = {
     method: 'POST',
     headers: {
@@ -17,5 +17,5 @@ export const ShareDataAPI = async (userData, status, setData) => {
 
   const response = await fetch(`${API}/share/logs`, options);
   const resData = await response.json();
-  setData(resData);
+  return resData;
 };

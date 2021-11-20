@@ -14,6 +14,7 @@ const UserRoutes = require("./routes/Users.routes");
 const TracingRoutes = require("./routes/Tracing.routes");
 const EstablishmentsRoutes = require("./routes/Establishments.routes");
 const ShareRoutes = require("./routes/Share.routes");
+const AdminRoutes = require("./routes/Admin.routes");
 
 // Middlewares
 server.use(cors());
@@ -26,6 +27,7 @@ server.use("/suresafe/api", UserRoutes);
 server.use("/suresafe/api", TracingRoutes);
 server.use("/suresafe/api", EstablishmentsRoutes);
 server.use("/suresafe/api", ShareRoutes);
+server.use("/suresafe/api", AdminRoutes);
 
 const dbOptions = {
   useNewUrlParser: true,
