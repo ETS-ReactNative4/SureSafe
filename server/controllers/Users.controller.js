@@ -414,6 +414,7 @@ exports.getUser = async (req, res) => {
 exports.changeRole = async (req, res) => {
   try {
     const { _id, role, code } = req.body;
+    console.log("asghjfj");
     const getAdmins = await Admin.find();
     const codes = getAdmins[0]?.codes;
     const findCode = codes.find((value) => value.code === code);
@@ -454,8 +455,8 @@ exports.changeRole = async (req, res) => {
         );
         if (updateUser) {
           return res.status(201).send({
-            title: `Changed Role`,
-            message: `${_id} is now ${role}`,
+            title: `Successfully Changed`,
+            message: `Your role is changed to ${role}. You can now add cases!`,
             statusCode: 201,
             data: updateUser,
           });
@@ -464,12 +465,13 @@ exports.changeRole = async (req, res) => {
     } else {
       return res.status(405).send({
         title: `Code is Invalid`,
-        message: `${code} not find.`,
+        message: `${code} is not a valid code. Please Try Again.`,
         statusCode: 405,
-        data: updateUser,
       });
     }
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getNotifications = async (req, res) => {
@@ -495,6 +497,7 @@ exports.getStatus = async (req, res) => {
     const getCases = await Cases.find();
     const getUsers = await Users.find();
     const getTracing = await Tracing.find();
+
     let infected = 0;
     let exposed = 0;
     let recovered = 0;
@@ -511,7 +514,7 @@ exports.getStatus = async (req, res) => {
     for (let i = 0; i < getData.length; i++) {
       if (getData[i].statusType === "Potential") {
         potential = 1 + potential;
-      } else if (getCases[i].statusType === "Recovered") {
+      } else if (getData[i].statusType === "Recovered") {
         recovered = 1 + recovered;
       }
     }
@@ -535,7 +538,14 @@ exports.getStatus = async (req, res) => {
         sharedVisits: findUser.sharedVisits.length,
       },
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
 };
 
 exports.getProfile = async (req, res) => {

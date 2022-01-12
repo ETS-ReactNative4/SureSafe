@@ -1,16 +1,59 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, TouchableOpacity, Modal} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import QRCode from 'react-native-qrcode-svg';
 import validator from 'validator';
 
 import {Colors, Fonts, Padding, Icons} from '_styles';
-import {Button, Input} from '_components';
+import {Button, Input, Alert} from '_components';
+import {ChangeRoleAPI} from '../api';
 
-const ModalQrCode = ({modalVisible, setModalVisible, mode, data}) => {
+const ModalQrCode = ({modalVisible, setModalVisible, mode, data, dispatch}) => {
+  // States
   const [code, setCode] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  // Design States
+  const [alert, setAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState('');
+  const [alertInfo, setAlertInfo] = useState('');
+  const [alertColor, setAlertColor] = useState(Colors.LGREEN);
+  const [btnStatus, setBtnStatus] = useState(false);
+
+  useEffect(() => {
+    if (alert === false) {
+      if (success === true) {
+        setBtnStatus(false);
+        setModalVisible(false);
+      } else {
+        setBtnStatus(false);
+      }
+    }
+  }, [alert]);
+
+  const onSubmit = async () => {
+    setBtnStatus(true);
+    ChangeRoleAPI(
+      data.userID,
+      code,
+      setAlert,
+      setAlertTitle,
+      setAlertInfo,
+      setAlertColor,
+      setSuccess,
+      dispatch,
+    );
+  };
+
   return (
     <Modal transparent={true} animationType="fade" visible={modalVisible}>
+      <Alert
+        status={alert}
+        setStatus={setAlert}
+        title={alertTitle}
+        info={alertInfo}
+        color={alertColor}
+      />
       <View
         style={{
           flex: 1,
@@ -71,7 +114,7 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data}) => {
           ) : (
             <View style={{width: '100%', paddingHorizontal: 20}}>
               <Input
-                validator={validator.isAlphanumeric}
+                validator={validator.isAscii}
                 placeholder="Code"
                 value={code}
                 onChangeText={setCode}
@@ -82,11 +125,11 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data}) => {
             <></>
           ) : (
             <Button
-              status={false}
-              text="Close"
+              status={btnStatus}
+              text="Submit"
               backgroundColor={Colors.LGREEN}
               color={Colors.PRIMARY}
-              onPress={() => setModalVisible(false)}
+              onPress={() => onSubmit()}
             />
           )}
         </View>
@@ -95,13 +138,11 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data}) => {
   );
 };
 
-export const DataShare = ({data}) => {
+export const DataShare = ({data, dispatch}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState(false);
   const lastLogs =
     data?.lastLogs === 'None' ? 'N/A' : data?.lastLogs.substr(0, 15);
-  const lastVisits =
-    data?.lastVisits === 'None' ? 'N/A' : data?.lastVisits.substr(0, 15);
   return (
     <View
       style={{
@@ -117,6 +158,7 @@ export const DataShare = ({data}) => {
         setModalVisible={setModalVisible}
         mode={mode}
         data={data}
+        dispatch={dispatch}
       />
       <TouchableOpacity
         onPress={() => {

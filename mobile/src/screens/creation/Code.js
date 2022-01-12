@@ -10,7 +10,7 @@ import {getKeys} from '_utils';
 import {setLocalStorage} from '_redux';
 
 const Code = props => {
-  const {navigation, userID, dispatch} = props;
+  const {navigation, userID, dispatch, route} = props;
 
   // States
   const [code, setCode] = useState('');
@@ -79,7 +79,7 @@ const Code = props => {
         ]}>
         <Title
           title="Enter code sent to your Number"
-          info="We sent it to the number +639356555717"
+          info={`We sent it to the number +63${route.params.number}`}
           font={Fonts.H2}
           center={true}
         />

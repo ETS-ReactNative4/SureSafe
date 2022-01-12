@@ -1,1 +1,1 @@
-export const API = 'https://swift-moth-73.loca.lt/suresafe/api';
+export const API = 'https://suresafe.loca.lt/suresafe/api';

@@ -45,7 +45,7 @@ exports.shareLogs = async (req, res) => {
 
         if (!ifCase) {
           if (status === "Infected" || status === "Death") {
-            if (parseInt(userLogs[i].time) >= 5) {
+            if (parseInt(userLogs[i].time) >= 1) {
               const newData = new Data({
                 ...config,
                 statusType: "Exposed",
@@ -101,7 +101,7 @@ exports.shareLogs = async (req, res) => {
               );
             }
           } else if (status === "Exposed") {
-            if (parseInt(userLogs[i].time) >= 5) {
+            if (parseInt(userLogs[i].time) >= 1) {
               const newData = new Data({
                 ...config,
                 statusType: "Potential",

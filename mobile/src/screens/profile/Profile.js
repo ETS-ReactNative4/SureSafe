@@ -17,7 +17,6 @@ const Profile = props => {
       routes: [{name: 'Creation'}],
     });
   };
-  console.log('data', data);
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +25,6 @@ const Profile = props => {
     getData();
   }, [state, navigation]);
 
-  console.log('state', state);
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
       <View style={[Padding.CONTAINER, {flex: 1}]}>
@@ -34,7 +32,7 @@ const Profile = props => {
           Profile
         </Text>
         <UserInfo data={data?.data} />
-        <DataShare data={data?.data} />
+        <DataShare data={data?.data} dispatch={dispatch} />
       </View>
 
       <View
