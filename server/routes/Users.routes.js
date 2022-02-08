@@ -1,10 +1,37 @@
 const express = require("express");
 const router = express.Router();
 const verify = require("../utils/Verify.token");
+const multer = require("multer");
+const uuid = require("uuid");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${uuid.v4()}.png`);
+  },
+});
+const upload = multer({ storage: storage });
 
 const UsersControllers = require("../controllers/Users.controller");
 
-router.post("/users/create", UsersControllers.userCreate);
+router.post(
+  "/users/create",
+  upload.fields([
+    { name: "validId", maxCount: 1 },
+    { name: "picture", maxCount: 1 },
+  ]),
+  UsersControllers.userCreate
+);
+
+router.post(
+  "/users/qrcode",
+  upload.fields([{ name: "qrcode", maxCount: 1 }]),
+  UsersControllers.addQrCode
+);
+
+router.post("/users/status", UsersControllers.updateStatus);
 
 router.patch("/users/addinfo", UsersControllers.addInfo);
 

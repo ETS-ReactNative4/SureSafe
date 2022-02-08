@@ -19,23 +19,6 @@ const vonage = new Vonage({
 
 exports.userCreate = async (req, res) => {
   try {
-    console.log(req.body);
-    const validation = Joi.object({
-      email: Joi.string().required(),
-      password: Joi.string().required(),
-      agreement: Joi.boolean().required(),
-    });
-
-    // Request Validations
-    const { error } = validation.validate(req.body);
-    if (error)
-      return res.status(401).send({
-        title: "Something went Wrong!",
-        message:
-          "Its look like your information is not accepted. Please try again.",
-        statusCode: 401,
-      });
-
     const emailExist = await Users.findOne({
       email: req.body.email.toLowerCase(),
     });
@@ -75,16 +58,43 @@ exports.userCreate = async (req, res) => {
     const user = new Users({
       email: req.body.email.toLowerCase(),
       password: hashedPassword,
-      agreement: req.body.agreement,
+      agreement: true,
       userState: {
         status: "Covid Free",
         exposure: "Not Exposed",
       },
       role: "User",
+      status: "new",
+      picture: req.files["picture"][0].path,
+      validId: req.files["validId"][0].path,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      municipality: req.body.municipality,
+      barangay: req.body.barangay,
+      number: req.body.number,
     });
-
     const saveUser = await user.save();
-    INFO.info(`User ${user._id} Created`);
+    const text =
+      "Your account is on verify. We will send an sms regarding your QRCode and your account status.";
+    vonage.message.sendSms(
+      "Suresafe",
+      `+63${req.body.number}`,
+      text,
+      (err, responseData) => {
+        if (err) {
+          console.log(err);
+        } else {
+          if (responseData.messages[0]["status"] === "0") {
+            console.log("Message sent successfully.");
+          } else {
+            console.log(
+              `Message failed with error: ${responseData.messages[0]["error-text"]}`
+            );
+          }
+        }
+      }
+    );
+
     return res.status(201).json({
       user: user._id,
       title: "Successfully Created!",
@@ -96,6 +106,94 @@ exports.userCreate = async (req, res) => {
   } catch (err) {
     console.log(err);
     ERROR.error(`${err.message} Users Controller`);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.addQrCode = async (req, res) => {
+  try {
+    const update = await Users.updateOne(
+      { _id: req.body.id },
+      {
+        qrcode: req.files["qrcode"][0].path,
+      }
+    );
+
+    return res.status(201).send({
+      title: "Successfully Updated!",
+      message: "User info Updated!",
+      statusCode: 201,
+      data: update,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  const { id, status } = req.body;
+  try {
+    const userData = await Users.findOne({
+      _id: id,
+    });
+    if (userData) {
+      if (status === "approve") {
+        const update = await Users.updateOne(
+          { _id: id },
+          {
+            status,
+          }
+        );
+
+        vonage.message.sendSms(
+          "Suresafe",
+          `+63${userData.number}`,
+          "Your account is now Verified! \nYou can now use your account in SureSafe app."
+        );
+        vonage.message.sendSms(
+          "Suresafe",
+          `+63${userData.number}`,
+          `You can now download your QR Code! \nhttp://localhost:8082/${userData.qrcode}`
+        );
+        return res.status(201).send({
+          title: "Successfully Updated!",
+          message: "User info Updated!",
+          statusCode: 201,
+          data: update,
+        });
+      } else if (status === "denied") {
+        const deleteUser = await Users.deleteOne({ _id: id });
+        vonage.message.sendSms(
+          "Suresafe",
+          `+63${userData.number}`,
+          "Your account is Denied and has been deleted! \n Please try to register again."
+        );
+        return res.status(201).send({
+          title: "Successfully Deleted!",
+          message: "User info Deleted!",
+          statusCode: 201,
+          data: deleteUser,
+        });
+      }
+    } else {
+      return res.status(404).send({
+        title: "Not Found",
+        message: "User Not Found!",
+        statusCode: 404,
+        data: update,
+      });
+    }
+  } catch (err) {
+    console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",
       message: "Someting went wrong. Please try again or try again later.",
@@ -321,8 +419,16 @@ exports.logIn = async (req, res) => {
     const user = await Users.findOne({ email: req.body.email.toLowerCase() });
     if (!user)
       return res.status(404).send({
-        title: `"Email or Password is Invalid`,
+        title: `Email or Password is Invalid`,
         message: "Email or Password is wrong. Please try again.",
+        statusCode: 404,
+      });
+
+    if (user.status === "new")
+      return res.status(404).send({
+        title: `Invalid Account`,
+        message:
+          "Account is not verified. Please wait for the admins to approve your account.",
         statusCode: 404,
       });
 

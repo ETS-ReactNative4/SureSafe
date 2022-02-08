@@ -3,13 +3,13 @@ import { SvgIcon } from "../../common/SvgIcon";
 import { Main } from "./styles";
 const QRCode = require("qrcode.react");
 
-const Qrcode = ({ elementID, data }: any) => {
+const QrcodeUser = ({ elementID, data }: any) => {
   return (
     <div
       id={elementID}
       style={{
-        width: "1000px",
-        height: "1300px",
+        width: "500px",
+        height: "800px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -21,22 +21,46 @@ const Qrcode = ({ elementID, data }: any) => {
         flexDirection: "column",
       }}
     >
-      <SvgIcon src="SureSafeLogo.png" width="400px" height="100px" />
-      <h1
+      <SvgIcon src="SureSafeLogo.png" width="200px" height="50px" />
+      <p
         style={{
-          marginTop: "120px",
-          marginBottom: "80px",
           color: "#223141",
           fontFamily: "Gilroy Extrabold",
-          fontSize: "70px",
+          fontSize: "30px",
+          margin: 0,
+          padding: 0,
+          marginTop: "40px",
         }}
       >
-        {data?.estabName}
-      </h1>
+        {`${data?.firstName} ${data?.lastName}`.toUpperCase()}
+      </p>
+      <p
+        style={{
+          color: "#223141",
+          fontFamily: "Gilroy Light",
+          fontSize: "18px",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        {`${data?.barangay}, ${data?.municipality}`}
+      </p>
+      <p
+        style={{
+          color: "#4ABEC6",
+          fontFamily: "Gilroy Bold",
+          fontSize: "18px",
+          margin: 0,
+          padding: 0,
+          marginBottom: "20px",
+        }}
+      >
+        {`+63${data?.number}`}
+      </p>
       <div
         style={{
-          height: "450px",
-          width: "450px",
+          height: "300px",
+          width: "300px",
           backgroundColor: "#4ABEC6",
           borderRadius: "50px",
           display: "flex",
@@ -56,7 +80,7 @@ const Qrcode = ({ elementID, data }: any) => {
         >
           <QRCode
             value={data?._id || 0}
-            size={300}
+            size={250}
             bgColor={"#ffffff"}
             fgColor={"#223141"}
             level={"H"}
@@ -66,8 +90,8 @@ const Qrcode = ({ elementID, data }: any) => {
               src: "./img/svg/Logo.png",
               x: null,
               y: null,
-              height: 100,
-              width: 100,
+              height: 70,
+              width: 70,
             }}
           />
         </div>
@@ -76,21 +100,19 @@ const Qrcode = ({ elementID, data }: any) => {
       <h1
         style={{
           marginTop: "20px",
-          marginBottom: "80px",
+          marginBottom: "40px",
           color: "#63C9A8",
           fontFamily: "Gilroy Extrabold",
-          fontSize: "50px",
+          fontSize: "30px",
         }}
       >
         Scan Me!
       </h1>
-      <p style={{ fontSize: "25px" }}>
-        {`${data?.estabName} is supporting SureSafe in preventing COVID-19 from
-          spreading. Please Scan the QR Code above to log your visit Thank You!
-          Stay Safe!`}
+      <p style={{ fontSize: "15px", textAlign: "center" }}>
+        {`Show this ID to any establishments that using the suresafe app! `}
       </p>
     </div>
   );
 };
 
-export default Qrcode;
+export default QrcodeUser;

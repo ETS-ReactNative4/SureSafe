@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Row, Col, Drawer } from "antd";
+import { useHistory } from "react-router-dom";
 import Container from "../../common/Container";
 import { SvgIcon } from "../../common/SvgIcon";
 import { Button } from "../../common/Button";
@@ -17,6 +18,7 @@ import {
 
 const Header = () => {
   const [visible, setVisibility] = useState(false);
+  let history = useHistory();
 
   const showDrawer = () => {
     setVisibility(!visible);
@@ -39,15 +41,15 @@ const Header = () => {
         <CustomNavLinkSmall onClick={() => scrollTo("download")}>
           <Span>{"Download"}</Span>
         </CustomNavLinkSmall>
-        <CustomNavLinkSmall onClick={() => scrollTo("about")}>
-          <Span>{"About"}</Span>
+        <CustomNavLinkSmall onClick={() => history.push("/establishment")}>
+          <Span>{"Establishment"}</Span>
         </CustomNavLinkSmall>
         <CustomNavLinkSmall
           style={{ width: "180px" }}
-          onClick={() => scrollTo("qrcodegenerator")}
+          onClick={() => history.push("/register")}
         >
           <Span>
-            <Button>{"QR Code Generator"}</Button>
+            <Button>{"Register Now"}</Button>
           </Span>
         </CustomNavLinkSmall>
       </>

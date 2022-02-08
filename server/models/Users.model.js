@@ -11,6 +11,10 @@ const UsersSchema = new Schema({
   barangay: { type: String, default: "" },
   number: { type: Number, default: "" },
   role: { type: String },
+  status: { type: String },
+  picture: { type: String },
+  validId: { type: String },
+  qrcode: { type: String },
   lastLogs: { type: String, default: "None" },
   lastVisits: { type: String, default: "None" },
   notifications: [

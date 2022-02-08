@@ -60,11 +60,11 @@ const Home = () => {
         icon="ExposedAlerts.png"
         id="exposedalert"
       />
-      <Generator
+      {/* <Generator
         title={QRCodeContent.title}
         content={QRCodeContent.text}
         id="qrcodegenerator"
-      />
+      /> */}
     </Container>
   );
 };

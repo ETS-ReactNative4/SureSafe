@@ -15,6 +15,7 @@ const TracingRoutes = require("./routes/Tracing.routes");
 const EstablishmentsRoutes = require("./routes/Establishments.routes");
 const ShareRoutes = require("./routes/Share.routes");
 const AdminRoutes = require("./routes/Admin.routes");
+const SampleRoutes = require("./routes/Sample.routes");
 
 // Middlewares
 server.use(cors());
@@ -23,11 +24,13 @@ server.use(morgan("dev"));
 server.use(express.json({ limit: "50mb" }));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+server.use("/uploads", express.static("uploads"));
 server.use("/suresafe/api", UserRoutes);
 server.use("/suresafe/api", TracingRoutes);
 server.use("/suresafe/api", EstablishmentsRoutes);
 server.use("/suresafe/api", ShareRoutes);
 server.use("/suresafe/api", AdminRoutes);
+server.use("/suresafe/api", SampleRoutes);
 
 const dbOptions = {
   useNewUrlParser: true,
