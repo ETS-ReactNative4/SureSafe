@@ -93,7 +93,7 @@ const Status = props => {
         </View>
 
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 0.8, marginRight: 10}}>
+          {/* <View style={{flex: 0.8, marginRight: 10}}>
             <View
               style={[
                 styles.usersBox,
@@ -112,14 +112,14 @@ const Status = props => {
                 Total recovered using the SureSafe application.
               </Text>
             </View>
-          </View>
+          </View> */}
 
           <View style={{flex: 1}}>
             <View style={styles.usersBox}>
               <View style={{flexDirection: 'row'}}>
-                <View style={styles.usersIcon}>
+                <View style={[styles.usersIcon]}>
                   <FontAwesome5
-                    name={'street-view'}
+                    name={'heartbeat'}
                     solid
                     size={25}
                     color={Colors.SECONDARY}
@@ -129,7 +129,7 @@ const Status = props => {
                   <Text style={Fonts.H4}>{geotracing}</Text>
                   <Text
                     style={[Fonts.LIGHT, {fontSize: Fonts.LIGHT.fontSize - 2}]}>
-                    Geo Tracing active
+                    Total Exposed
                   </Text>
                 </View>
               </View>

@@ -14,8 +14,8 @@ export const sideBar = [
   {
     id: 3,
     name: "Infected",
-    icon: "fas fa-qrcode",
-    link: "/visits",
+    icon: "fas fa-radiation",
+    link: "/infected",
   },
   {
     id: 4,

@@ -74,26 +74,25 @@ exports.userCreate = async (req, res) => {
       number: req.body.number,
     });
     const saveUser = await user.save();
+    const number =
+      req.body.number.charAt(0) === "0"
+        ? `+63${req.body.number.substring(1)}`
+        : `+63${req.body.number}`;
     const text =
-      "Your account is on verify. We will send an sms regarding your QRCode and your account status.";
-    vonage.message.sendSms(
-      "Suresafe",
-      `+63${req.body.number}`,
-      text,
-      (err, responseData) => {
-        if (err) {
-          console.log(err);
+      "[SURESAFE] VERIFICATION:\n\nYour account is on verification process. We will send an SMS regarding your Account Status and QR Code. This may take time! Thank you for your patience! \n\n";
+    vonage.message.sendSms("Suresafe", number, text, (err, responseData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (responseData.messages[0]["status"] === "0") {
+          console.log("Message sent successfully.");
         } else {
-          if (responseData.messages[0]["status"] === "0") {
-            console.log("Message sent successfully.");
-          } else {
-            console.log(
-              `Message failed with error: ${responseData.messages[0]["error-text"]}`
-            );
-          }
+          console.log(
+            `Message failed with error: ${responseData.messages[0]["error-text"]}`
+          );
         }
       }
-    );
+    });
 
     return res.status(201).json({
       user: user._id,
@@ -146,6 +145,11 @@ exports.updateStatus = async (req, res) => {
       _id: id,
     });
     if (userData) {
+      const number =
+        `${userData.number}`.charAt(0) === "0"
+          ? `+63${`${userData.number}`.substring(1)}`
+          : `+63${userData.number}`;
+
       if (status === "approve") {
         const update = await Users.updateOne(
           { _id: id },
@@ -153,16 +157,15 @@ exports.updateStatus = async (req, res) => {
             status,
           }
         );
-
         vonage.message.sendSms(
           "Suresafe",
-          `+63${userData.number}`,
-          "Your account is now Verified! \nYou can now use your account in SureSafe app."
+          number,
+          "[SURESAFE] VERIFIED:\n\nYour account is now Verified! \nYou can now use your account in SureSafe app. Thank you! \n\n"
         );
         vonage.message.sendSms(
           "Suresafe",
-          `+63${userData.number}`,
-          `You can now download your QR Code! \nhttp://localhost:8082/${userData.qrcode}`
+          number,
+          `[SURESAFE] QRCODE:\n\nYou can now download your own QR Code! \nDownload Here: http://localhost:8082/${userData.qrcode} \n\nYou can use this to any establishments using SureSafe!\n\n`
         );
         return res.status(201).send({
           title: "Successfully Updated!",
@@ -174,8 +177,8 @@ exports.updateStatus = async (req, res) => {
         const deleteUser = await Users.deleteOne({ _id: id });
         vonage.message.sendSms(
           "Suresafe",
-          `+63${userData.number}`,
-          "Your account is Denied and has been deleted! \n Please try to register again."
+          number,
+          "[SURESAFE] DENIED:\n\nYour account is Denied and has been deleted! \n Please try to register again. Try to make your Valid ID and Picture clear so the admins can verify it easily. Thank you! \n\n"
         );
         return res.status(201).send({
           title: "Successfully Deleted!",
@@ -189,7 +192,6 @@ exports.updateStatus = async (req, res) => {
         title: "Not Found",
         message: "User Not Found!",
         statusCode: 404,
-        data: update,
       });
     }
   } catch (err) {

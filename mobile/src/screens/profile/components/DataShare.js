@@ -178,7 +178,7 @@ export const DataShare = ({data, dispatch}) => {
             marginLeft: 13,
             marginRight: 'auto',
           }}>
-          <Text style={Fonts.H5}>Share my Data</Text>
+          <Text style={Fonts.H5}>Share my Logs</Text>
           <Text style={[Fonts.LIGHT, {marginTop: 3}]}>
             Last share: {lastLogs}
           </Text>
@@ -214,10 +214,8 @@ export const DataShare = ({data, dispatch}) => {
             marginLeft: 15,
             marginRight: 'auto',
           }}>
-          <Text style={Fonts.H5}>Contact Tracer</Text>
-          <Text style={[Fonts.LIGHT, {marginTop: 3}]}>
-            This will make you a contact tracer
-          </Text>
+          <Text style={Fonts.H5}>Share my Visits</Text>
+          <Text style={[Fonts.LIGHT, {marginTop: 3}]}>Last share: N/A</Text>
         </View>
         <FontAwesome5
           name={'chevron-right'}

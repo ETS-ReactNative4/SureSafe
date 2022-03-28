@@ -6,6 +6,7 @@ const initialState = {
   token: '',
   verified: false,
   loggedIN: false,
+  loggedINEstab: false,
   userData: {},
   tracingData: [],
 };
@@ -34,6 +35,21 @@ const rootReducer = (state = initialState, action) => {
         verified: action.payload.verified,
         loggedIN: action.payload.loggedIN,
       };
+    case 'SETESTABLISHMENTTOKEN':
+      useLocalStorage('USERTOKEN', 'SET', action.payload.token, false);
+      useLocalStorage('VERIFIED', 'SET', action.payload.verified, true);
+      useLocalStorage(
+        'LOGGEDINESTAB',
+        'SET',
+        action.payload.loggedINEstab,
+        true,
+      );
+      return {
+        ...state,
+        token: action.payload.token,
+        verified: action.payload.verified,
+        loggedINEstab: action.payload.loggedINEstab,
+      };
     case 'SETLOCALSTORAGE':
       return {
         onboardingDone: action.payload,
@@ -41,6 +57,7 @@ const rootReducer = (state = initialState, action) => {
         token: action.payload.token,
         verified: action.payload.verified,
         loggedIN: action.payload.loggedIN,
+        loggedINEstab: action.payload.loggedINEstab,
         userData: {...action.payload.userData},
       };
     case 'REMOVELOCALSTORAGE':

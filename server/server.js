@@ -24,7 +24,7 @@ server.use(morgan("dev"));
 server.use(express.json({ limit: "50mb" }));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-server.use("/uploads", express.static("uploads"));
+server.use("/suresafe", express.static("suresafe"));
 server.use("/suresafe/api", UserRoutes);
 server.use("/suresafe/api", TracingRoutes);
 server.use("/suresafe/api", EstablishmentsRoutes);

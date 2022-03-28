@@ -5,7 +5,12 @@ import {
 } from '@react-navigation/stack';
 import {Platform} from 'react-native';
 
-import {OnBoardingStack, CreationStack, DashboardStack} from '_screens';
+import {
+  OnBoardingStack,
+  CreationStack,
+  DashboardStack,
+  EstablishmentStack,
+} from '_screens';
 import TabNavigation from './TabNavigation';
 
 const Root = createStackNavigator();
@@ -38,6 +43,11 @@ export const RootStack = () => {
       <Root.Screen
         name="DashboardStack"
         component={DashboardStack}
+        options={options}
+      />
+      <Root.Screen
+        name="EstablishmentStack"
+        component={EstablishmentStack}
         options={options}
       />
     </Root.Navigator>

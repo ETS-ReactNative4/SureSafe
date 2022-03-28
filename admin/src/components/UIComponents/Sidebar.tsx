@@ -1,38 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { Div, Images, Flex, H6 } from "@suresafe/core";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { sideBar } from "@suresafe/constants";
 import { useWindowSize } from "@suresafe/hooks";
 
 interface NavItemProps {
   id: number;
   name: string;
-  selected: number;
-  setSelected: any;
+  current: string;
   icon: string;
   link: string;
   className?: string;
 }
 
-const NavItem = ({
-  id,
-  name,
-  selected,
-  setSelected,
-  icon,
-  link,
-  className,
-}: NavItemProps) => {
+const NavItem = ({ name, current, icon, link, className }: NavItemProps) => {
   return (
     <li
       className={`${className} nav-item my-2 px-5 py-3 pl-8 rounded-md phone:pl-4 tablet:pl-6 laptop:pl-7 desktop:pl-8 ${
-        selected === id ? "bg-main" : "bg-primary"
+        current === name.toLowerCase() ? "bg-main" : "bg-primary"
       }`}
     >
       <Link
-        onClick={() => setSelected(id)}
         to={link}
-        className={`${selected === id ? "text-primary" : "text-fonts-100"}`}
+        className={`${
+          current === name.toLowerCase() ? "text-primary" : "text-fonts-100"
+        }`}
       >
         <H6>
           <i className={`${icon} mr-3`} />
@@ -49,7 +41,7 @@ const NavItem = ({
 
 export const Sidebar = () => {
   const size = useWindowSize();
-  const [selected, setSelected] = useState(1);
+  const location = useLocation();
 
   return (
     <Div className="h-full px-6 py-6 fixed top-0 left-0 bottom-0 bg-primary phone:w-24 tablet:w-64 laptop:w-64 desktop:w-72">
@@ -71,22 +63,20 @@ export const Sidebar = () => {
                   key={i}
                   name={x.name}
                   id={x.id}
-                  selected={selected}
-                  setSelected={setSelected}
+                  current={location.pathname.replace("/", "")}
                   icon={x.icon}
                   link={x.link}
                 />
               );
             })}
-            {/* <NavItem
+            <NavItem
               id={9}
               name="Logout"
-              selected={selected}
-              setSelected={setSelected}
+              current={location.pathname.replace("/", "")}
               icon="fas fa-sign-out-alt"
               link="/logout"
               className={`mt-48`}
-            /> */}
+            />
           </ul>
         </nav>
       </Flex>

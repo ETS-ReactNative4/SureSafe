@@ -117,8 +117,8 @@ const Login = props => {
           color={Colors.FONTS}
         />
         <Button
-          onPress={() => navigation.navigate('Create')}
-          text="Create account?"
+          onPress={() => navigation.navigate('Establishment')}
+          text="Login as establishment?"
           backgroundColor={Colors.PRIMARY}
           color={Colors.GREY}
         />

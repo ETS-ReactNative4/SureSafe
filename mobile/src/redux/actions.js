@@ -12,6 +12,13 @@ const setUserToken = data => {
   };
 };
 
+const setEstabToken = data => {
+  return {
+    type: 'SETESTABLISHMENTTOKEN',
+    payload: data,
+  };
+};
+
 const setLocalStorage = data => {
   return {
     type: 'SETLOCALSTORAGE',
@@ -38,4 +45,5 @@ export {
   setLocalStorage,
   removeLocalStorage,
   setTracingData,
+  setEstabToken,
 };

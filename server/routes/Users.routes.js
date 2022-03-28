@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 const verify = require("../utils/Verify.token");
 const multer = require("multer");
-const uuid = require("uuid");
+const { customAlphabet } = require("nanoid");
+const nanoid = customAlphabet("1234567890abcdef", 7);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+    cb(null, "./suresafe/");
   },
   filename: function (req, file, cb) {
-    cb(null, `${uuid.v4()}.png`);
+    cb(null, `${nanoid()}.png`);
   },
 });
 const upload = multer({ storage: storage });

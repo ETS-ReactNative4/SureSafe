@@ -5,7 +5,7 @@ const uuid = require("uuid");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+    cb(null, "./suresafe/");
   },
   filename: function (req, file, cb) {
     cb(null, `${uuid.v4()}.png`);
@@ -28,6 +28,16 @@ router.post(
 router.get(
   "/establishment/getVisits/:userID",
   EstablishmentsController.getVisits
+);
+
+router.post(
+  "/establishment/login",
+  EstablishmentsController.EstablishmentslogIn
+);
+
+router.get(
+  "/establishment/data/:userID",
+  EstablishmentsController.getEstablishment
 );
 
 module.exports = router;
