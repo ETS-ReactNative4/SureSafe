@@ -7,6 +7,7 @@ import ScanCard from './ScanCard';
 import Header from './Header';
 import VisitsCard from './VisitsCard';
 import PickerCustom from './PickerCustom';
+import {EstablismentCard} from './EstablismentCard';
 
 export {
   Input,
@@ -18,4 +19,5 @@ export {
   Header,
   VisitsCard,
   PickerCustom,
+  EstablismentCard,
 };

@@ -10,6 +10,7 @@ import Login from './Login';
 import Information from './Information';
 import Number from './Number';
 import Code from './Code';
+import Establishment from './Establishment';
 
 const Creation = createStackNavigator();
 
@@ -23,8 +24,12 @@ const options = {
 const CreationStack = () => {
   return (
     <Creation.Navigator headerMode="none">
-      <Creation.Screen name="Create" component={Create} options={options} />
       <Creation.Screen name="Login" component={Login} options={options} />
+      <Creation.Screen
+        name="Establishment"
+        component={Establishment}
+        options={options}
+      />
       <Creation.Screen
         name="Information"
         component={Information}

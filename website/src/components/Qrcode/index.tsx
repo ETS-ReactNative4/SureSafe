@@ -3,7 +3,7 @@ import { SvgIcon } from "../../common/SvgIcon";
 import { Main } from "./styles";
 const QRCode = require("qrcode.react");
 
-const Qrcode = ({ elementID, name, id }: any) => {
+const Qrcode = ({ elementID, data }: any) => {
   return (
     <div
       id={elementID}
@@ -31,7 +31,7 @@ const Qrcode = ({ elementID, name, id }: any) => {
           fontSize: "70px",
         }}
       >
-        {name}
+        {data?.estabName}
       </h1>
       <div
         style={{
@@ -55,7 +55,7 @@ const Qrcode = ({ elementID, name, id }: any) => {
           }}
         >
           <QRCode
-            value={id}
+            value={data?._id || 0}
             size={300}
             bgColor={"#ffffff"}
             fgColor={"#223141"}
@@ -85,7 +85,7 @@ const Qrcode = ({ elementID, name, id }: any) => {
         Scan Me!
       </h1>
       <p style={{ fontSize: "25px" }}>
-        {`${name} is supporting SureSafe in preventing COVID-19 from
+        {`${data?.estabName} is supporting SureSafe in preventing COVID-19 from
           spreading. Please Scan the QR Code above to log your visit Thank You!
           Stay Safe!`}
       </p>

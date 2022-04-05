@@ -73,7 +73,7 @@ const OnBoarding = ({navigation}) => {
                     routes: [{name: 'Creation'}],
                   })
                 }
-                text={index == 3 ? 'Create Account' : 'Skip'}
+                text={index == 3 ? 'Log in' : 'Skip'}
                 backgroundColor={index == 3 ? Colors.LGREEN : Colors.MAIN}
                 color={Colors.PRIMARY}
               />

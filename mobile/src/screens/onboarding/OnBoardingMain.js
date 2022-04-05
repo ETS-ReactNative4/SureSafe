@@ -9,12 +9,17 @@ import {setLocalStorage} from '_redux';
 import {getKeys} from '_utils';
 
 const OnBoardingMain = props => {
-  const {navigation, loggedIN, dispatch} = props;
+  const {navigation, loggedIN, loggedINEstab, dispatch} = props;
   useEffect(() => {
     const GET = async () => {
       const DATA = await getKeys();
       dispatch(setLocalStorage(DATA));
-      if (loggedIN == 'true') {
+      if (loggedINEstab == 'true') {
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'EstablishmentStack'}],
+        });
+      } else if (loggedIN == 'true') {
         navigation.reset({
           index: 0,
           routes: [{name: 'TabNavigation'}],
@@ -22,7 +27,7 @@ const OnBoardingMain = props => {
       }
     };
     GET();
-  }, [loggedIN]);
+  }, [loggedIN, loggedINEstab]);
 
   return (
     <View style={Main.container}>

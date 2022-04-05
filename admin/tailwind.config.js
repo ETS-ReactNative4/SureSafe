@@ -7,6 +7,15 @@ module.exports = {
         gilroy: ["Gilroy"],
       },
     },
+    // height: () => ({
+    //   "900px": "900px",
+    //   "800px": "800px",
+    //   "500px": "500px",
+    //   "480px": "480px",
+    //   "400px": "400px",
+    //   "300px": "300px",
+    //   "200px": "200px",
+    // }),
     screens: {
       phone: "0px",
       tablet: "800px",
@@ -49,6 +58,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require("tailwind-scrollbar-hide"),
     require("@tailwindcss/forms"), // import tailwind forms
   ],
 };

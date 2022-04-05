@@ -28,7 +28,7 @@ const Number = props => {
         setBtnStatus(false);
         navigation.reset({
           index: 0,
-          routes: [{name: 'Code'}],
+          routes: [{name: 'Code', params: {number: number}}],
         });
       } else {
         setBtnStatus(false);

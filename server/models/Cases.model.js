@@ -7,10 +7,13 @@ const CasesSchema = new Schema({
   municipality: { type: String },
   barangay: { type: String },
   date: { type: Date },
+  image: { type: String },
   exposure: { type: String },
   totalExposed: { type: Number },
   totalPotential: { type: Number },
   totalVisits: { type: Number },
+  potentials: [],
+  exposed: [],
   status: { type: String },
 });
 

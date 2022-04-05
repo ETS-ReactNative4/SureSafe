@@ -19,23 +19,6 @@ const vonage = new Vonage({
 
 exports.userCreate = async (req, res) => {
   try {
-    console.log(req.body);
-    const validation = Joi.object({
-      email: Joi.string().required(),
-      password: Joi.string().required(),
-      agreement: Joi.boolean().required(),
-    });
-
-    // Request Validations
-    const { error } = validation.validate(req.body);
-    if (error)
-      return res.status(401).send({
-        title: "Something went Wrong!",
-        message:
-          "Its look like your information is not accepted. Please try again.",
-        statusCode: 401,
-      });
-
     const emailExist = await Users.findOne({
       email: req.body.email.toLowerCase(),
     });
@@ -75,16 +58,42 @@ exports.userCreate = async (req, res) => {
     const user = new Users({
       email: req.body.email.toLowerCase(),
       password: hashedPassword,
-      agreement: req.body.agreement,
+      agreement: true,
       userState: {
         status: "Covid Free",
         exposure: "Not Exposed",
       },
       role: "User",
+      status: "new",
+      picture: req.files["picture"][0].path,
+      validId: req.files["validId"][0].path,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      municipality: req.body.municipality,
+      barangay: req.body.barangay,
+      number: req.body.number,
+    });
+    const saveUser = await user.save();
+    const number =
+      req.body.number.charAt(0) === "0"
+        ? `+63${req.body.number.substring(1)}`
+        : `+63${req.body.number}`;
+    const text =
+      "[SURESAFE] VERIFICATION:\n\nYour account is on verification process. We will send an SMS regarding your Account Status and QR Code. This may take time! Thank you for your patience! \n\n";
+    vonage.message.sendSms("Suresafe", number, text, (err, responseData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (responseData.messages[0]["status"] === "0") {
+          console.log("Message sent successfully.");
+        } else {
+          console.log(
+            `Message failed with error: ${responseData.messages[0]["error-text"]}`
+          );
+        }
+      }
     });
 
-    const saveUser = await user.save();
-    INFO.info(`User ${user._id} Created`);
     return res.status(201).json({
       user: user._id,
       title: "Successfully Created!",
@@ -96,6 +105,99 @@ exports.userCreate = async (req, res) => {
   } catch (err) {
     console.log(err);
     ERROR.error(`${err.message} Users Controller`);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.addQrCode = async (req, res) => {
+  try {
+    const update = await Users.updateOne(
+      { _id: req.body.id },
+      {
+        qrcode: req.files["qrcode"][0].path,
+      }
+    );
+
+    return res.status(201).send({
+      title: "Successfully Updated!",
+      message: "User info Updated!",
+      statusCode: 201,
+      data: update,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  const { id, status } = req.body;
+  console.log("id", req.body);
+  try {
+    const userData = await Users.findOne({
+      _id: id,
+    });
+    if (userData) {
+      const number =
+        `${userData.number}`.charAt(0) === "0"
+          ? `+63${`${userData.number}`.substring(1)}`
+          : `+63${userData.number}`;
+
+      if (status === "approve") {
+        const update = await Users.updateOne(
+          { _id: id },
+          {
+            status,
+          }
+        );
+        vonage.message.sendSms(
+          "Suresafe",
+          number,
+          "[SURESAFE] VERIFIED:\n\nYour account is now Verified! \nYou can now use your account in SureSafe app. Thank you! \n\n"
+        );
+        vonage.message.sendSms(
+          "Suresafe",
+          number,
+          `[SURESAFE] QRCODE:\n\nYou can now download your own QR Code! \nDownload Here: http://localhost:8082/${userData.qrcode} \n\nYou can use this to any establishments using SureSafe!\n\n`
+        );
+        return res.status(201).send({
+          title: "Successfully Updated!",
+          message: "User info Updated!",
+          statusCode: 201,
+          data: update,
+        });
+      } else if (status === "denied") {
+        const deleteUser = await Users.deleteOne({ _id: id });
+        vonage.message.sendSms(
+          "Suresafe",
+          number,
+          "[SURESAFE] DENIED:\n\nYour account is Denied and has been deleted! \n Please try to register again. Try to make your Valid ID and Picture clear so the admins can verify it easily. Thank you! \n\n"
+        );
+        return res.status(201).send({
+          title: "Successfully Deleted!",
+          message: "User info Deleted!",
+          statusCode: 201,
+          data: deleteUser,
+        });
+      }
+    } else {
+      return res.status(404).send({
+        title: "Not Found",
+        message: "User Not Found!",
+        das: userData,
+        statusCode: 404,
+      });
+    }
+  } catch (err) {
+    console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",
       message: "Someting went wrong. Please try again or try again later.",
@@ -321,8 +423,16 @@ exports.logIn = async (req, res) => {
     const user = await Users.findOne({ email: req.body.email.toLowerCase() });
     if (!user)
       return res.status(404).send({
-        title: `"Email or Password is Invalid`,
+        title: `Email or Password is Invalid`,
         message: "Email or Password is wrong. Please try again.",
+        statusCode: 404,
+      });
+
+    if (user.status === "new")
+      return res.status(404).send({
+        title: `Invalid Account`,
+        message:
+          "Account is not verified. Please wait for the admins to approve your account.",
         statusCode: 404,
       });
 
@@ -414,6 +524,7 @@ exports.getUser = async (req, res) => {
 exports.changeRole = async (req, res) => {
   try {
     const { _id, role, code } = req.body;
+    console.log("asghjfj");
     const getAdmins = await Admin.find();
     const codes = getAdmins[0]?.codes;
     const findCode = codes.find((value) => value.code === code);
@@ -454,8 +565,8 @@ exports.changeRole = async (req, res) => {
         );
         if (updateUser) {
           return res.status(201).send({
-            title: `Changed Role`,
-            message: `${_id} is now ${role}`,
+            title: `Successfully Changed`,
+            message: `Your role is changed to ${role}. You can now add cases!`,
             statusCode: 201,
             data: updateUser,
           });
@@ -464,12 +575,13 @@ exports.changeRole = async (req, res) => {
     } else {
       return res.status(405).send({
         title: `Code is Invalid`,
-        message: `${code} not find.`,
+        message: `${code} is not a valid code. Please Try Again.`,
         statusCode: 405,
-        data: updateUser,
       });
     }
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.getNotifications = async (req, res) => {
@@ -495,6 +607,7 @@ exports.getStatus = async (req, res) => {
     const getCases = await Cases.find();
     const getUsers = await Users.find();
     const getTracing = await Tracing.find();
+
     let infected = 0;
     let exposed = 0;
     let recovered = 0;
@@ -511,7 +624,7 @@ exports.getStatus = async (req, res) => {
     for (let i = 0; i < getData.length; i++) {
       if (getData[i].statusType === "Potential") {
         potential = 1 + potential;
-      } else if (getCases[i].statusType === "Recovered") {
+      } else if (getData[i].statusType === "Recovered") {
         recovered = 1 + recovered;
       }
     }
@@ -535,7 +648,14 @@ exports.getStatus = async (req, res) => {
         sharedVisits: findUser.sharedVisits.length,
       },
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
 };
 
 exports.getProfile = async (req, res) => {
@@ -585,6 +705,31 @@ exports.getProfile = async (req, res) => {
       statusCode: 200,
     });
   } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.getNewUsers = async (req, res) => {
+  try {
+    const allUsers = await Users.find({ status: "approve" });
+    const findUsers = await Users.find({ status: "new" });
+
+    return res.status(200).json({
+      message: "Users data retrived!",
+      data: {
+        users: findUsers,
+        totalUser: allUsers.length,
+        totalNewUsers: findUsers.length,
+      },
+      statusCode: 200,
+    });
+  } catch (err) {
+    ERROR.error(`${err.message} Users Controller`);
     console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",
