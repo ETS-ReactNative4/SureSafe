@@ -84,7 +84,7 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data, dispatch}) => {
               paddingRight: 35,
             }}>
             <Text style={[Fonts.H4, {width: '100%', color: Colors.PRIMARY}]}>
-              Profile
+              Share Data
             </Text>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <FontAwesome5 name={'times'} size={25} color={Colors.FONTS} />
@@ -95,43 +95,24 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data, dispatch}) => {
               Fonts.H4,
               {marginBottom: 5, width: '100%', paddingHorizontal: 35},
             ]}>
-            {mode ? 'Share Data' : 'Contact Tracer'}
+            {mode ? 'Share as Exposed' : 'Share as Infected'}
           </Text>
-          <Text style={[Fonts.BODY, {marginBottom: 20, paddingHorizontal: 35}]}>
-            {mode
-              ? 'Please share this QR Code to contact tracers. Thank you!'
-              : 'Please enter the code from the admin of SureSafe. Thank you!'}
+          <Text
+            style={[
+              Fonts.BODY,
+              {marginBottom: 20, paddingHorizontal: 32, textAlign: 'left'},
+            ]}>
+            {!mode
+              ? 'Your about to share your logs as infected this will generate the list of your exposure.'
+              : 'Your about to share your logs as exposed this will generate the list of your potential exposed.'}
           </Text>
-          {mode ? (
-            <QRCode
-              value={data?.userID}
-              size={280}
-              logo={Icons.sureSafeLogo}
-              logoSize={70}
-              logoBackgroundColor="transparent"
-              color={Colors.FONTS}
-            />
-          ) : (
-            <View style={{width: '100%', paddingHorizontal: 20}}>
-              <Input
-                validator={validator.isAscii}
-                placeholder="Code"
-                value={code}
-                onChangeText={setCode}
-              />
-            </View>
-          )}
-          {mode ? (
-            <></>
-          ) : (
-            <Button
-              status={btnStatus}
-              text="Submit"
-              backgroundColor={Colors.LGREEN}
-              color={Colors.PRIMARY}
-              onPress={() => onSubmit()}
-            />
-          )}
+          <Button
+            status={btnStatus}
+            text="Okay"
+            backgroundColor={Colors.LGREEN}
+            color={Colors.PRIMARY}
+            onPress={() => onSubmit()}
+          />
         </View>
       </View>
     </Modal>
@@ -170,7 +151,7 @@ export const DataShare = ({data, dispatch}) => {
           name={'street-view'}
           solid
           size={35}
-          color={Colors.LBLUE}
+          color={Colors.LYELLOW}
         />
         <View
           style={{
@@ -178,9 +159,9 @@ export const DataShare = ({data, dispatch}) => {
             marginLeft: 13,
             marginRight: 'auto',
           }}>
-          <Text style={Fonts.H5}>Share my Logs</Text>
+          <Text style={Fonts.H5}>Share as Exposed</Text>
           <Text style={[Fonts.LIGHT, {marginTop: 3}]}>
-            Last share: {lastLogs}
+            Share my logs as exposed
           </Text>
         </View>
         <FontAwesome5
@@ -207,15 +188,18 @@ export const DataShare = ({data, dispatch}) => {
           setModalVisible(true);
         }}
         style={{flexDirection: 'row', alignItems: 'center', width: '100%'}}>
-        <FontAwesome5 name={'qrcode'} solid size={35} color={Colors.LORANGE} />
+        <FontAwesome5 name={'virus'} solid size={35} color={Colors.LRED} />
         <View
           style={{
             justifyContent: 'center',
             marginLeft: 15,
             marginRight: 'auto',
           }}>
-          <Text style={Fonts.H5}>Share my Visits</Text>
-          <Text style={[Fonts.LIGHT, {marginTop: 3}]}>Last share: N/A</Text>
+          <Text style={Fonts.H5}>Share as Infected</Text>
+          <Text style={[Fonts.LIGHT, {marginTop: 3}]}>
+            {' '}
+            Share my logs as infected
+          </Text>
         </View>
         <FontAwesome5
           name={'chevron-right'}

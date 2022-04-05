@@ -1,7 +1,14 @@
 import React from "react";
 import { Flex } from "@suresafe/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Dashboard, Authentication, Exposed, Infected } from "@suresafe/pages";
+import {
+  Dashboard,
+  Authentication,
+  Exposed,
+  Infected,
+  Potential,
+  Newuser,
+} from "@suresafe/pages";
 
 export const App = () => {
   return (
@@ -13,6 +20,8 @@ export const App = () => {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/exposed" component={Exposed} />
             <Route exact path="/infected" component={Infected} />
+            <Route exact path="/potential" component={Potential} />
+            <Route exact path="/users" component={Newuser} />
           </Switch>
         </Flex>
       </Flex>

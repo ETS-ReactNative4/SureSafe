@@ -27,7 +27,7 @@ const NavItem = ({ name, current, icon, link, className }: NavItemProps) => {
         }`}
       >
         <H6>
-          <i className={`${icon} mr-3`} />
+          <i className={`${icon} w-8 mr-3`} />
           <span
             className={`inline-flex phone:hidden tablet:inline-flex laptop:inline-flex desktop:inline-flex`}
           >
@@ -74,8 +74,8 @@ export const Sidebar = () => {
               name="Logout"
               current={location.pathname.replace("/", "")}
               icon="fas fa-sign-out-alt"
-              link="/logout"
-              className={`mt-48`}
+              link="/"
+              className={`mt-80`}
             />
           </ul>
         </nav>

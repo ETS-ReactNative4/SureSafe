@@ -34,7 +34,7 @@ const Establishment = props => {
 
   return (
     <View style={[{flex: 1, backgroundColor: Colors.MAIN}]}>
-      <View style={[Padding.CONTAINER, {flex: 0.4}]}>
+      <View style={[Padding.CONTAINER, {flex: 0.6}]}>
         <Text style={[Fonts.H2, {color: Colors.PRIMARY, marginBottom: 'auto'}]}>
           Establishment
         </Text>
@@ -61,6 +61,16 @@ const Establishment = props => {
           icon="qrcode"
           title="Scan QR"
           info="Scan QR qr codes of users who enter in your establishment."
+          onPress={() =>
+            navigation.navigate('EstablishmentStack', {
+              screen: 'Scan',
+            })
+          }
+        />
+        <MainButton
+          icon="virus"
+          title="Share as Exposed"
+          info="Share your establishment data as exposed."
           onPress={() =>
             navigation.navigate('EstablishmentStack', {
               screen: 'Scan',

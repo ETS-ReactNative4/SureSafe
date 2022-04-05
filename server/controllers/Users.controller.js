@@ -140,6 +140,7 @@ exports.addQrCode = async (req, res) => {
 
 exports.updateStatus = async (req, res) => {
   const { id, status } = req.body;
+  console.log("id", req.body);
   try {
     const userData = await Users.findOne({
       _id: id,
@@ -191,6 +192,7 @@ exports.updateStatus = async (req, res) => {
       return res.status(404).send({
         title: "Not Found",
         message: "User Not Found!",
+        das: userData,
         statusCode: 404,
       });
     }
@@ -703,6 +705,31 @@ exports.getProfile = async (req, res) => {
       statusCode: 200,
     });
   } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.getNewUsers = async (req, res) => {
+  try {
+    const allUsers = await Users.find({ status: "approve" });
+    const findUsers = await Users.find({ status: "new" });
+
+    return res.status(200).json({
+      message: "Users data retrived!",
+      data: {
+        users: findUsers,
+        totalUser: allUsers.length,
+        totalNewUsers: findUsers.length,
+      },
+      statusCode: 200,
+    });
+  } catch (err) {
+    ERROR.error(`${err.message} Users Controller`);
     console.log(err);
     return res.status(400).send({
       title: "Someting went wrong!",

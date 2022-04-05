@@ -19,32 +19,14 @@ export const sideBar = [
   },
   {
     id: 4,
-    name: "Generate",
+    name: "Potential",
     icon: "fas fa-users",
-    link: "/generate",
+    link: "/potential",
   },
   {
     id: 5,
-    name: "Cases",
-    icon: "fas fa-briefcase-medical",
-    link: "/cases",
-  },
-  {
-    id: 6,
-    name: "Establishments",
-    icon: "fas fa-building",
-    link: "/establishments",
-  },
-  {
-    id: 7,
-    name: "Contact Tracers",
-    icon: "fas fa-user-shield",
-    link: "/contact-tracers",
-  },
-  {
-    id: 8,
-    name: "Settings",
-    icon: "fas fa-cog",
-    link: "/settings",
+    name: "Users",
+    icon: "fas fa-user-plus",
+    link: "/users",
   },
 ];

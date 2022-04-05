@@ -56,4 +56,6 @@ router.get(
 
 router.get("/users/status/:userID", verify, UsersControllers.getStatus);
 
+router.get("/users/newusers", UsersControllers.getNewUsers);
+
 module.exports = router;
