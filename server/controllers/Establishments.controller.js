@@ -169,7 +169,7 @@ exports.addVisit = async (req, res) => {
 
     return res.status(201).send({
       title: "Successfully Added!",
-      message: `${findEstab.estabName} successfully added!`,
+      message: `Visit log successfully added!`,
       statusCode: 201,
       data: userUpdate,
       data2: estabUpdate,

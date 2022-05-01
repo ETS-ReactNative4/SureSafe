@@ -1,18 +1,17 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Platform,
   Easing,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import VIForegroundService from '@voximplant/react-native-foreground-service';
+import schedule from 'node-schedule';
 import Geolocation from 'react-native-geolocation-service';
 import {connect} from 'react-redux';
 
-import {Colors, Fonts, Padding} from '_styles';
+import {Colors} from '_styles';
 import {TracingAPI, UpdateTracingAPI, RemoveTracingAPI} from '../api';
 import {usePermision} from '_hooks';
 import {setTracingData} from '_redux';
@@ -26,10 +25,7 @@ const Trace = props => {
     accuracy: 2,
   });
   const [ready, setReady] = useState(true);
-  const [foregroundService, setForegroundService] = useState(false);
   const [request, setRequest] = useState(0);
-  const watchId = useRef(null);
-  console.log('tracing', tracing);
 
   const circle1 = useState(new Animated.Value(290))[0];
   const [stat, setStat] = useState(false);
@@ -37,87 +33,48 @@ const Trace = props => {
   const getLocationUpdates = async () => {
     const hasPermission = await usePermision();
 
-    if (ready) {
-      if (hasPermission) {
-        if (Platform.OS === 'android' && foregroundService) {
-          await startForegroundService();
-        }
-
-        watchId.current = Geolocation.watchPosition(
-          position => {
-            const {latitude, longitude, accuracy} = position.coords;
-            setGeolocation({
-              latitude: latitude,
-              longitude: longitude,
-              accuracy: accuracy,
-            });
-            setReady(false);
-            console.log('ACCURACY', accuracy);
+    if (ready && hasPermission) {
+      Geolocation.getCurrentPosition(
+        position => {
+          const {latitude, longitude, accuracy} = position.coords;
+          setGeolocation({
+            latitude: `${latitude}`.substring(0, 6),
+            longitude: `${longitude}`.substring(0, 7),
+            accuracy: accuracy,
+          });
+          setReady(false);
+          console.log('position.coords', position.coords);
+        },
+        error => {
+          setGeolocation({});
+          console.log('error', error);
+        },
+        {
+          enableHighAccuracy: true,
+          accuracy: {
+            android: 'high',
+            ios: 'nearestTenMeters',
           },
-          error => {
-            setGeolocation({});
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-            accuracy: {
-              android: 'high',
-              ios: 'bestForNavigation',
-            },
-            distanceFilter: 0,
-            interval: 3000,
-            fastestInterval: 5000,
-            maximumAge: 1000,
-          },
-        );
-      }
+          maximumAge: 100,
+          timeout: 1000,
+          distanceFilter: 1,
+        },
+      );
     }
   };
 
-  const removeLocationUpdates = useCallback(() => {
-    if (watchId.current !== null) {
-      stopForegroundService();
-      Geolocation.clearWatch(watchId.current);
-      watchId.current = null;
-    }
-  }, [stopForegroundService]);
-
-  const startForegroundService = async () => {
-    try {
-      await VIForegroundService.createNotificationChannel({
-        id: 'locationChannel',
-        name: 'Location Tracking Channel',
-        description: 'Tracks location of user',
-        enableVibration: false,
+  const onTracing = () => {
+    if (!tracing) {
+      schedule.scheduleJob('TRACINGON', '*/2 * * * * *', async () => {
+        getLocationUpdates();
       });
-      await VIForegroundService.startService({
-        channelId: 'locationChannel',
-        id: 420,
-        title: 'SureSafe',
-        text: 'Geo Tracing is running in background.',
-        icon: 'ic_icon',
-      });
-    } catch (e) {
-      console.log(e);
+    } else {
+      let current_job = schedule.scheduledJobs.TRACINGON;
+      current_job.cancel();
     }
+    setStatus(!tracing);
+    setTracing(!tracing);
   };
-
-  const stopForegroundService = useCallback(() => {
-    VIForegroundService.stopService().catch(err => err);
-  }, []);
-
-  useEffect(() => {
-    const on = async () => {
-      if (tracing) {
-        setForegroundService(!foregroundService);
-        await getLocationUpdates();
-      } else {
-        setForegroundService(!foregroundService);
-        removeLocationUpdates();
-      }
-    };
-    on();
-  }, [tracing]);
 
   useEffect(() => {
     if (tracing) {
@@ -129,14 +86,6 @@ const Trace = props => {
       }).start();
       setStat(!stat);
       setRequest(request + 1);
-      // if (geolocation.accuracy >= 20) {
-      //   const promise = async () => {
-      //     await TracingAPI(userID, geolocation);
-      //     const updateTracing = await UpdateTracingAPI(userID);
-      //     dispatch(setTracingData(updateTracing));
-      //   };
-      //   promise();
-      // }
       const promise = async () => {
         await TracingAPI(userID, geolocation);
         const updateTracing = await UpdateTracingAPI(userID);
@@ -177,10 +126,7 @@ const Trace = props => {
                   },
                 ]}>
                 <TouchableOpacity
-                  onPress={() => {
-                    setStatus(!tracing);
-                    setTracing(!tracing);
-                  }}
+                  onPress={onTracing}
                   style={[
                     styles.tracingBtn,
                     {

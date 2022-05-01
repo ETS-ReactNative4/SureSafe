@@ -15,6 +15,8 @@ const CasesSchema = new Schema({
   potentials: [],
   exposed: [],
   status: { type: String },
+  phone: { type: Number },
+  email: { type: String },
 });
 
 const Cases = mongoose.model("Cases", CasesSchema);

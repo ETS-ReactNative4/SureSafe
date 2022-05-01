@@ -77,7 +77,7 @@ export const Newuser = () => {
   return (
     <Flex className={"scrollbar-hide"}>
       <Sidebar />
-      <Navbar title="New Users" />
+      <Navbar title="Users" />
       <Flex
         className={`p-8 bg-secondary overflow-y-scroll overflow-x-hidden scrollbar-hide`}
       >

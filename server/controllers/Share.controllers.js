@@ -40,6 +40,11 @@ exports.shareLogsExposed = async (req, res) => {
           await Users.updateOne(
             { _id: userLogs[i].userID },
             {
+              lastLogs: new Date(),
+              userState: {
+                status: "Potential",
+                exposure: "Limited",
+              },
               $push: {
                 notifications: {
                   clicked: false,
@@ -51,6 +56,27 @@ exports.shareLogsExposed = async (req, res) => {
               },
             }
           );
+          const ifCase = await Cases.findOne({ userID: userData._id });
+          if (!ifCase) {
+            const newCase = new Cases({
+              userID: userData._id,
+              name: `${userData.firstName} ${userData.lastName}`,
+              municipality: userData.municipality,
+              barangay: userData.barangay,
+              image: userData.picture,
+              date: new Date(),
+              totalExposed: 0,
+              totalPotential: 0,
+              totalVisits: userData.Visits.length,
+              potentials: [],
+              exposed: [],
+              exposure: "Limited",
+              status: "Potential",
+              phone: userData.number,
+              email: userData.email,
+            });
+            await newCase.save();
+          }
         }
       }
     }
@@ -80,16 +106,24 @@ exports.shareLogsExposed = async (req, res) => {
         exposed: [],
         exposure: exposure,
         status: "Exposed",
+        phone: user.number,
+        email: user.email,
       });
       await newCase.save();
+    } else {
+      await Cases.updateOne(
+        { userID: user._id },
+        {
+          totalPotential: totalPotential,
+          potentials: Potentials,
+        }
+      );
     }
 
     await Users.updateOne(
       { _id: userID },
       {
         lastLogs: new Date(),
-        Logs: [],
-        sharedLogs: [...user.Logs, ...user?.sharedLogs],
         userState: {
           status: "Exposed",
           exposure: exposure,
@@ -101,7 +135,7 @@ exports.shareLogsExposed = async (req, res) => {
       title: "Successfully Added!",
       message: "Shared Successfully Added!",
       statusCode: 201,
-      data: saveShare,
+      // data: saveShare,
     });
   } catch (err) {
     console.log(err);
@@ -144,17 +178,43 @@ exports.shareLogsInfected = async (req, res) => {
           await Users.updateOne(
             { _id: userLogs[i].userID },
             {
+              lastLogs: new Date(),
+              userState: {
+                status: "Exposed",
+                exposure: "Limited",
+              },
               $push: {
                 notifications: {
                   clicked: false,
                   title: "Exposed",
                   date: new Date(),
-                  permission: false,
+                  permission: true,
                   type: "Person",
                 },
               },
             }
           );
+          const ifCase = await Cases.findOne({ userID: userData._id });
+          if (!ifCase) {
+            const newCase = new Cases({
+              userID: userData._id,
+              name: `${userData.firstName} ${userData.lastName}`,
+              municipality: userData.municipality,
+              barangay: userData.barangay,
+              image: userData.picture,
+              date: new Date(),
+              totalExposed: 0,
+              totalPotential: 0,
+              totalVisits: userData.Visits.length,
+              potentials: [],
+              exposed: [],
+              exposure: "Limited",
+              status: "Exposed",
+              userData: userData.number,
+              email: userData.email,
+            });
+            await newCase.save();
+          }
         }
       }
     }
@@ -184,6 +244,8 @@ exports.shareLogsInfected = async (req, res) => {
         exposed: Exposed,
         exposure: exposure,
         status: "Infected",
+        phone: user.number,
+        email: user.email,
       });
       await newCase.save();
     }
@@ -192,8 +254,6 @@ exports.shareLogsInfected = async (req, res) => {
       { _id: userID },
       {
         lastLogs: new Date(),
-        Logs: [],
-        sharedLogs: [...user.Logs, ...user?.sharedLogs],
         userState: {
           status: "Infected",
           exposure: exposure,
@@ -205,7 +265,6 @@ exports.shareLogsInfected = async (req, res) => {
       title: "Successfully Added!",
       message: "Shared Successfully Added!",
       statusCode: 201,
-      data: saveShare,
     });
   } catch (err) {
     console.log(err);
@@ -224,6 +283,7 @@ exports.shareVisits = async (req, res) => {
 
     if (establishment) {
       const visitors = establishment.visitors;
+      let userIds = [];
       for (let i = 0; i < visitors.length; i++) {
         const user = visitors[i];
         const userData = await Users.findOne({ _id: user.userId });
@@ -241,20 +301,45 @@ exports.shareVisits = async (req, res) => {
             recently visited have been exposed to an infected person. \nPlease do self isolation for 5 days. Thank you! \n\n`
           );
 
-          await Users.updateOne(
-            { _id: user.userId },
-            {
-              $push: {
-                notifications: {
-                  clicked: false,
-                  title: "Potential",
-                  date: new Date(),
-                  permission: false,
-                  type: "Establishment",
+          if (!userIds.includes(`${user.userId}`)) {
+            await Users.updateOne(
+              { _id: user.userId },
+              {
+                userState: {
+                  status: "Potential",
+                  exposure: "Limited",
                 },
-              },
-            }
-          );
+                $push: {
+                  notifications: {
+                    clicked: false,
+                    title: "Potential",
+                    date: new Date(),
+                    permission: false,
+                    type: "Establishment",
+                  },
+                },
+              }
+            );
+            const newCase = new Cases({
+              userID: userData._id,
+              name: `${userData.firstName} ${userData.lastName}`,
+              municipality: userData.municipality,
+              barangay: userData.barangay,
+              image: userData.picture,
+              date: new Date(),
+              totalExposed: 0,
+              totalPotential: 0,
+              totalVisits: userData.Visits.length,
+              potentials: [],
+              exposed: [],
+              exposure: "Limited",
+              status: "Potential",
+              userData: userData.number,
+              email: userData.email,
+            });
+            await newCase.save();
+          }
+          userIds.push(`${user.userId}`);
         }
       }
 
@@ -283,13 +368,14 @@ exports.shareVisits = async (req, res) => {
 exports.getCases = async (req, res) => {
   try {
     const { userID } = req.params;
-    const getAll = await Cases.find();
+    const getAllExposed = await Cases.find({ status: "Exposed" });
+    const getAllInfected = await Cases.find({ status: "Infected" });
     const getUser = await Users.findById(userID);
     return res.status(201).send({
       title: "Successfully Added!",
       message: "Shared Successfully Added!",
       statusCode: 201,
-      data: getAll,
+      data: [...getAllInfected, ...getAllExposed],
       role: getUser.role,
     });
   } catch (err) {

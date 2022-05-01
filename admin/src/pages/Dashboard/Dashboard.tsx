@@ -1,101 +1,86 @@
 import React from "react";
 import { FlexRow, Div, H4, Flex } from "@suresafe/core";
+import { API } from "@suresafe/constants";
 import { Sidebar, Navbar, OverviewItem, Chart } from "@suresafe/components";
 
 export const Dashboard = () => {
+  const [main, setMain] = React.useState<any>([]);
+
+  const getData = async () => {
+    const res = await fetch(`${API}/suresafe/api/admin/dashboard`);
+    const data = await res.json();
+    setMain(data.data);
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <Flex>
       <Sidebar />
       <Navbar title="Dashboard" />
       <Flex className={`p-8 bg-secondary overflow-y-scroll`}>
-        <H4 className={`text-fonts-100`}>Overview</H4>
+        <H4 className={`text-fonts-100`}>Total Overview</H4>
         <Div
           className={`w-full mt-3 grid gap-4 phone:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4`}
         >
           <OverviewItem
-            title="Total Cases"
-            value="24k"
+            title="Cases"
+            value={main?.totalCases || "0"}
             color="bg-orange-200"
-            icon="fas fa-users"
-          />
-          <OverviewItem
-            title="Recovered"
-            value="12k"
-            color="bg-lightblue"
-            icon="fas fa-heartbeat"
+            icon="fas fa-hospital-user"
           />
           <OverviewItem
             title="Infected"
-            value="7k"
-            color="bg-yellow-200"
-            icon="fas fa-disease"
-          />
-          <OverviewItem
-            title="Deaths"
-            value="5k"
+            value={main?.infected || "0"}
             color="bg-lightred"
-            icon="fas fa-skull-crossbones"
+            icon="fas fa-radiation"
           />
-        </Div>
-        <Div
-          className={`w-full mt-3 grid gap-4 phone:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-4`}
-        >
           <OverviewItem
             title="Exposed"
-            value="24k"
-            color="bg-orange-200"
+            value={main?.exposed || "0"}
+            color="bg-yellow-200"
             icon="fas fa-exclamation"
           />
           <OverviewItem
-            title="Vaccinated"
-            value="12k"
+            title="Potential"
+            value={main?.potential || "0"}
             color="bg-lightblue"
-            icon="fas fa-syringe"
-          />
-          <OverviewItem
-            title="Users"
-            value="7k"
-            color="bg-yellow-200"
-            icon="fas fa-user"
-          />
-          <OverviewItem
-            title="Tracers"
-            value="5k"
-            color="bg-lightred"
-            icon="fas fa-user-nurse"
+            icon="fas fa-heartbeat"
           />
         </Div>
         <Div
-          className={`bg-secondary grid gap-4 phone:grid-cols-1 tablet:grid-cols-1 laptop:grid-cols-2 desktop:grid-cols-2`}
+          className={`w-full mt-3 grid gap-4 phone:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-3`}
         >
-          <Flex className={`bg-secondary`}>
-            <H4 className={`text-fonts-100 mt-5 mb-3`}>Chart</H4>
-            <Chart
-              labels={[
-                "Potential",
-                "Quarantined",
-                "Tested",
-                "Vacinated",
-                "Infected",
-                "Recovered",
-              ]}
-              datas={[12, 19, 3, 5, 2, 3]}
-            />
-          </Flex>
-          <Flex className={`bg-secondary `}>
-            <H4 className={`text-fonts-100 mt-5 mb-3`}>Chart</H4>
-            <Chart
-              labels={[
-                "Potential",
-                "Quarantined",
-                "Tested",
-                "Vacinated",
-                "Infected",
-                "Recovered",
-              ]}
-              datas={[12, 19, 3, 5, 2, 3]}
-            />
-          </Flex>
+          <OverviewItem
+            title="Total Users"
+            value={main?.users || "0"}
+            color="bg-green-200"
+            icon="fas fa-users"
+          />
+          <OverviewItem
+            title="Establishments"
+            value={main?.establisments || "0"}
+            color="bg-lightblue"
+            icon="fas fa-building"
+          />
+          <OverviewItem
+            title="Geo Tracing"
+            value={main?.geotracing || "0"}
+            color="bg-yellow-200"
+            icon="fas fa-street-view"
+          />
+        </Div>
+        <Div className={`bg-secondary mt-10`}>
+          <Chart
+            labels={["Potential", "Exposed", "Infected"]}
+            datas={[
+              main?.potential || 0,
+              main?.exposed || 0,
+              main?.infected || 0,
+            ]}
+          />
         </Div>
       </Flex>
     </Flex>

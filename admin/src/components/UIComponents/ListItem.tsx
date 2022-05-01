@@ -1,46 +1,48 @@
 import React from "react";
 import { Div, Text, H6 } from "@suresafe/core";
 
-export const ItemCard = ({ data, onSelect }: any) => {
-  const newDate = new Date(data?.date);
+export const ListItem = ({ data }: any) => {
+  const newDate = new Date(data?.logDate);
 
   return (
     <div
-      onClick={() => onSelect()}
-      className={`w-full h-28 bg-main rounded-lg p-4 flex flex-row items-center mb-5 cursor-pointer`}
+      className={`w-full h-28 bg-main rounded-lg p-4 flex flex-row items-center mb-5`}
     >
       {/* <Div className={`w-20 h-20 bg-primary rounded-full mr-5`}></Div> */}
       <Div className={`mr-auto`}>
-        <H6 className={`text-primary`}>{data?.name}</H6>
+        <H6 className={`text-primary`}>
+          SS-
+          {data?.userID.substring(data.userID.length - 4, data.userID.length)}
+        </H6>
         <Text className={`text-lg text-primary`}>
           {newDate.toString().substring(0, 15)}
         </Text>
       </Div>
       <Div
-        className={`w-44 h-20 bg-green-200 rounded-lg mr-3 px-4 py-2 flex flex-row items-center`}
+        className={`w-52 h-20 bg-green-200 rounded-lg mr-3 px-4 py-2 flex flex-row items-center`}
       >
-        <i className={`fas fa-heartbeat text-center text-4xl text-primary`}></i>
+        <i className={`fas fa-hourglass text-center text-4xl text-primary`}></i>
         <Div className={`ml-3`}>
           <Text className={`text-primary text-base font-medium m-0 p-0`}>
-            Potential
+            Time
           </Text>
           <Text className={`text-primary text-2xl font-extrabold m-0 p-0`}>
-            {data?.totalPotential}
+            {data?.time?.toFixed(2)} min
           </Text>
         </Div>
       </Div>
       <Div
-        className={`w-44 h-20 bg-green-200 rounded-lg px-4 py-2 flex flex-row items-center`}
+        className={`w-52 h-20 bg-green-200 rounded-lg px-4 py-2 flex flex-row items-center`}
       >
         <i
-          className={`fas fa-users-medical text-center text-4xl text-primary`}
+          className={`fas fa-user-check text-center text-4xl text-primary`}
         ></i>
         <Div className={`ml-3`}>
           <Text className={`text-primary text-base font-medium m-0 p-0`}>
-            Exposure
+            Status
           </Text>
           <Text className={`text-primary text-xl font-extrabold m-0 p-0`}>
-            {data?.exposure}
+            {data?.status}
           </Text>
         </Div>
       </Div>
