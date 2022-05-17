@@ -3,11 +3,11 @@ const router = express.Router();
 
 const ShareControllers = require("../controllers/Share.controllers");
 
-router.post("/share/logs/exposed", ShareControllers.shareLogsExposed);
+router.post("/share/logs/exposed/:userID", ShareControllers.shareLogsExposed);
 
-router.post("/share/logs/infected", ShareControllers.shareLogsInfected);
+router.post("/share/logs/infected/:userID", ShareControllers.shareLogsInfected);
 
-router.post("/share/visits", ShareControllers.shareVisits);
+router.post("/share/visits/:estabID", ShareControllers.shareVisits);
 
 router.get("/cases/updates/:userID", ShareControllers.getCases);
 

@@ -119,7 +119,7 @@ const Status = props => {
               <View style={{flexDirection: 'row'}}>
                 <View style={[styles.usersIcon]}>
                   <FontAwesome5
-                    name={'heartbeat'}
+                    name={'street-view'}
                     solid
                     size={25}
                     color={Colors.SECONDARY}
@@ -129,7 +129,7 @@ const Status = props => {
                   <Text style={Fonts.H4}>{geotracing}</Text>
                   <Text
                     style={[Fonts.LIGHT, {fontSize: Fonts.LIGHT.fontSize - 2}]}>
-                    Total Exposed
+                    Total geotracing on
                   </Text>
                 </View>
               </View>
@@ -240,7 +240,7 @@ const Status = props => {
                 </View>
               </View>
 
-              <View style={styles.statusNumbers}>
+              {/* <View style={styles.statusNumbers}>
                 <View style={{flexDirection: 'row'}}>
                   <View style={{justifyContent: 'center', marginLeft: 8}}>
                     <Text style={Fonts.H4}>{sharedVisits}</Text>
@@ -253,7 +253,7 @@ const Status = props => {
                     </Text>
                   </View>
                 </View>
-              </View>
+              </View> */}
             </View>
           </View>
         </View>

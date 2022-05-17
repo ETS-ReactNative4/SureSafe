@@ -612,20 +612,18 @@ exports.getStatus = async (req, res) => {
     let exposed = 0;
     let recovered = 0;
     let potential = 0;
+    let totalCases = 0;
     let geotracing = getTracing.length;
     let users = getUsers.length;
     for (let i = 0; i < getCases.length; i++) {
       if (getCases[i].status === "Infected") {
         infected = 1 + infected;
+        totalCases = 1 + totalCases;
       } else if (getCases[i].status === "Exposed") {
         exposed = 1 + exposed;
-      }
-    }
-    for (let i = 0; i < getData.length; i++) {
-      if (getData[i].statusType === "Potential") {
+        totalCases = 1 + totalCases;
+      } else if (getCases[i].status === "Potential") {
         potential = 1 + potential;
-      } else if (getData[i].statusType === "Recovered") {
-        recovered = 1 + recovered;
       }
     }
 
@@ -641,7 +639,7 @@ exports.getStatus = async (req, res) => {
         potential,
         geotracing,
         users,
-        total: getCases.length,
+        total: totalCases,
         logs: findUser.Logs.length,
         visits: findUser.Visits.length,
         sharedLogs: findUser.sharedLogs.length,

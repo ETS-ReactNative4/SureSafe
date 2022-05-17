@@ -6,9 +6,9 @@ import validator from 'validator';
 
 import {Colors, Fonts, Padding, Icons} from '_styles';
 import {Button, Input, Alert} from '_components';
-import {ChangeRoleAPI} from '../api';
+import {shareDataExposed, shareDataInfected} from 'services';
 
-const ModalQrCode = ({modalVisible, setModalVisible, mode, data, dispatch}) => {
+const ModalQrCode = ({modalVisible, setModalVisible, mode, userID}) => {
   // States
   const [code, setCode] = useState('');
   const [success, setSuccess] = useState(false);
@@ -20,29 +20,40 @@ const ModalQrCode = ({modalVisible, setModalVisible, mode, data, dispatch}) => {
   const [alertColor, setAlertColor] = useState(Colors.LGREEN);
   const [btnStatus, setBtnStatus] = useState(false);
 
-  useEffect(() => {
-    if (alert === false) {
-      if (success === true) {
-        setBtnStatus(false);
-        setModalVisible(false);
-      } else {
-        setBtnStatus(false);
-      }
-    }
-  }, [alert]);
+  console.log('userID', userID);
 
   const onSubmit = async () => {
-    setBtnStatus(true);
-    ChangeRoleAPI(
-      data.userID,
-      code,
-      setAlert,
-      setAlertTitle,
-      setAlertInfo,
-      setAlertColor,
-      setSuccess,
-      dispatch,
-    );
+    if (mode) {
+      setBtnStatus(true);
+      const datas = await shareDataExposed(userID);
+      console.log('datas', datas);
+      if (datas.statusCode == 201) {
+        setAlertTitle('SUCCESS');
+        setAlertInfo(datas?.message);
+        setAlert(true);
+      } else {
+        setAlertTitle('ERROR');
+        setAlertInfo(datas?.message);
+        setAlertColor(Colors.LRED);
+        setAlert(true);
+      }
+      setBtnStatus(false);
+    } else {
+      setBtnStatus(true);
+      const datas = await shareDataInfected(userID);
+      console.log('datas', datas);
+      if (datas.statusCode == 201) {
+        setAlertTitle('SUCCESS');
+        setAlertInfo(datas?.message);
+        setAlert(true);
+      } else {
+        setAlertTitle('ERROR');
+        setAlertInfo(datas?.message);
+        setAlertColor(Colors.LRED);
+        setAlert(true);
+      }
+      setBtnStatus(false);
+    }
   };
 
   return (
@@ -138,8 +149,7 @@ export const DataShare = ({data, dispatch}) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         mode={mode}
-        data={data}
-        dispatch={dispatch}
+        userID={data?.userID}
       />
       <TouchableOpacity
         onPress={() => {

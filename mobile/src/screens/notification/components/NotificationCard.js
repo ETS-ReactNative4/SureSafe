@@ -93,7 +93,7 @@ const NotificationCard = props => {
   const boxColor = isSelected ? Colors.PRIMARY : Colors.SECONDARY;
   return (
     <TouchableOpacity
-      onPress={() => setModalVisible(true)}
+      // onPress={() => setModalVisible(true)}
       style={[styles.main, {backgroundColor: boxColor}]}>
       <ModalNotification
         modalVisible={modalVisible}
@@ -116,9 +116,8 @@ const NotificationCard = props => {
           />
         </View>
         <View style={{justifyContent: 'center'}}>
-          <Text style={Fonts.H5}>
-            {title} <Text style={Fonts.LIGHT}>{info}</Text>
-          </Text>
+          <Text style={Fonts.H5}>{title}</Text>
+          <Text style={[Fonts.LIGHT, {paddingRight: 60}]}>{info}</Text>
           <Text style={Fonts.LIGHT}>{time}</Text>
         </View>
       </View>

@@ -19,19 +19,38 @@ const Notification = props => {
   }, [userData, navigation]);
 
   const renderNotifications = data => {
-    const {clicked, permission, title, date} = data?.item;
+    const {clicked, permission, title, date, type} = data?.item;
     const newDate = new Date(date);
-    const {status} = data.item.data;
-    return (
-      <NotificationCard
-        isSelected={clicked}
-        permission={permission}
-        title={title}
-        info={`to someone ${status}.`}
-        time={newDate.toString().substr(0, 15)}
-        data={data.item.data}
-      />
-    );
+    // const {status} = data.item.data;
+    if (type === 'Establishment') {
+      return (
+        <NotificationCard
+          isSelected={clicked}
+          permission={permission}
+          title={title}
+          info={
+            'A Establishment you recently visited have been exposed to an infected person'
+          }
+          time={newDate.toString().substr(0, 15)}
+          data={data.item.data}
+        />
+      );
+    } else {
+      return (
+        <NotificationCard
+          isSelected={clicked}
+          permission={permission}
+          title={title}
+          info={
+            title === 'Potential'
+              ? 'You have been potentialy exposed to a exposed SureSafe user.'
+              : 'You have been exposed to a infected SureSafe user.'
+          }
+          time={newDate.toString().substr(0, 15)}
+          data={data.item.data}
+        />
+      );
+    }
   };
 
   return (
@@ -50,12 +69,27 @@ const Notification = props => {
             paddingVertical: 10,
           },
         ]}>
-        <FlatList
-          data={data?.data}
-          renderItem={renderNotifications}
-          keyExtractor={item => item._id}
-          // style={styles.scroll}
-        />
+        {data?.data?.length === 0 ? (
+          <View
+            style={{
+              flex: 1,
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={[Fonts.H4, {color: Colors.MAIN, marginBottom: 80}]}>
+              No Notifications yet
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={data?.data}
+            renderItem={renderNotifications}
+            keyExtractor={item => item._id}
+            contentContainerStyle={{paddingBottom: 100}}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </View>
   );
