@@ -33,7 +33,7 @@ const Trace = props => {
   const getLocationUpdates = async () => {
     const hasPermission = await usePermision();
 
-    if (ready && hasPermission) {
+    if (ready) {
       Geolocation.getCurrentPosition(
         position => {
           const {latitude, longitude, accuracy} = position.coords;

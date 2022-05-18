@@ -1,1 +1,1 @@
-export const API = 'https://suresafeweb.loca.lt/suresafe/api';
+export const API = 'https://api.suresafe.me/suresafe/api';
