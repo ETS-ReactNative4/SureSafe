@@ -44,7 +44,7 @@ const UserRegister = ({ title, content, id }: GeneratorProps) => {
 
     axios({
       method: "post",
-      url: `http://localhost:8082/suresafe/api/users/create`,
+      url: `https://api.suresafe.me/suresafe/api/users/create`,
       data: form,
       headers: { "Content-Type": "multipart/form-data" },
     }).then(async (resData) => {
@@ -59,7 +59,7 @@ const UserRegister = ({ title, content, id }: GeneratorProps) => {
         formnew.append("id", resData.data.data._id);
         axios({
           method: "post",
-          url: `http://localhost:8082/suresafe/api/users/qrcode`,
+          url: `https://api.suresafe.me/suresafe/api/users/qrcode`,
           data: formnew,
           headers: { "Content-Type": "multipart/form-data" },
         }).then(async (data) => {

@@ -166,7 +166,7 @@ exports.updateStatus = async (req, res) => {
         vonage.message.sendSms(
           "Suresafe",
           number,
-          `[SURESAFE] QRCODE:\n\nYou can now download your own QR Code! \nDownload Here: http://localhost:8082/${userData.qrcode} \n\nYou can use this to any establishments using SureSafe!\n\n`
+          `[SURESAFE] QRCODE:\n\nYou can now download your own QR Code! \nDownload Here: https://api.suresafe.me/${userData.qrcode} \n\nYou can use this to any establishments using SureSafe!\n\n`
         );
         return res.status(201).send({
           title: "Successfully Updated!",

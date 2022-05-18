@@ -36,7 +36,10 @@ const MiddleBlock = ({ title, content, button, id }: MiddleBlockProps) => {
               {button && (
                 <Button
                   name="submit"
-                  onClick={() => openNotificationWithIcon()}
+                  onClick={() =>
+                    (window.location.href =
+                      "https://drive.google.com/file/d/12uF4SC6xx0ItRSNR23HYjPw5SXREY7CP/view?usp=sharing")
+                  }
                 >
                   {button}
                 </Button>

@@ -42,7 +42,7 @@ const Generator = ({ title, content, id }: GeneratorProps) => {
 
     axios({
       method: "post",
-      url: `http://localhost:8082/suresafe/api/establishment/add`,
+      url: `https://api.suresafe.me/suresafe/api/establishment/add`,
       data: JSON.stringify({
         email,
         password,
@@ -65,7 +65,7 @@ const Generator = ({ title, content, id }: GeneratorProps) => {
         formnew.append("number", resData.data.data.number);
         axios({
           method: "post",
-          url: `http://localhost:8082/suresafe/api/establishment/qrcode`,
+          url: `https://api.suresafe.me/suresafe/api/establishment/qrcode`,
           data: formnew,
           headers: { "Content-Type": "multipart/form-data" },
         }).then(async (data) => {

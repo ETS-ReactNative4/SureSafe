@@ -83,7 +83,7 @@ exports.addQrCode = async (req, res) => {
       }
     );
 
-    const text = `Your QR Code is ready. http://localhost:8082/${req.files["qrcode"][0].path} click the link to download.`;
+    const text = `Your QR Code is ready. https://suresafe.me/${req.files["qrcode"][0].path} click the link to download.`;
     vonage.message.sendSms(
       "Suresafe",
       `+63${req.body.number}`,
@@ -106,7 +106,7 @@ exports.addQrCode = async (req, res) => {
     return res.status(201).send({
       title: "Successfully Updated!",
       message: "User info Updated!",
-      link: `http://localhost:8082/${req.files["qrcode"][0].path}`,
+      link: `https://api.suresafe.me/${req.files["qrcode"][0].path}`,
       statusCode: 201,
       data: update,
     });
