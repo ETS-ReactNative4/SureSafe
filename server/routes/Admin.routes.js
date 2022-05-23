@@ -16,4 +16,10 @@ router.get("/admin/potential", AdminControllers.getPotential);
 
 router.get("/admin/dashboard", AdminControllers.dashboard);
 
+router.get("/admin/report/exposed", AdminControllers.reportExposed);
+
+router.get("/admin/report/infected", AdminControllers.reportInfected);
+
+router.get("/admin/report/potential", AdminControllers.reportPotential);
+
 module.exports = router;

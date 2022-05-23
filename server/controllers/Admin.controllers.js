@@ -3,7 +3,8 @@ const Cases = require("../models/Cases.model");
 const Users = require("../models/Users.model");
 const Tracing = require("../models/Tracing.model");
 const Establishments = require("../models/Establishments.model");
-const { nanoid } = require("nanoid");
+const { nanoid, customAlphabet } = require("nanoid");
+const xl = require("excel4node");
 
 exports.addAdmin = async (req, res) => {
   try {
@@ -162,6 +163,208 @@ exports.dashboard = async (req, res) => {
         totalCases,
         establisments: getEstablishments.length,
       },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+const headingColumnNames = [
+  "userID",
+  "suresafeID",
+  "Name",
+  "Address",
+  "Date",
+  "Exposed",
+  "Potential",
+  "Visits",
+  "Exposure",
+  "Status",
+];
+
+exports.reportExposed = async (req, res) => {
+  try {
+    const exposed = await Cases.find({ status: "Exposed" });
+
+    let data = [];
+    for (let i = 0; i < exposed.length; i++) {
+      let userIdentification = exposed[i].userID.substring(
+        exposed[i].userID.length - 4,
+        exposed[i].userID.length
+      );
+      data.push({
+        userID: `${exposed[i].userID}`,
+        suresafeID: `SS-${userIdentification}`,
+        Name: `${exposed[i].name}`,
+        Address: `${exposed[i].barangay}, ${exposed[i].municipality}`,
+        Date: `${exposed[i].date}`,
+        totalExposed: `${exposed[i].totalExposed}`,
+        totalPotential: `${exposed[i].totalPotential}`,
+        totalVisits: `${exposed[i].totalVisits}`,
+        exposure: `${exposed[i].exposure}`,
+        status: `${exposed[i].status}`,
+      });
+    }
+
+    const wb = new xl.Workbook();
+    const ws = wb.addWorksheet("Exposed");
+    const newName = customAlphabet("1234567890abcdef", 7);
+
+    //Write Column Title in Excel file
+    let headingColumnIndex = 1;
+    headingColumnNames.forEach((heading) => {
+      ws.cell(1, headingColumnIndex++).string(heading);
+    });
+
+    //Write Data in Excel file
+    let rowIndex = 2;
+    data.forEach((record) => {
+      let columnIndex = 1;
+      Object.keys(record).forEach((columnName) => {
+        ws.cell(rowIndex, columnIndex++).string(record[columnName]);
+      });
+      rowIndex++;
+    });
+
+    const fileName = `${newName()}.xlsx`;
+    wb.write(`./suresafe/${fileName}`);
+
+    return res.status(201).send({
+      title: `Report Generated`,
+      message: `Report Generated`,
+      statusCode: 201,
+      fileName: fileName,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.reportInfected = async (req, res) => {
+  try {
+    const exposed = await Cases.find({ status: "Infected" });
+
+    let data = [];
+    for (let i = 0; i < exposed.length; i++) {
+      let userIdentification = exposed[i].userID.substring(
+        exposed[i].userID.length - 4,
+        exposed[i].userID.length
+      );
+      data.push({
+        userID: `${exposed[i].userID}`,
+        suresafeID: `SS-${userIdentification}`,
+        Name: `${exposed[i].name}`,
+        Address: `${exposed[i].barangay}, ${exposed[i].municipality}`,
+        Date: `${exposed[i].date}`,
+        totalExposed: `${exposed[i].totalExposed}`,
+        totalPotential: `${exposed[i].totalPotential}`,
+        totalVisits: `${exposed[i].totalVisits}`,
+        exposure: `${exposed[i].exposure}`,
+        status: `${exposed[i].status}`,
+      });
+    }
+
+    const wb = new xl.Workbook();
+    const ws = wb.addWorksheet("Infected");
+    const newName = customAlphabet("1234567890abcdef", 7);
+
+    //Write Column Title in Excel file
+    let headingColumnIndex = 1;
+    headingColumnNames.forEach((heading) => {
+      ws.cell(1, headingColumnIndex++).string(heading);
+    });
+
+    //Write Data in Excel file
+    let rowIndex = 2;
+    data.forEach((record) => {
+      let columnIndex = 1;
+      Object.keys(record).forEach((columnName) => {
+        ws.cell(rowIndex, columnIndex++).string(record[columnName]);
+      });
+      rowIndex++;
+    });
+
+    const fileName = `${newName()}.xlsx`;
+    wb.write(`./suresafe/${fileName}`);
+
+    return res.status(201).send({
+      title: `Report Generated`,
+      message: `Report Generated`,
+      statusCode: 201,
+      fileName: fileName,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.reportPotential = async (req, res) => {
+  try {
+    const exposed = await Cases.find({ status: "Potential" });
+
+    let data = [];
+    for (let i = 0; i < exposed.length; i++) {
+      let userIdentification = exposed[i].userID.substring(
+        exposed[i].userID.length - 4,
+        exposed[i].userID.length
+      );
+      data.push({
+        userID: `${exposed[i].userID}`,
+        suresafeID: `SS-${userIdentification}`,
+        Name: `${exposed[i].name}`,
+        Address: `${exposed[i].barangay}, ${exposed[i].municipality}`,
+        Date: `${exposed[i].date}`,
+        totalExposed: `${exposed[i].totalExposed}`,
+        totalPotential: `${exposed[i].totalPotential}`,
+        totalVisits: `${exposed[i].totalVisits}`,
+        exposure: `${exposed[i].exposure}`,
+        status: `${exposed[i].status}`,
+      });
+    }
+
+    const wb = new xl.Workbook();
+    const ws = wb.addWorksheet("Potential");
+    const newName = customAlphabet("1234567890abcdef", 7);
+
+    //Write Column Title in Excel file
+    let headingColumnIndex = 1;
+    headingColumnNames.forEach((heading) => {
+      ws.cell(1, headingColumnIndex++).string(heading);
+    });
+
+    //Write Data in Excel file
+    let rowIndex = 2;
+    data.forEach((record) => {
+      let columnIndex = 1;
+      Object.keys(record).forEach((columnName) => {
+        ws.cell(rowIndex, columnIndex++).string(record[columnName]);
+      });
+      rowIndex++;
+    });
+
+    const fileName = `${newName()}.xlsx`;
+    wb.write(`./suresafe/${fileName}`);
+
+    return res.status(201).send({
+      title: `Report Generated`,
+      message: `Report Generated`,
+      statusCode: 201,
+      fileName: fileName,
     });
   } catch (err) {
     console.log(err);
