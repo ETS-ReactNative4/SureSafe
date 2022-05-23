@@ -13,6 +13,13 @@ export const Exposed = () => {
     setMain(data.data);
   };
 
+  const getReport = async () => {
+    const res = await fetch(`${API}/suresafe/api/admin/report/exposed`);
+    const data = await res.json();
+    console.log(data);
+    window.open(`${API}/suresafe/${data.fileName}`);
+  };
+
   React.useEffect(() => {
     getData();
   }, []);
@@ -26,7 +33,19 @@ export const Exposed = () => {
       >
         <Div className={`bg-secondary w-full h-full flex flex-row`}>
           <Div className={`w-9/12 mb-12`}>
-            <H4 className={`text-fonts-100`}>Exposed</H4>
+            <div className="flex flex-row items-center">
+              <H4 className={`text-fonts-100 mr-auto`}>Exposed</H4>
+              <button
+                onClick={() => {
+                  getReport();
+                }}
+                type="button"
+                className="bg-green-200 text-white focus:ring-4 focus:ring-green-100 
+                font-bold rounded-lg text-lg px-10 py-2.5 mr-2"
+              >
+                Download Report
+              </button>
+            </div>
             <Flex className={`bg-primary h-full w-full rounded-lg mt-3 p-7`}>
               {main?.map((value: any) => (
                 <ItemCard
