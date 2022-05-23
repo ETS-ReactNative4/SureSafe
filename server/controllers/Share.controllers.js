@@ -34,7 +34,7 @@ exports.shareLogsExposed = async (req, res) => {
           vonage.message.sendSms(
             "Suresafe",
             number,
-            `[SURESAFE] POTENTIALY EXPOSED:\n\nYou have been potentialy exposed to a SureSafe user. \nPlease do self isolation for 5 days. Thank you! \n\n`
+            `[SURESAFE] POTENTIALY EXPOSED:\n\nYou are potentialy exposed to a Infected SureSafe user. \nPlease do self isolation for 5 days. Thank you! \n\n`
           );
 
           await Users.updateOne(
@@ -171,8 +171,7 @@ exports.shareLogsInfected = async (req, res) => {
           vonage.message.sendSms(
             "Suresafe",
             number,
-            `[SURESAFE] EXPOSED:\n\nYou have been exposed to a SureSafe user. \nPlease do self
-            quarantine in 15 days. Thank you! \n\n`
+            `[SURESAFE] EXPOSED:\n\nYou have been exposed to a infected SureSafe user. \nPlease do self quarantine in 15 days. Thank you! \n\n`
           );
 
           await Users.updateOne(
