@@ -34,7 +34,7 @@ exports.shareLogsExposed = async (req, res) => {
           vonage.message.sendSms(
             "Suresafe",
             number,
-            `[SURESAFE] POTENTIALY EXPOSED:\n\nYou are potentialy exposed to a Infected SureSafe user. \nPlease do self isolation for 5 days. Thank you! \n\n`
+            `[SURESAFE] POTENTIALY EXPOSED:\n\nYou are potentialy exposed to a Infected SureSafe user. \nPlease coordinate to your Health Officer and do self isolation for 5 days. Thank you! \n\n`
           );
 
           await Users.updateOne(
@@ -68,6 +68,7 @@ exports.shareLogsExposed = async (req, res) => {
               totalExposed: 0,
               totalPotential: 0,
               totalVisits: userData.Visits.length,
+              Visits: userData.Visits,
               potentials: [],
               exposed: [],
               exposure: "Limited",
@@ -171,7 +172,7 @@ exports.shareLogsInfected = async (req, res) => {
           vonage.message.sendSms(
             "Suresafe",
             number,
-            `[SURESAFE] EXPOSED:\n\nYou have been exposed to a infected SureSafe user. \nPlease do self quarantine in 15 days. Thank you! \n\n`
+            `[SURESAFE] EXPOSED:\n\nYou have been exposed to a infected SureSafe user. \nPlease coordinate to your Health Officer and do self quarantine in 15 days. Thank you! \n\n`
           );
 
           await Users.updateOne(
@@ -205,6 +206,7 @@ exports.shareLogsInfected = async (req, res) => {
               totalExposed: 0,
               totalPotential: 0,
               totalVisits: userData.Visits.length,
+              Visits: userData.Visits,
               potentials: [],
               exposed: [],
               exposure: "Limited",
@@ -239,6 +241,7 @@ exports.shareLogsInfected = async (req, res) => {
         totalExposed: totalExposed,
         totalPotential: 0,
         totalVisits: user.Visits.length,
+        Visits: user.Visits,
         potentials: [],
         exposed: Exposed,
         exposure: exposure,
@@ -329,6 +332,7 @@ exports.shareVisits = async (req, res) => {
               totalExposed: 0,
               totalPotential: 0,
               totalVisits: userData.Visits.length,
+              Visits: userData.Visits,
               potentials: [],
               exposed: [],
               exposure: "Limited",
