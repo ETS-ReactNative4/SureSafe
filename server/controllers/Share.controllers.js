@@ -103,6 +103,7 @@ exports.shareLogsExposed = async (req, res) => {
         totalExposed: 0,
         totalPotential: totalPotential,
         totalVisits: user.Visits.length,
+        Visits: user.Visits,
         potentials: Potentials,
         exposed: [],
         exposure: exposure,
