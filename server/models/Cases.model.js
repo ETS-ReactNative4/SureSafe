@@ -12,6 +12,14 @@ const CasesSchema = new Schema({
   totalExposed: { type: Number },
   totalPotential: { type: Number },
   totalVisits: { type: Number },
+  Visits: [
+    {
+      visitDate: { type: Date },
+      estabID: { type: String },
+      estabName: { type: String },
+      estabAddress: { type: String },
+    },
+  ],
   potentials: [],
   exposed: [],
   status: { type: String },
