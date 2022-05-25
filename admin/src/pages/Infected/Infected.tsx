@@ -1,7 +1,17 @@
 import React from "react";
 import { H5, Div, H4, Flex, Text, H6, FlexRow } from "@suresafe/core";
 import { API } from "@suresafe/constants";
-import { Sidebar, Navbar, ListItem, InfectedCard } from "@suresafe/components";
+import {
+  Sidebar,
+  Navbar,
+  ListItem,
+  InfectedCard,
+  VisitsItem,
+  Report,
+} from "@suresafe/components";
+import axios from "axios";
+import Swal from "sweetalert2";
+const domtoimage = require("dom-to-image");
 
 export const Infected = () => {
   const [main, setMain] = React.useState<any>([]);
@@ -20,6 +30,25 @@ export const Infected = () => {
     window.open(`${API}/suresafe/${data.fileName}`);
   };
 
+  const downloadPdf = async () => {
+    let node = document.getElementById("report");
+    await domtoimage.toBlob(node).then(async (blob: any) => {
+      const myBlob = new Blob([blob], { type: "application/pdf" });
+      const formnew = new FormData();
+      formnew.append("pdf", myBlob, `new.png`);
+
+      axios({
+        method: "post",
+        url: `${API}/suresafe/api/admin/report/pdf`,
+        data: formnew,
+        headers: { "Content-Type": "multipart/form-data" },
+      }).then(async (here) => {
+        console.log(here);
+        window.open(`${API}/suresafe/${here.data.fileName}`);
+      });
+    });
+  };
+
   React.useEffect(() => {
     getData();
   }, []);
@@ -27,6 +56,9 @@ export const Infected = () => {
   return (
     <Flex className={"scrollbar-hide"}>
       <Sidebar />
+      <div style={{ overflow: "hidden", height: 0 }}>
+        <Report elementID="report" data={main} />
+      </div>
       <Navbar title="Infected" />
       <Flex
         className={`p-8 h-full bg-secondary overflow-y-scroll overflow-x-hidden scrollbar-hide`}
@@ -37,7 +69,19 @@ export const Infected = () => {
               <H4 className={`text-fonts-100 mr-auto`}>Infected</H4>
               <button
                 onClick={() => {
-                  getReport();
+                  Swal.fire({
+                    title: "Choose the report you want to download.",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "PDF Report",
+                    denyButtonText: `Excel Report`,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      downloadPdf();
+                    } else if (result.isDenied) {
+                      getReport();
+                    }
+                  });
                 }}
                 type="button"
                 className="bg-green-200 text-white focus:ring-4 focus:ring-green-100 
@@ -120,6 +164,10 @@ export const Infected = () => {
                   <H5 className={`text-fonts-100 mb-5`}>Exposed</H5>
                   {selectedUser?.exposed?.map((value: any) => (
                     <ListItem key={value} data={value} />
+                  ))}
+                  <H5 className={`text-fonts-100 mb-5`}>Visits</H5>
+                  {selectedUser?.Visits?.map((value: any) => (
+                    <VisitsItem key={value} data={value} />
                   ))}
                 </>
               ) : (

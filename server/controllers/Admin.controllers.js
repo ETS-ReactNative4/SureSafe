@@ -5,6 +5,11 @@ const Tracing = require("../models/Tracing.model");
 const Establishments = require("../models/Establishments.model");
 const { nanoid, customAlphabet } = require("nanoid");
 const xl = require("excel4node");
+PDFDocument = require("pdfkit");
+fs = require("fs");
+doc = new PDFDocument({
+  size: [1000, 1300],
+});
 
 exports.addAdmin = async (req, res) => {
   try {
@@ -359,6 +364,34 @@ exports.reportPotential = async (req, res) => {
 
     const fileName = `${newName()}.xlsx`;
     wb.write(`./suresafe/${fileName}`);
+
+    return res.status(201).send({
+      title: `Report Generated`,
+      message: `Report Generated`,
+      statusCode: 201,
+      fileName: fileName,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({
+      title: "Someting went wrong!",
+      message: "Someting went wrong. Please try again or try again later.",
+      statusCode: 400,
+    });
+  }
+};
+
+exports.convertPdf = async (req, res) => {
+  try {
+    const picFile = req.files["pdf"][0].path;
+    const newName = customAlphabet("1234567890abcdef", 7);
+    const fileName = `${newName()}.pdf`;
+    await doc.pipe(fs.createWriteStream(`./suresafe/${fileName}`));
+
+    // var img = doc.openImage(`./${picFile}`);
+    await doc.image(`./${picFile}`, 0, 0);
+
+    await doc.end();
 
     return res.status(201).send({
       title: `Report Generated`,
