@@ -6,3 +6,5 @@ export * from "./SubmitButton";
 export * from "./ItemCard";
 export * from "./ListItem";
 export * from "./InfectedCard";
+export * from "./VisitsItem";
+export * from "./Report";

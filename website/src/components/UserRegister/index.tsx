@@ -29,6 +29,8 @@ const UserRegister = ({ title, content, id }: GeneratorProps) => {
   const [validId, setValidId] = useState<any | null>();
   const [picture, setPicture] = useState<any | null>("");
 
+  console.log("email", email);
+
   const handleSubmit = async () => {
     setLoading(true);
     const form = new FormData();
@@ -76,6 +78,10 @@ const UserRegister = ({ title, content, id }: GeneratorProps) => {
       message: "Success",
       description: "Account successfully created!",
     });
+    setTimeout(() => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    }, 2000);
   };
 
   return (

@@ -292,7 +292,15 @@ exports.shareVisits = async (req, res) => {
         const userData = await Users.findOne({ _id: user.userId });
         const ifCase = await Cases.findOne({ userID: user.userId });
 
-        if (!ifCase) {
+        const oneDay = 24 * 60 * 60 * 1000;
+        const firstDate = new Date(user.visitDate);
+        const secondDate = new Date();
+
+        const diffDays = Math.round(
+          Math.abs((firstDate - secondDate) / oneDay)
+        );
+
+        if (!ifCase && diffDays < 15) {
           const number =
             `${userData.number}`.charAt(0) === "0"
               ? `+63${`${userData.number}`.substring(1)}`
